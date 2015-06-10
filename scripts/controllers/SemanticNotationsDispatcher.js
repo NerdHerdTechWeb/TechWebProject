@@ -6,7 +6,7 @@
         .module('semanticNotations')
         .controller('SemanticNotationsDispatcher', semanticNotationsDispatcher);
 
-    function semanticNotationsDispatcher(meta) {
+    function semanticNotationsDispatcher(meta, $scope, $window) {
 
         // vm is our capture variable
         var vm = this;
