@@ -2,15 +2,15 @@
     <div class="row">
         <div class="col-sm-3">
             <!--Sidebar content-->
-            <div class="sidebar-module jumbotron">
+            <div class="sidebar-module jumbotron" ng-controller="WidgetDocumentsList as vm">
                 <h4>Documents</h4>
-                <ol class="list-unstyled" ng-repeat="meta in vm.notationsEntries">
+                <ol class="list-unstyled" ng-repeat="meta in vm.documentEntries">
                     <li><a href="#">{{meta.user_firstname}} {{meta.user_lastname}}</a></li>
                 </ol>
             </div>
-            <div class="sidebar-module jumbotron">
+            <div class="sidebar-module jumbotron" ng-controller="WidgetMeta as vm">
                 <h4>Meta</h4>
-                <ol class="list-unstyled" ng-repeat="meta in vm.notationsEntries">
+                <ol class="list-unstyled" ng-repeat="meta in vm.metaEntries">
                     <li><a href="#">{{meta.comment}}</a></li>
                 </ol>
             </div>
