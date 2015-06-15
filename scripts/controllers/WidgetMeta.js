@@ -4,18 +4,18 @@
 
     angular
         .module('semanticNotations')
-        .controller('SemanticNotationsDispatcher', semanticNotationsDispatcher);
+        .controller('WidgetMeta', widgetMeta);
 
-    function semanticNotationsDispatcher(meta, $scope, $window) {
+    function widgetMeta(meta, $scope, $window) {
 
         // vm is our capture variable
         var vm = this;
 
-        vm.notationsEntries = [];
+        vm.metaEntries = [];
 
         meta.getMeta().then(function(results) {
-            vm.notationsEntries = results;
-            console.log(vm.notationsEntries);
+            vm.metaEntries = results;
+            console.log(vm.metaEntries);
         }, function(error) { // Check for errors
             console.log(error);
         });
