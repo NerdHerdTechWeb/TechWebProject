@@ -1,3 +1,6 @@
+<?php
+require 'app.php';
+?>
 <!-- index.html -->
 
 <!doctype html>
