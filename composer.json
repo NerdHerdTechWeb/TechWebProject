@@ -1,0 +1,6 @@
+{
+    "require": {
+        "easyrdf/easyrdf": "*",
+        "silex/silex": "~1.3"
+    }
+}
