@@ -5,13 +5,13 @@
             <div class="sidebar-module jumbotron" ng-controller="WidgetDocumentsList as vm">
                 <h4>Documents</h4>
                 <ol class="list-unstyled" ng-repeat="documents in vm.documentEntries">
-                    <li><a ng-href>{{documents.user_firstname}} {{documents.user_lastname}}</a></li>
+                    <li><a href>{{documents.user_firstname}} {{documents.user_lastname}}</a></li>
                 </ol>
             </div>
             <div class="sidebar-module jumbotron" ng-controller="WidgetMeta as vm">
                 <h4>Meta</h4>
                 <ol class="list-unstyled" ng-repeat="meta in vm.metaEntries">
-                    <li><a ng-click="open()" ng-href="#">{{meta.comment}}</a></li>
+                    <li><a href ng-click="open()">{{meta.comment}}</a></li>
                 </ol>
             </div>
         </div>
