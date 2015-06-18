@@ -7,6 +7,7 @@ require 'app.php';
 <html>
 <head>
     <title>Semantic Annotator :: Read & Edit</title>
+    <link rel="icon" href="src/nerdherd.ico" />
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 </head>
