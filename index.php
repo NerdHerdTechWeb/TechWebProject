@@ -143,8 +143,8 @@ require 'app.php';
         return cookieChoices;
     })(this);
     document.addEventListener('DOMContentLoaded', function(event) {
-        cookieChoices.showCookieConsentBar('Questo sito utilizza i cookie per migliorare servizi ed esperienza dei lettori. Se decidi di continuare la navigazione consideriamo che accetti il loro uso.',
-                'OK', 'Più Info', "javascript:Popup('informativa_privacy.html')");
+        cookieChoices.showCookieConsentDialog('Questo sito utilizza i cookie per migliorare servizi ed esperienza dei lettori. Se decidi di continuare la navigazione consideriamo che accetti il loro uso.',
+                'OK', 'Info', "javascript:Popup('informativa_privacy.html')");
     });
     var stile = "top=150, left=250, width=800, height=300, status=no, menubar=no, toolbar=no scrollbars=no";
 
