@@ -13,7 +13,9 @@ require 'app.php';
 </head>
 <body ng-app="semanticNotations">
 
-<!-- Codice per accettazione cookie - Inizio -->
+<!--
+ Codice per accettazione cookie - Inizio
+ -->
 <script type='text/javascript'>
     //<![CDATA[
     (function(window) {
