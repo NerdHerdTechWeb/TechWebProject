@@ -1,6 +1,6 @@
 # TechWeb2015
 
-##Resources
+##Frontend Resources
 
   >[Angular js](https://angularjs.org/)
 
@@ -9,3 +9,11 @@
   >[Bootstrap css & js](http://getbootstrap.com/getting-started/)
 
   >[jQuery](https://jquery.com/)
+  
+##Backend Resources
+  
+  >[Easy RDF](http://www.easyrdf.org/)
+  
+  >[SLIM php light framework](http://docs-new.slimframework.com/)
+  
+  >[Twig template](http://twig.sensiolabs.org/)
