@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Data_Scraping' => $baseDir . '/app/models/Data_Scraping.php',
 );
