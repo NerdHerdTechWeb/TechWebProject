@@ -46,6 +46,9 @@ $app->get('/', function () use ($app, $view) {
  */
 $app->group('/api', function () use ($app) {
     $app->group('/scraping', function () use ($app) {
+        /**
+         * Generic RDF query
+         */
         $app->map('/rdf/:query', function ($query) use ($app) {
             /**
              * JSON content type or anything else
@@ -55,6 +58,20 @@ $app->group('/api', function () use ($app) {
              * Testing purpose - this is insane I know :)
              */
             echo Data_Scraping::getData();
+        })->via('GET', 'POST');
+
+        /**
+         * dLib Scraping
+         */
+        $app->map('/dlib', function () use ($app) {
+            /**
+             * JSON content type or anything else
+             */
+            $app->response->headers->set('Content-Type', 'application/json');
+            /**
+             * Testing purpose - this is insane I know :)
+             */
+            echo Data_Scraping::dLibScraping();
         })->via('GET', 'POST');
     });
 });
