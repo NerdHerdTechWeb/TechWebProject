@@ -86,7 +86,7 @@ class Data_Scraping
                 return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
             }
             $body = $res->getBody();
-print_r($body);
+            
             $doc->loadHTML($body);
 
             $xpath = new DOMXpath($doc);
