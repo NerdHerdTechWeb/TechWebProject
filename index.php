@@ -32,6 +32,10 @@ $twigView->parserExtensions = array(
  * General routing not grouped
  */
 $app->get('/', function () use ($app, $view) {
+    /**
+     * We are passing some data to the view
+     * in array format
+     */
     $app->render('index.php',
         array('angularConfig' =>
             array(
@@ -45,17 +49,25 @@ $app->get('/', function () use ($app, $view) {
  * Grouping api or services under grouped rout
  */
 $app->group('/api', function () use ($app) {
+
+    /**
+     * Scraping group
+     */
     $app->group('/scraping', function () use ($app) {
+
         /**
          * Generic RDF query
          */
         $app->map('/rdf/:query', function ($query) use ($app) {
+
             /**
              * JSON content type or anything else
              */
             $app->response->headers->set('Content-Type', 'application/json');
+
             /**
-             * Testing purpose - this is insane I know :)
+             * We can passing a query param
+             * from the controller to the scraping method
              */
             echo Data_Scraping::getData();
         })->via('GET', 'POST');
@@ -64,14 +76,26 @@ $app->group('/api', function () use ($app) {
          * dLib Scraping
          */
         $app->map('/dlib', function () use ($app) {
+
             /**
              * JSON content type or anything else
              */
             $app->response->headers->set('Content-Type', 'application/json');
-            /**
-             * Testing purpose - this is insane I know :)
-             */
+
             echo Data_Scraping::dLibScraping();
+        })->via('GET', 'POST');
+
+        /**
+         * Rivista statistica Scraping
+         */
+        $app->map('/rstat', function () use ($app) {
+
+            /**
+             * JSON content type or anything else
+             */
+            $app->response->headers->set('Content-Type', 'application/json');
+
+            echo Data_Scraping::rivistaStatisticaScraping();
         })->via('GET', 'POST');
     });
 });
