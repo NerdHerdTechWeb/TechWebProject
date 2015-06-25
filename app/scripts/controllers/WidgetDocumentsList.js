@@ -1,10 +1,11 @@
-(function() {
+(function(jQuery) {
 
     'use strict';
 
     angular
         .module('semanticNotations')
-        .controller('WidgetDocumentsList', widgetDocumentsList);
+        .controller('WidgetDocumentsList', widgetDocumentsList)
+        .directive('insertTab', mainArea)
 
     function widgetDocumentsList(documents, $scope, $window) {
 
@@ -20,4 +21,16 @@
             console.log(error);
         });
     }
-})();
+
+    function mainArea(){
+        return {
+            restrict: 'AC',
+            link: function (scope, element, attrs) {
+                var id = '#mainDocArea';
+                jQuery(element).on('click',function(event){
+                    jQuery(id).append(' <li role="presentation" class="active"><a href>Document 1</a></li>');
+                });
+            }
+        };
+    }
+})(jQuery);
