@@ -1,4 +1,4 @@
-(function(jQuery) {
+(function (jQuery) {
 
     'use strict';
 
@@ -14,21 +14,34 @@
 
         vm.documentEntries = [];
 
-        documents.getDocuments().then(function(results) {
+        documents.getDocuments().then(function (results) {
             vm.documentEntries = results;
             console.log(vm.documentEntries);
-        }, function(error) { // Check for errors
+        }, function (error) { // Check for errors
             console.log(error);
         });
+
+        $scope.getMainDocument = function () {
+            documents.getDocument().then(function (results) {
+                vm.documentEntry = results;
+                console.log(vm.documentEntry);
+            }, function (error) { // Check for errors
+                console.log(error);
+            });
+
+        }
     }
 
-    function mainArea(){
+    function mainArea() {
         return {
             restrict: 'AC',
             link: function (scope, element, attrs) {
                 var id = '#mainDocArea';
-                jQuery(element).on('click',function(event){
-                    jQuery(id).append(' <li role="presentation" class="active"><a href>Document 1</a></li>');
+                var data = scope.$eval(attrs.insertTab);
+                jQuery(element).on('click', function (event) {
+                    //scope.getMainDocument();
+                    jQuery(id).append(' <li role="presentation" class="active"><a href="">' + data.documents.title + '</a></li>');
+                    scope.$apply();
                 });
             }
         };

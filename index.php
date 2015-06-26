@@ -97,6 +97,23 @@ $app->group('/api', function () use ($app) {
 
             echo Data_Scraping::rivistaStatisticaScraping();
         })->via('GET', 'POST');
+
+        /**
+         * Generic dispatcher api that routing request to
+         * get document method
+         * Get document takes two params
+         */
+        $app->map('/get/document', function () use ($app) {
+
+            $link = $app->request()->params('link');
+            $from = $app->request()->params('from');
+            /**
+             * JSON content type or anything else
+             */
+            $app->response->headers->set('Content-Type', 'application/json');
+
+            echo Data_Scraping::getDocument($link, $from);
+        })->via('GET', 'POST');
     });
 });
 
