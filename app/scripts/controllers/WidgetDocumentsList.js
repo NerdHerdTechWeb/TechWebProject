@@ -16,15 +16,13 @@
 
         documents.getDocuments().then(function (results) {
             vm.documentEntries = results;
-            console.log(vm.documentEntries);
         }, function (error) { // Check for errors
             console.log(error);
         });
 
-        $scope.getMainDocument = function () {
-            documents.getDocument().then(function (results) {
+        $scope.getMainDocument = function (link, from) {
+            documents.getDocument(link, from).then(function (results) {
                 vm.documentEntry = results;
-                console.log(vm.documentEntry);
             }, function (error) { // Check for errors
                 console.log(error);
             });
@@ -39,7 +37,7 @@
                 var id = '#mainDocArea';
                 var data = scope.$eval(attrs.insertTab);
                 jQuery(element).on('click', function (event) {
-                    //scope.getMainDocument();
+                    scope.getMainDocument(data.documents.link, data.documents.from);
                     jQuery(id).append(' <li role="presentation" class="active"><a href="">' + data.documents.title + '</a></li>');
                     scope.$apply();
                 });

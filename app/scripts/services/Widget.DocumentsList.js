@@ -9,7 +9,7 @@
     function documents($resource) {
 
         // ngResource call to our static data
-        var Documents = $resource('api/scraping/dlib');
+        var Documents = $resource('api/scraping/rstat');
 
         function getDocuments() {
             // $promise.then allows us to intercept the results
@@ -21,8 +21,8 @@
             });
         }
 
-        function getDocument(link) {
-            var Document = $resource('api/scraping/get/document/'+link);
+        function getDocument(link, from) {
+            var Document = $resource('api/scraping/get/document?link='+link+'&from='+from);
             return Document.query().$promise.then(function(results) {
                 return results;
             }, function(error) { // Check for errors

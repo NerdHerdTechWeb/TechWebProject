@@ -133,7 +133,7 @@ class Data_Scraping
                 $newPaper['label'] = trim($xpath->query("text()", $r)->item(0)->nodeValue);
                 $newPaperLink = trim($xpath->query("@href", $r)->item(0)->nodeValue);
                 $newPaper['link'] = $source['preurl'] . $newPaperLink;
-                $newPaper['from'] = 'rstat';
+                $newPaper['from'] = 'dlib';
 
                 $papersList[] = $newPaper;
             }
@@ -220,7 +220,7 @@ class Data_Scraping
                 return self::getRstatDocument($xpath, $citationsCollection);
                 break;
             case 'dlib';
-                return self::getRstatDocument($xpath, $citationsCollection);
+                return self::getDlibDocument($xpath, $citationsCollection);
                 break;
             default:
                 return self::getRstatDocument($xpath, $citationsCollection);
@@ -236,7 +236,7 @@ class Data_Scraping
      * @param $citationsCollection
      * @return string|json
      */
-    protected static function getRstatDocument($xpath, $citationsCollection)
+    protected static function getRstatDocument(DOMXPath $xpath, $citationsCollection)
     {
         /**
          * Rivista statistica
@@ -244,13 +244,19 @@ class Data_Scraping
         $titleh3 = $xpath->query('//div[@id="content"]//div[@id="articleTitle"]/h3')->item(0)->nodeValue;
         $authors = $xpath->query('//div[@id="content"]//div[@id="authorString"]/em')->item(0)->nodeValue;
         $articleContentAbstracth4 = $xpath->query('//div[@id="content"]//div[@id="articleAbstract"]/h4')->item(0)->nodeValue;
-        $articleContent = $xpath->query('//div[@id="content"]//div[@id="articleAbstract"]/div/p')->item(0)->nodeValue;
+        $articleContentDiv = $xpath->query('//div[@id="content"]//div[@id="articleAbstract"]/div')->item(0);
+        $articleContentP = $xpath->query('//div[@id="content"]//div[@id="articleAbstract"]/div/p')->item(0);
         $keywords = $xpath->query('//div[@id="content"]//div[@id="articleSubject"]/div')->item(0)->nodeValue;
         $citations = $xpath->query('//div[@id="content"]//div[@id="articleCitations"]/div/p');
 
         foreach ($citations as $cit) {
             array_push($citationsCollection, ($xpath->query('text()', $cit)->item(0)->nodeValue));
         }
+
+        $ACD = empty($articleContentDiv);
+        $ACP = empty($articleContentP);
+        if(!$ACD) $articleContent = $articleContentDiv->nodeValue;
+        if(!$ACP) $articleContent = $articleContentP->nodeValue;
 
         $papersList = array(
             'titleh3' => $titleh3,
@@ -260,7 +266,7 @@ class Data_Scraping
             'keywords' => $keywords,
             'citations' => $citationsCollection,
         );
-        return json_encode($papersList);
+        return json_encode(array($papersList));
     }
 
     /**
@@ -299,6 +305,6 @@ class Data_Scraping
             'keywords' => $keywords,
             'citations' => $citationsCollection,
         );
-        return json_encode($papersList);
+        return json_encode(array($papersList));
     }
 }

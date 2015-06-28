@@ -5,7 +5,11 @@
             <div class="sidebar-module jumbotron" ng-controller="WidgetDocumentsList as vm">
                 <h4>Documents</h4>
                 <ol class="list-unstyled" ng-repeat="documents in vm.documentEntries">
-                    <li><a href  insert-tab="{documents: { title: documents.label, link: documents.link}}">{{documents.label}}</a></li>
+                    <li><a href
+                           insert-tab="{documents: { title: documents.label, link: documents.link, from: documents.from}}">
+                            {{documents.label}}
+                        </a>
+                    </li>
                 </ol>
             </div>
             <div class="sidebar-module jumbotron" ng-controller="WidgetMeta as vm">
