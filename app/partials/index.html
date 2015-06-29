@@ -1,14 +1,14 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" ng-controller="WidgetDocumentsList as vm">
         <div class="col-sm-3">
             <!--Sidebar content-->
-            <div class="sidebar-module jumbotron" ng-controller="WidgetDocumentsList as vm">
+            <div class="sidebar-module jumbotron">
                 <h4>Documents</h4>
                 <ol class="list-unstyled" ng-repeat="documents in vm.documentEntries">
-                    <li><a href
-                           insert-tab="{documents: { title: documents.label, link: documents.link, from: documents.from}}">
-                            {{documents.label}}
-                        </a>
+                    <li><a  href=""
+                            insert-tab="{documents: { title: documents.label, link: documents.link, from: documents.from}}">
+                        {{documents.label}}
+                    </a>
                     </li>
                 </ol>
             </div>
@@ -21,9 +21,12 @@
         </div>
         <div class="col-md-9">
             <!--Body content-->
-
-            <ul id="mainDocArea" class="nav nav-tabs"></ul>
-
+            <tabset>
+                <tab heading="Static title">Static content</tab>
+                <tab ng-repeat="documentLoaded in documentsLoaded" heading="{{documentLoaded.title}}" active="documentLoaded.active" disable="documentLoaded.disabled">
+                    {{documentLoaded.content}}
+                </tab>
+            </tabset>
         </div>
     </div>
 </div>

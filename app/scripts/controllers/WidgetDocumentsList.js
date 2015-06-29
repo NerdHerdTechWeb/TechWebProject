@@ -11,7 +11,10 @@
 
         // vm is our capture variable
         var vm = this;
-        $scope.documentsLoaded = [];
+        $scope.documentsLoaded =  [
+            { title:'Dynamic Title 1', content:'Dynamic content 1' },
+            { title:'Dynamic Title 2', content:'Dynamic content 2' }
+        ];
 
         vm.documentEntries = [];
 
@@ -27,11 +30,24 @@
             documents.getDocument(link, from).then(
                 function (results) {
                     vm.documentEntry = results;
-                    mainDocAreaFiller(data, results);
+                    $scope.addItem(data, results);
                 }, function (error) { // Check for errors
                     console.log(error);
                 }
             );
+        }
+
+        $scope.addItem = function(data, results) {
+            var resource = results[0];
+            console.log(resource);
+            var newItemNo = $scope.documentsLoaded.length + 1;
+            $scope.documentsLoaded.push({
+                title:'Document '+newItemNo,
+                content: results[0].articleContent,
+                keywords: results[0].keywords,
+                authors: results[0].authors,
+                citations: results[0].citations
+            });
         }
     }
 
@@ -45,10 +61,5 @@
                 });
             }
         }
-    }
-
-    function mainDocAreaFiller(data, results) {
-        var id = '#mainDocArea';
-        jQuery(id).append('<li role="presentation" class="active"><a href="">' + data.documents.title + '</a></li>');
     }
 })(jQuery);
