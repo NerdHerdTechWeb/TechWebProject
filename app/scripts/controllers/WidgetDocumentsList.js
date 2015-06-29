@@ -11,10 +11,7 @@
 
         // vm is our capture variable
         var vm = this;
-        $scope.documentsLoaded =  [
-            { title:'Dynamic Title 1', content:'Dynamic content 1' },
-            { title:'Dynamic Title 2', content:'Dynamic content 2' }
-        ];
+        $scope.documentsLoaded =  [];
 
         vm.documentEntries = [];
 
