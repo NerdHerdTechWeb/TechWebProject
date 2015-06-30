@@ -9,7 +9,7 @@
     function documents($resource) {
 
         // ngResource call to our static data
-        var Documents = $resource('api/scraping/rstat');
+        var Documents = $resource('api/scraping/dlib');
 
         function getDocuments() {
             // $promise.then allows us to intercept the results

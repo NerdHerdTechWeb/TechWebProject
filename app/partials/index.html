@@ -31,8 +31,8 @@
                 </tab>
                 <tab ng-repeat="documentLoaded in documentsLoaded" heading="{{documentLoaded.title}}" active="documentLoaded.active" disable="documentLoaded.disabled">
                     <div class="panel panel-default no-border">
-                        <div class="panel-body">
-                            <table ng-bind-html="documentLoaded.content | unsafe"></table>
+                        <div class="panel-body table-responsive">
+                            <table ng-bind-html="documentLoaded.content | unsafe" class="table"></table>
                         </div>
                     </div>
                 </tab>
