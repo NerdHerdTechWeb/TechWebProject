@@ -26,15 +26,13 @@
                     <div class="panel panel-default no-border">
                         <div class="panel-body">
                             <p>Content</p>
-                            <p><span class="label label-default">Keywords</span><span class="small">keywords</span></p>
                         </div>
                     </div>
                 </tab>
                 <tab ng-repeat="documentLoaded in documentsLoaded" heading="{{documentLoaded.title}}" active="documentLoaded.active" disable="documentLoaded.disabled">
                     <div class="panel panel-default no-border">
                         <div class="panel-body">
-                            <p>{{documentLoaded.content}}</p>
-                            <p><span class="label label-default">Keywords</span><span class="small">{{documentLoaded.keywords}}</span></p>
+                            <table ng-bind-html="documentLoaded.content | unsafe"></table>
                         </div>
                     </div>
                 </tab>

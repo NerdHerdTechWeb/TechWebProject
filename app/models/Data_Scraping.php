@@ -217,13 +217,13 @@ class Data_Scraping
         //TODO
         switch ($from) {
             case 'rstat':
-                return self::getRstatDocument($xpath, $citationsCollection);
+                return self::getRstatDocument($xpath, $citationsCollection, $body);
                 break;
             case 'dlib';
-                return self::getDlibDocument($xpath, $citationsCollection);
+                return self::getDlibDocument($xpath, $citationsCollection, $body);
                 break;
             default:
-                return self::getRstatDocument($xpath, $citationsCollection);
+                return self::getRstatDocument($xpath, $citationsCollection, $body);
                 break;
         }
 
@@ -236,7 +236,58 @@ class Data_Scraping
      * @param $citationsCollection
      * @return string|json
      */
-    protected static function getRstatDocument(DOMXPath $xpath, $citationsCollection)
+    protected static function getRstatDocument(DOMXPath $xpath, $citationsCollection, $body)
+    {
+        $doc = new DOMDocument();
+        $doc->loadHTML($body);
+        $elements = $doc->getElementsByTagName('table')->item(9);
+        $childs = $elements->childNodes;
+        $content = '';
+        foreach ($childs  as $element) {
+            #echo $element->getNodePath()."\n";
+            $content = $doc->saveHTML($element)."\n";
+        }
+
+        $papersList = array(
+            'articleContent' => $content,
+        );
+        return json_encode(array($papersList));
+    }
+
+    /**
+     * Serialize single DLib Magazine article to JSON
+     * The single article of DLib Magazine needs custom xpath query
+     * @param $xpath
+     * @param $citationsCollection
+     * @return string|json
+     */
+    protected static function getDlibDocument(DOMXPath $xpath, $citationsCollection, $body)
+    {
+        $doc = new DOMDocument();
+        $doc->loadHTML($body);
+        $elements = $doc->getElementsByTagName('table')->item(9);
+        $childs = $elements->childNodes;
+        $content = '';
+        foreach ($childs  as $element) {
+            #echo $element->getNodePath()."\n";
+            $content = $doc->saveHTML($element)."\n";
+        }
+
+        $papersList = array(
+            'articleContent' => $content,
+        );
+        return json_encode(array($papersList));
+    }
+
+    /**
+     * Serialize single RStat article to JSON
+     * The single article of Rivista statica needs custom xpath query
+     * @param $xpath
+     * @param $citationsCollection
+     * @return string|json
+     * @deprecated
+     */
+    protected static function deprecated_getRstatDocument(DOMXPath $xpath, $citationsCollection)
     {
         /**
          * Rivista statistica
@@ -260,45 +311,6 @@ class Data_Scraping
 
         $papersList = array(
             'titleh3' => $titleh3,
-            'authors' => $authors,
-            'articleContentAbstracth4' => $articleContentAbstracth4,
-            'articleContent' => $articleContent,
-            'keywords' => $keywords,
-            'citations' => $citationsCollection,
-        );
-        return json_encode(array($papersList));
-    }
-
-    /**
-     * Serialize single DLib Magazine article to JSON
-     * The single article of DLib Magazine needs custom xpath query
-     * @param $xpath
-     * @param $citationsCollection
-     * @return string|json
-     */
-    protected static function getDlibDocument(DOMXPath $xpath, $citationsCollection)
-    {
-        $titleCollection = array();
-        /**
-         * DLib Magazine
-         */
-        $titleh3 = $xpath->query('//form//table[3]//tr[1]//td[1]//table[5]//tr[1]//td[1]//table[1]//tr/td[2]/h3');
-        $authors = $xpath->query('//div[@id="content"]//div[@id="authorString"]/em');
-        $articleContentAbstracth4 = $xpath->query('//div[@id="content"]//div[@id="articleAbstract"]/h4');
-        $articleContent = $xpath->query('//div[@id="content"]//div[@id="articleAbstract"]/div/p');
-        $keywords = $xpath->query('//div[@id="content"]//div[@id="articleSubject"]/div');
-        $citations = $xpath->query('//div[@id="content"]//div[@id="articleCitations"]/div/p');
-
-        foreach ($citations as $cit) {
-            array_push($citationsCollection, ($xpath->query('text()', $cit)->item(0)->nodeValue));
-        }
-
-        foreach($titleh3 as $title){
-            array_push($titleCollection, ($xpath->query('text()', $title)->item(0)->nodeValue ));
-        }
-
-        $papersList = array(
-            'titleh3' => $titleCollection,
             'authors' => $authors,
             'articleContentAbstracth4' => $articleContentAbstracth4,
             'articleContent' => $articleContent,

@@ -5,6 +5,11 @@
     angular
         .module('semanticNotations')
         .controller('WidgetDocumentsList', widgetDocumentsList)
+        .filter('unsafe', function($sce) {
+            return function(val) {
+                return $sce.trustAsHtml(val);
+            };
+        })
         .directive('insertTab', mainArea)
 
     function widgetDocumentsList(documents, $scope, $window) {
@@ -36,14 +41,10 @@
 
         $scope.addItem = function(data, results) {
             var resource = results[0];
-            console.log(resource);
             var newItemNo = $scope.documentsLoaded.length + 1;
             $scope.documentsLoaded.push({
                 title:'Document '+newItemNo,
-                content: results[0].articleContent,
-                keywords: results[0].keywords,
-                authors: results[0].authors,
-                citations: results[0].citations
+                content: results[0].articleContent
             });
         }
     }
