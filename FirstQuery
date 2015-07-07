@@ -10,9 +10,7 @@ require_once "HttpClient.php";
 <?php 
 //GRAPH http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540
 
-
-
-$sparql = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/query?user=ltw1540&pass=jMLP%C2%A323a');
+$sparql = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/query?user=ltw1540&pass=jMLP£23a');
 
 //$sparql = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data');
 //$sparql = new EasyRdf_Sparql_Client('http://ltw1540:jMLP£23a@tweb2015.cs.unibo.it:8080/data');
@@ -35,19 +33,19 @@ $result=$sparql->query('
 						WHERE {
 						
 							annotation rdf:type oa:Annotation ;
-               							 oa:annotatedAt ?date ;
-              						     oa:annotatedBy ?author .
+               						 	     oa:annotatedAt ?date ;
+              					    		     oa:annotatedBy ?author .
 										 
-				    		 OPTIONAL { ?author foaf:name ?author_fullname }
-           			    	 OPTIONAL { ?author schema:email ?author_email }
+				    		 	OPTIONAL { ?author foaf:name ?author_fullname }
+           			    	 		OPTIONAL { ?author schema:email ?author_email }
 							
-							 OPTIONAL { ?annotation rdfs:label ?label }
-							 OPTIONAL { ?annotation oa:hasBody ?body }
+							OPTIONAL { ?annotation rdfs:label ?label }
+							OPTIONAL { ?annotation oa:hasBody ?body }
 					        
-							 OPTIONAL { ?body rdf:subject ?s }
-							 OPTIONAL { ?body rdf:predicate ?p }
-							 OPTIONAL { ?body rdf:object ?o }
-			                 OPTIONAL { ?body rdfs:label ?body_l }
+							OPTIONAL { ?body rdf:subject ?s }
+							OPTIONAL { ?body rdf:predicate ?p }
+							OPTIONAL { ?body rdf:object ?o }
+			                 		OPTIONAL { ?body rdfs:label ?body_l }
 						}
 			 LIMIT 10');
          print $result->dump();
