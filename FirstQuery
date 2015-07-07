@@ -1,0 +1,56 @@
+<?php
+   
+    set_include_path(get_include_path() . PATH_SEPARATOR . '../lib/');
+
+require '/vendor/autoload.php';
+//require_once "EasyRdfUtils.php";
+require_once "HttpClient.php";
+?>
+
+<?php 
+//GRAPH http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540
+
+
+
+$sparql = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/query?user=ltw1540&pass=jMLP%C2%A323a');
+
+//$sparql = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data');
+//$sparql = new EasyRdf_Sparql_Client('http://ltw1540:jMLP£23a@tweb2015.cs.unibo.it:8080/data');
+$result=$sparql->query('
+						PREFIX prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+						PREFIX schema: <http://schema.org/>
+						PREFIX oa: <http://www.w3.org/ns/oa#> .
+						PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> .
+						PREFIX dlib: <http://www.dlib.org/dlib/november14/>
+						PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+						PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+						PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+						prefix rsch: <http://vitali.web.cs.unibo.it/raschietto/>
+						prefix dcterms: <http://purl.org/dc/terms/> 
+						prefix sem: <http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#>
+						
+
+						SELECT *					
+						FROM  <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540>
+						WHERE {
+						
+							annotation rdf:type oa:Annotation ;
+               							 oa:annotatedAt ?date ;
+              						     oa:annotatedBy ?author .
+										 
+				    		 OPTIONAL { ?author foaf:name ?author_fullname }
+           			    	 OPTIONAL { ?author schema:email ?author_email }
+							
+							 OPTIONAL { ?annotation rdfs:label ?label }
+							 OPTIONAL { ?annotation oa:hasBody ?body }
+					        
+							 OPTIONAL { ?body rdf:subject ?s }
+							 OPTIONAL { ?body rdf:predicate ?p }
+							 OPTIONAL { ?body rdf:object ?o }
+			                 OPTIONAL { ?body rdfs:label ?body_l }
+						}
+			 LIMIT 10');
+         print $result->dump();
+		 
+		 
+		?>
