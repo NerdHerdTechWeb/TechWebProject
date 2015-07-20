@@ -1,0 +1,35 @@
+﻿// Pricing plan shortcuts
+
+@import (reference) "..\variables.less";
+@import (reference) "size.less";
+
+.pricing-plan-price(@size) {
+    &-price {
+        display: block;
+        line-height: 2.3;
+        font-size: @size;
+        font-weight: 700;
+
+        small {
+            font-size: ceil(@size / 2.125);
+            font-weight: normal;
+
+            &:before {
+                content: "@{pricing-plan-price-duration-separator}\00a0"; // Unicode space added since inline-block means non-collapsing white-space
+                padding: 0;
+                color: @pricing-plan-price-duration-separator-color;
+            }
+        }
+
+        sup {
+            font-size: ceil(@size / 2.125);
+        }
+    }
+}
+
+.pricing-plan-heading(@margin: 0) {
+    .pricing-plan-heading {
+        margin-bottom: @margin;
+        border-bottom: @pricing-plan-border-width solid @pricing-plan-border-color;
+    }
+}

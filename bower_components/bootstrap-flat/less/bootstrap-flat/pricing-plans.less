@@ -1,0 +1,95 @@
+@import (reference) "variables.less";
+@import (reference) "mixins.less";
+
+/*
+ * Pricing plans
+ *
+ * Responsive pricing plans, similar in structure to panels.
+ */
+.pricing-plans, .pricing-plan-single {
+    text-align: center;
+}
+
+.pricing-plan-footer {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: @pricing-plan-border-width solid @pricing-plan-border-color;
+    text-align: center;
+}
+
+.pricing-plan-body {
+    ul {
+        padding-left: 0;
+        list-style: none;
+        margin-bottom: 30px;
+        margin-top: 10px;
+        text-align: left;
+
+        & > li {
+            margin-bottom: 10px;
+        }
+
+        @media screen and (max-width: 480px) {
+            text-align: center;
+        }
+    }
+}
+
+.pricing-plans {
+    .pricing-plan-heading(50px);
+
+    .pricing-plan {
+        padding: 50px 15px;
+        margin: 0 10px 30px 10px;
+        border: @pricing-plan-border-width solid @pricing-plan-border-color;
+        border-radius: 0;
+        .pricing-plan-price(ceil((@font-size-base * 3)));
+
+        &-title {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: ceil((@font-size-base * 1.125));
+            color: inherit;
+
+            .icon {
+                display: block;
+                .square(100px);
+                margin: 0 auto;
+                margin-bottom: 15px;
+                font-size: 48px;
+                background: @pricing-plan-border-color;
+
+                &:before {
+                    line-height: 100px;
+                }
+            }
+        }
+        
+        @media screen and (max-width: 992px) {
+            margin-left: 0;
+            margin-right: 0;
+            padding: 50px 5px 30px 5px;
+        }
+
+        @media screen and (max-width: 768px) {
+            top: -2em;
+            right: 0;
+        }
+    }
+}
+
+.pricing-plan-single {
+    .pricing-plan-heading();
+
+    .pricing-plan {
+        width: 80%;
+        margin: 40px auto;
+        padding: 30px;
+        border-bottom: @pricing-plan-border-width solid @pricing-plan-border-color;
+        .pricing-plan-price(ceil((@font-size-base * 6)));
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
+    }
+}

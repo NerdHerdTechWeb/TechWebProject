@@ -232,9 +232,8 @@ class Data_Scraping
     /**
      * Serialize single RStat article to JSON
      * The single article of Rivista statica needs custom xpath query
-     * @param \DOMXPath $xpath
+     * @param $xpath
      * @param $citationsCollection
-     * @param $body
      * @return string|json
      */
     protected static function getRstatDocument(DOMXPath $xpath, $citationsCollection, $body)
@@ -258,9 +257,8 @@ class Data_Scraping
     /**
      * Serialize single DLib Magazine article to JSON
      * The single article of DLib Magazine needs custom xpath query
-     * @param \DOMXPath $xpath
+     * @param $xpath
      * @param $citationsCollection
-     * @param $body
      * @return string|json
      */
     protected static function getDlibDocument(DOMXPath $xpath, $citationsCollection, $body)

@@ -6,7 +6,9 @@
     <title>Semantic Annotator :: Read & Edit</title>
     <link rel="icon" href="../app/src/nerdherd.ico" />
     <link rel="stylesheet" href="../app/css/main.css">
-    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../bower_components/bootstrap-flat/css/bootstrap-flat.min.css">
+    <link rel="stylesheet" href="../../bower_components/bootstrap-flat/css/bootstrap-flat-extras.min.css">
     <script type="text/javascript">
         var init_conf = {{ angularConfig|json_encode()|raw }};
     </script>
@@ -23,7 +25,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#/homeproject">Semantic Annotator</a>
+            <button class="btn-info navbar-btn">
+                <span class="glyphicon glyphicon-th-list"></span>
+            </button>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2" ng-controller="SearchSearchBar as vm">
             <form class="navbar-form navbar-left" role="search">

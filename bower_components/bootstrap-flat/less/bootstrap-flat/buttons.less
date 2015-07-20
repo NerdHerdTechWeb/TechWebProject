@@ -1,0 +1,89 @@
+@import (reference) "variables.less";
+@import (reference) "mixins.less";
+
+/*
+ * Buttons
+ *
+ * Alternative button styles.
+ * Requires a base btn class.
+ */
+.btn-striped {
+    .btn-default&,
+    .btn-primary&,
+    .btn-success&,
+    .btn-info&,
+    .btn-warning&,
+    .btn-danger& {
+        .btn-striped-variant();
+        border-left-width: 3px;
+
+        &:focus, &.focus {
+            .btn-striped-variant(@background: darken(@btn-default-bg, 10%); @border: darken(@btn-default-border, 12%));
+        }
+
+        &:hover {
+            .btn-striped-variant(@background: darken(@btn-default-bg, 10%); @border: darken(@btn-default-border, 12%));
+        }
+
+        &:active, &.active, .open > .dropdown-toggle& {
+            .btn-striped-variant(@background: darken(@btn-default-bg, 10%); @border: darken(@btn-default-border, 12%));
+
+            &:hover, &:focus, &.focus {
+            .btn-striped-variant(@background: darken(@btn-default-bg, 10%); @border: darken(@btn-default-border, 12%));
+            }
+        }
+
+        &.disabled,
+        &[disabled],
+        fieldset[disabled] & {
+            &,
+            &:hover,
+            &:focus,
+            &.focus,
+            &:active,
+            &.active {
+                .btn-striped-variant();
+            }
+        }
+    }
+}
+
+.btn-outline {
+    .btn-default&,
+    .btn-primary&,
+    .btn-success&,
+    .btn-info&,
+    .btn-warning&,
+    .btn-danger& {
+        .btn-outline-variant();
+
+        &:focus, &.focus {
+            .btn-outline-variant(@background: darken(@btn-default-bg, 10%));
+        }
+
+        &:hover {
+            .btn-outline-variant(@background: darken(@btn-default-bg, 10%));
+        }
+
+        &:active, &.active, .open > .dropdown-toggle& {
+            .btn-outline-variant(@background: darken(@btn-default-bg, 10%));
+
+            &:hover, &:focus, &.focus {
+                .btn-outline-variant(@background: darken(@btn-default-bg, 10%));
+            }
+        }
+
+        &.disabled,
+        &[disabled],
+        fieldset[disabled] & {
+            &,
+            &:hover,
+            &:focus,
+            &.focus,
+            &:active,
+            &.active {
+                .btn-outline-variant();
+            }
+        }
+    }
+}
