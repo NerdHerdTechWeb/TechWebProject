@@ -5,6 +5,11 @@
 <head>
     <title>Semantic Annotator :: Read & Edit</title>
     <link rel="icon" href="../app/src/nerdherd.ico" />
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" href="../app/css/main.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap-flat/css/bootstrap-flat.min.css">
@@ -15,7 +20,7 @@
 </head>
 <body ng-app="semanticNotations">
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -24,9 +29,6 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button>
-            <button class="btn-info navbar-btn">
-                <span class="glyphicon glyphicon-th-list"></span>
             </button>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2" ng-controller="SearchSearchBar as vm">
@@ -47,7 +49,7 @@
     <!-- /.container-fluid -->
 </nav>
 
-<div ng-view></div>
+<div id="wrapper" ng-view></div>
 
 </body>
 
