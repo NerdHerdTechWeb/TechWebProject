@@ -13,7 +13,7 @@
             'ngResource',
             'ngRoute',
             'ui.bootstrap'
-        ]);
+        ])
 
     semanticNotations.config(['$routeProvider',
         function ($routeProvider) {
