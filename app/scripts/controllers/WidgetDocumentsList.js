@@ -54,10 +54,19 @@
             restrict: 'AC',
             link: function (scope, element, attrs) {
                 var data = scope.$eval(attrs.insertTab);
-                jQuery(element).on('click', function (event) {
+                var documents = jQuery(element);
+                
+                if(data.documents.first){
+                    scope.getMainDocument(data.documents.link, data.documents.from, data);
+                }
+                /**
+                 * Load documents by click
+                 */
+                documents.on('click', function (event) {
                     scope.getMainDocument(data.documents.link, data.documents.from, data);
                 });
             }
         }
     }
+    
 })(jQuery);

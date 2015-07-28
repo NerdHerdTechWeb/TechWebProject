@@ -7,7 +7,7 @@
                 <h4>Documents</h4>
                 <ol class="list-unstyled" ng-repeat="documents in vm.documentEntries">
                     <li><a  href=""
-                            insert-tab="{documents: { title: documents.label, link: documents.link, from: documents.from}}">
+                            insert-tab="{documents: { title: documents.label, link: documents.link, from: documents.from, first: $first}}">
                         {{documents.label}}
                     </a>
                     </li>
@@ -23,13 +23,6 @@
         <div class="col-md-11 col-md-offset-1 col-xs-11 col-xs-offset-1 col-lg-11 col-lg-offset-1">
             <!--Body content-->
             <tabset>
-                <tab heading="First document">
-                    <div class="panel panel-default no-border">
-                        <div class="panel-body">
-                            <p>Content</p>
-                        </div>
-                    </div>
-                </tab>
                 <tab ng-repeat="documentLoaded in documentsLoaded" heading="{{documentLoaded.title}}" active="documentLoaded.active" disable="documentLoaded.disabled">
                     <div class="panel panel-default no-border">
                         <div class="panel-body table-responsive">
