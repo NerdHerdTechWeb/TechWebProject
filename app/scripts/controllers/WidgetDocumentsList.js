@@ -17,6 +17,7 @@
         // vm is our capture variable
         var vm = this;
         $scope.documentsLoaded =  [];
+        $scope.skCircle = jQuery('.sk-circle');
 
         vm.documentEntries = [];
 
@@ -33,6 +34,7 @@
                 function (results) {
                     vm.documentEntry = results;
                     $scope.addItem(data, results);
+                    $scope.skCircle.removeClass('doc-preloader-show').addClass('doc-preloader-hide');
                 }, function (error) { // Check for errors
                     console.log(error);
                 }
@@ -57,12 +59,14 @@
                 var documents = jQuery(element);
                 
                 if(data.documents.first){
+                    scope.skCircle.removeClass('doc-preloader-hide').addClass('doc-preloader-show');
                     scope.getMainDocument(data.documents.link, data.documents.from, data);
                 }
                 /**
                  * Load documents by click
                  */
                 documents.on('click', function (event) {
+                    scope.skCircle.removeClass('doc-preloader-hide').addClass('doc-preloader-show');
                     scope.getMainDocument(data.documents.link, data.documents.from, data);
                 });
             }
