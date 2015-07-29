@@ -53,13 +53,20 @@
         return {
             restrict: 'AC',
             link: function (scope, element, attrs) {
-                jQuery('.lateral-menu').on('mouseout',function(event){jQuery(this).addClass('menu-close').removeClass('menu-open')})
-                jQuery('.lateral-menu').on('mouseover',function(event){jQuery(this).addClass('menu-open').removeClass('menu-close')})
                 var data = scope.$eval(attrs.insertTab);
-                jQuery(element).on('click', function (event) {
+                var documents = jQuery(element);
+                
+                if(data.documents.first){
+                    scope.getMainDocument(data.documents.link, data.documents.from, data);
+                }
+                /**
+                 * Load documents by click
+                 */
+                documents.on('click', function (event) {
                     scope.getMainDocument(data.documents.link, data.documents.from, data);
                 });
             }
         }
     }
+    
 })(jQuery);

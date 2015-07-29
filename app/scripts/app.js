@@ -14,6 +14,7 @@
             'ngRoute',
             'ui.bootstrap'
         ])
+        .directive('lateralMenu', LateralMenu)
 
     semanticNotations.config(['$routeProvider',
         function ($routeProvider) {
@@ -32,5 +33,15 @@
                     templateUrl: init_conf.partialsView+'index.html'
                 });
         }]);
+        
+        function LateralMenu(){
+            return {
+                restrict: 'AC',
+                link: function (scope, element, attrs) {
+                    jQuery(element).on('mouseout',function(event){jQuery(this).addClass('menu-close').removeClass('menu-open')})
+                    jQuery(element).on('mouseover',function(event){jQuery(this).addClass('menu-open').removeClass('menu-close')})
+                }
+            }
+        }
 
 })();
