@@ -105,7 +105,7 @@ class Data_Scraping
         $papersSources = $mappings;
 
         $papersList = array();
-        $client = new Client();
+        #$client = new Client();
         $doc = new DOMDocument();
 
         foreach ($papersSources as $source) {
@@ -113,12 +113,13 @@ class Data_Scraping
              * Try catching pattern
              */
             try {
-                $res = $client->get($source['url']);
-            } catch (ClientException $e) {
+                $res = file_get_contents($source['url']);
+            } catch (Exception $e) {
                 return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
             }
 
-            $body = $res->getBody();
+            #$body = $res->getBody();
+            $body = $res;
 
             $doc->loadHTML($body);
 
@@ -151,19 +152,20 @@ class Data_Scraping
     public static function rivistaStatisticaScraping()
     {
         $papersList = array();
-        $client = new Client();
+        #$client = new Client();
         $doc = new DOMDocument();
 
         /**
          * Try catching pattern
          */
         try {
-            $res = $client->get(self::$rivistaStatisticaUri);
+            $res = file_get_contents(self::$rivistaStatisticaUri);
         } catch (ClientException $e) {
             return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
         }
 
-        $body = $res->getBody();
+        #$body = $res->getBody();
+        $body = $res;
 
         $doc->loadHTML($body);
 
@@ -195,7 +197,7 @@ class Data_Scraping
         $link = !empty($link) ? $link : 'http://rivista-statistica.unibo.it/article/view/4594';
         $from = !empty($from) ? $from : 'dlib';
 
-        $client = new Client();
+        #$client = new Client();
         $doc = new DOMDocument();
         $citationsCollection = array();
 
@@ -203,12 +205,13 @@ class Data_Scraping
          * Try catching pattern
          */
         try {
-            $res = $client->get($link);
+            $res = file_get_contents($link);
         } catch (ClientException $e) {
             return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
         }
 
-        $body = $res->getBody();
+        #$body = $res->getBody();
+        $body = $res;
 
         $doc->loadHTML($body);
 
