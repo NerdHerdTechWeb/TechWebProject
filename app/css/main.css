@@ -143,12 +143,25 @@
 /*********************************/
 
 
-.no-border{
+#navTabsContainer .nav-tabs, .no-border{
     border:none !important;
 }
 
 #wrapper .container-fluid{
     margin-top: 70px;
+}
+
+.sidebar-module{
+    min-width: 315px;
+}
+.sidebar-module .panel-body{
+    padding: 1px;
+}
+.sidebar-module .list-group{
+    padding-bottom: 0;
+}
+.sidebar-module .list-group-item{
+    border: none;
 }
 
 
@@ -159,7 +172,8 @@
     position: fixed;
     z-index: 1000;
     top: 0;
-    padding-top: 36px;
+    padding-top: 50px;
+    padding-right: 35px;
     background-color: rgba(237, 237, 237, .8);
     box-shadow: 3px 0px 21px rgba(0, 0, 0, 0.16);
     bottom: 0;
