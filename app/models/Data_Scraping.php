@@ -134,6 +134,7 @@ class Data_Scraping
                 $newPaper['label'] = trim($xpath->query("text()", $r)->item(0)->nodeValue);
                 $newPaperLink = trim($xpath->query("@href", $r)->item(0)->nodeValue);
                 $newPaper['link'] = $source['preurl'] . $newPaperLink;
+                $newPaper['imagepath'] = preg_replace('([^\/]+$)','',$newPaper['link']);
                 $newPaper['from'] = 'dlib';
 
                 $papersList[] = $newPaper;

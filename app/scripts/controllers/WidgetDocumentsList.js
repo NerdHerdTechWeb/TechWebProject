@@ -12,7 +12,7 @@
         })
         .directive('insertTab', mainArea)
 
-    function widgetDocumentsList(documents, $scope, $window) {
+    function widgetDocumentsList(documents, $scope, $timeout, $window) {
 
         // vm is our capture variable
         var vm = this;
@@ -28,7 +28,7 @@
                 console.log(error);
             }
         );
-
+        
         $scope.getMainDocument = function (link, from, data) {
             documents.getDocument(link, from).then(
                 function (results) {
@@ -48,7 +48,16 @@
                 title:'Document '+newItemNo,
                 content: results[0].articleContent
             });
+            
+            $timeout(function(){replaceImgPath(data)}, 1000);
         }
+    }
+    
+    function replaceImgPath(data){
+        jQuery('#navTabsContainer img').each(function(i,el){
+            var src = jQuery(this).attr('src');
+            jQuery(this).attr('src',data.documents.imgpath+src);
+        });
     }
 
     function mainArea() {
