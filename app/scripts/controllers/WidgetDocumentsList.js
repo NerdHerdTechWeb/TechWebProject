@@ -54,9 +54,11 @@
     }
     
     function replaceImgPath(data){
-        jQuery('#navTabsContainer img').each(function(i,el){
-            var src = jQuery(this).attr('src');
-            jQuery(this).attr('src',data.documents.imgpath+src);
+        jQuery('#navTabsContainer img:not(.img-replaced)').each(function(i,el){
+            var img = jQuery(this);
+            var src = img.attr('src');
+            img.attr('src',data.documents.imgpath+src);
+            img.addClass('img-replaced');
         });
     }
 
