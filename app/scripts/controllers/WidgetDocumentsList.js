@@ -47,13 +47,15 @@
             $scope.documentsLoaded.push({
                 title:'Document '+newItemNo,
                 hoverTitle: data.documents.title,
+                documentId: data.documents.documentId,
                 content: results[0].articleContent
             });
             
-            $timeout(function(){replaceImgPath(data)}, 1000);
+            $timeout(function(){postDocumentLoad(data)}, 1000);
         }
         
-        $scope.removeTab = function (index) {
+        $scope.removeTab = function (index,documentId) {
+            jQuery('#document_'+documentId).toggleClass('disabled');
             $scope.documentsLoaded.splice(index, 1);
         };
     }
@@ -61,13 +63,14 @@
     /**
      * Replaces all src after document is loaded 
      */
-    function replaceImgPath(data){
+    function postDocumentLoad(data){
         jQuery('#navTabsContainer img:not(.img-replaced)').each(function(i,el){
             var img = jQuery(this);
             var src = img.attr('src');
             img.attr('src',data.documents.imgpath+src);
             img.addClass('img-replaced');
         });
+        jQuery('#document_'+data.documents.documentId).toggleClass('disabled');
     }
 
     /**
