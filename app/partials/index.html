@@ -8,7 +8,16 @@
                 <div class="panel-body">
                     <div class="list-group">
                         <a class="list-group-item"  ng-repeat="documents in vm.documentEntries" href=""
-                                insert-tab="{documents: { title: documents.label, link: documents.link, from: documents.from, imgpath: documents.imagepath, first: $first}}">
+                                insert-tab="{
+                                documents: 
+                                    { 
+                                        title: documents.label,
+                                        link: documents.link, 
+                                        from: documents.from, 
+                                        imgpath: documents.imagepath, 
+                                        first: $first
+                                    }
+                                }">
                             {{documents.label}}
                         </a>
                     </div>
@@ -26,7 +35,15 @@
         <div id="navTabsContainer" class="col-md-11 col-md-offset-1 col-xs-11 col-xs-offset-1 col-lg-11 col-lg-offset-1">
             <!--Body content-->
             <tabset>
-                <tab ng-repeat="documentLoaded in documentsLoaded" heading="{{documentLoaded.title}}" active="documentLoaded.active" disable="documentLoaded.disabled">
+                <tab ng-repeat="documentLoaded in documentsLoaded"
+                    active="documentLoaded.active" 
+                    disable="documentLoaded.disabled"
+                    title="{{documentLoaded.hoverTitle}}">
+                    <tab-heading>{{documentLoaded.title}}
+                        <a ng-if="!$first" title="close" ng-click="removeTab($index)" href=''>
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                    </tab-heading>
                     <div class="table-responsive">
                         <table ng-bind-html="documentLoaded.content | unsafe" class="table"></table>
                     </div>

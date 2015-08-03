@@ -46,13 +46,21 @@
             var newItemNo = $scope.documentsLoaded.length + 1;
             $scope.documentsLoaded.push({
                 title:'Document '+newItemNo,
+                hoverTitle: data.documents.title,
                 content: results[0].articleContent
             });
             
             $timeout(function(){replaceImgPath(data)}, 1000);
         }
+        
+        $scope.removeTab = function (index) {
+            $scope.documentsLoaded.splice(index, 1);
+        };
     }
     
+    /**
+     * Replaces all src after document is loaded 
+     */
     function replaceImgPath(data){
         jQuery('#navTabsContainer img:not(.img-replaced)').each(function(i,el){
             var img = jQuery(this);
@@ -62,6 +70,10 @@
         });
     }
 
+    /**
+     * Main document area directive
+     * All selected documents will be loaded here
+     */
     function mainArea() {
         return {
             restrict: 'AC',
