@@ -4,7 +4,7 @@
 
     angular
         .module('semanticNotations')
-        .controller('DocumentManager', documentManager)
+        .controller('WidgetDocumentsList', widgetDocumentsList)
         .filter('unsafe', function($sce) {
             return function(val) {
                 return $sce.trustAsHtml(val);
@@ -12,7 +12,7 @@
         })
         .directive('insertTab', mainArea)
 
-    function documentManager(documents, $scope, $timeout, $window) {
+    function widgetDocumentsList(documents, $scope, $timeout, $window) {
 
         // vm is our capture variable
         var vm = this;
