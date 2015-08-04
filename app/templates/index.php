@@ -89,7 +89,7 @@
 <script type="text/javascript" src="../app/scripts/app.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/NavBar.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/SearchSearchBar.js"></script>
-<script type="text/javascript" src="../app/scripts/controllers/DocumentManager.js"></script>
+<script type="text/javascript" src="../app/scripts/controllers/WidgetDocumentsList.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/WidgetMeta.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/WidgetMetaModal.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Search.SearchBar.js"></script>
