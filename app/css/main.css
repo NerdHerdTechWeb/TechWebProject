@@ -155,6 +155,11 @@
     margin-top: 70px;
 }
 
+.navbar .toggle-switch{
+    margin-top: 9px;
+    margin-right: 10px;
+}
+
 .sidebar-module{
     min-width: 315px;
 }

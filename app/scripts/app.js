@@ -12,7 +12,8 @@
         .module('semanticNotations', [
             'ngResource',
             'ngRoute',
-            'ui.bootstrap'
+            'ui.bootstrap',
+            'toggle-switch'
         ])
         .directive('lateralMenu', LateralMenu)
 

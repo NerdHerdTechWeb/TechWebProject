@@ -14,13 +14,15 @@
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap-flat/css/bootstrap-flat.min.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap-flat/css/bootstrap-flat-extras.min.css">
+    <link rel="stylesheet" href="../../bower_components/angular-toggle-switch/angular-toggle-switch.css">
+    <link rel="stylesheet" href="../../bower_components/angular-toggle-switch/angular-toggle-switch-bootstrap.css">
     <script type="text/javascript">
         var init_conf = {{ angularConfig|json_encode()|raw }};
     </script>
 </head>
 <body ng-app="semanticNotations">
 
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavBar">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -41,7 +43,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#/help">Help</a></li>
                 <li><a href="#/about">About</a></li>
-                <li><a href="#/annotator">Annotator</a></li>
+                <li><toggle-switch ng-model="annotator.status" knob-label="Annotator &nbsp;&nbsp;&nbsp;&nbsp;f"><toggle-switch></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -49,8 +51,10 @@
     <!-- /.container-fluid -->
 </nav>
 
+<!-- Main view rendered by Angular -->
 <div id="wrapper" ng-view></div>
 
+<!-- Preloade css3 animation -->
 <div class="sk-circle doc-preloader-hide">
   <div class="sk-circle1 sk-child"></div>
   <div class="sk-circle2 sk-child"></div>
@@ -78,12 +82,14 @@
 <script type="text/javascript" src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-resource/angular-resource.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-route/angular-route.js"></script>
+<script type="text/javascript" src="../../bower_components/angular-toggle-switch/angular-toggle-switch.js"></script>
 <script type="text/javascript" src="../../bower_components/moment/moment.js"></script>
 
 <!-- Application Scripts -->
 <script type="text/javascript" src="../app/scripts/app.js"></script>
+<script type="text/javascript" src="../app/scripts/controllers/NavBar.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/SearchSearchBar.js"></script>
-<script type="text/javascript" src="../app/scripts/controllers/WidgetDocumentsList.js"></script>
+<script type="text/javascript" src="../app/scripts/controllers/DocumentManager.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/WidgetMeta.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/WidgetMetaModal.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Search.SearchBar.js"></script>
