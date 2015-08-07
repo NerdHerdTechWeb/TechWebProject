@@ -9,5 +9,8 @@
     function navBar($scope, $window) {
         $scope.annotator = {"status":false};
         
+        $scope.$watch('annotator.status',function(newVal, oldVal){
+            
+        });
     }
 })();

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row" ng-controller="WidgetDocumentsList as vm">
+    <div class="row" ng-controller="DocumentsManager as vm">
         <div lateral-menu class="lateral-menu menu-close">
             <div class="menu-hilighter"><span class="glyphicon glyphicon-chevron-right"></span></div>
            
@@ -50,7 +50,7 @@
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
                     </tab-heading>
-                    <div class="table-responsive">
+                    <div class="table-responsive" ng-mouseup="showSelectedText($event)">
                         <table ng-bind-html="documentLoaded.content | unsafe" class="table"></table>
                     </div>
                 </tab>

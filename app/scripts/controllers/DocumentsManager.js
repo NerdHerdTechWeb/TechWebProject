@@ -4,7 +4,7 @@
 
     angular
         .module('semanticNotations')
-        .controller('WidgetDocumentsList', widgetDocumentsList)
+        .controller('DocumentsManager', documentsManager)
         .filter('unsafe', function($sce) {
             return function(val) {
                 return $sce.trustAsHtml(val);
@@ -12,7 +12,7 @@
         })
         .directive('insertTab', mainArea)
 
-    function widgetDocumentsList(documents, $scope, $timeout, $window) {
+    function documentsManager(documents, fragment, $scope, $timeout, $window, $modal) {
 
         // vm is our capture variable
         var vm = this;
@@ -58,6 +58,22 @@
             jQuery('#document_'+documentId).toggleClass('disabled');
             $scope.documentsLoaded.splice(index, 1);
         };
+        
+        $scope.showSelectedText = function(event$){
+            var text = fragment.createFragment(event$);
+            $scope.fragmentText = text;
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: '/app/partials/modals/fragmentModal.html',
+                controller: 'FragmentModal',
+                size: 250,
+                resolve: {
+                    fragmentText: function () {
+                        return $scope.fragmentText;
+                    }
+                }
+            });
+        }
     }
     
     /**
