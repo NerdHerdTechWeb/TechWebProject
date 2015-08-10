@@ -85,6 +85,7 @@
 <script type="text/javascript" src="../../bower_components/angular-route/angular-route.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-toggle-switch/angular-toggle-switch.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-ui-tinymce/src/tinymce.js"></script>
+<script type="text/javascript" src="../../bower_components/ui-select/src/select3.js"></script>
 <script type="text/javascript" src="../../bower_components/moment/moment.js"></script>
 
 <!-- Application Scripts -->

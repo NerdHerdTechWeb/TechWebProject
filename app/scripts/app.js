@@ -14,7 +14,8 @@
             'ngRoute',
             'ui.bootstrap',
             'toggle-switch',
-            'ui.tinymce'
+            'ui.tinymce',
+            'ui.select2'
         ])
         .directive('lateralMenu', LateralMenu)
 
