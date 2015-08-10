@@ -20,11 +20,28 @@
                 text = document.selection.createRange().text;
             }
             
-            return text
+            /**
+             * Open the modal if something has been matched
+             */
+            var fragmentText = text,
+                re = /[a-zA-Z]+/i,
+                str = fragmentText,
+                m;
+            if ((m = re.exec(str)) !== null) {
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/app/partials/modals/fragmentModal.html',
+                    controller: 'FragmentModal',
+                    size: 'lg',
+                    resolve: {
+                        fragmentText: function () {
+                            return fragmentText;
+                        }
+                    }
+                });
+            }
             
-            //TODO mem higlited text in document (triple subject)
-            //TODO open editing modal
-            
+            return text;
         }
 
         return {

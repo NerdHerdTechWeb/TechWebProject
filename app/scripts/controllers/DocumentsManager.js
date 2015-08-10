@@ -18,6 +18,7 @@
         var vm = this;
         $scope.documentsLoaded =  [];
         $scope.skCircle = jQuery('.sk-circle');
+        $scope.fragmentText = '';
 
         vm.documentEntries = [];
 
@@ -60,19 +61,7 @@
         };
         
         $scope.showSelectedText = function(event$){
-            var text = fragment.createFragment(event$);
-            $scope.fragmentText = text;
-            var modalInstance = $modal.open({
-                animation: true,
-                templateUrl: '/app/partials/modals/fragmentModal.html',
-                controller: 'FragmentModal',
-                size: 250,
-                resolve: {
-                    fragmentText: function () {
-                        return $scope.fragmentText;
-                    }
-                }
-            });
+            $scope.fragmentText = fragment.createFragment(event$);
         }
     }
     

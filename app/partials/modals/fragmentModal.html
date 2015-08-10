@@ -1,10 +1,39 @@
 <div class="modal-header">
     <h3 class="modal-title">Annotator editor</h3>
 </div>
-<div class="modal-body">
-    {{fragmentText}}
+
+<div class="modal-body fragmentEditor">
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 col-xs-6">
+            <input type="text" name="subject" class="form-control" 
+            value="{{fragmentText}}" 
+            ng-model="inputSubject"
+            tooltip="Fragment notaion subject."
+            tooltip-placement="top"
+            tooltip-trigger="mouseenter"
+            readonly>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-xs-6">
+            <div class="input-group">
+                <div class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></div>
+                <input type="text" name="predicate" class="form-control" placeholder="Edit your predicate"
+                ng-model="inputPredicate"
+                tooltip="Fragment notaion predicate. Chose one option for te object."
+                tooltip-placement="top"
+                tooltip-trigger="mouseenter">
+            </div><!-- /input-group -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <form class="form-inline">
+                <textarea ui-tinymce="tinymceOptions" ng-model="fragmentModel" name="object" class="form-control" rows="3"></textarea>
+            </form>
+        </div>
+    </div>
 </div>
+
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-primary" ng-click="ok()">Save</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

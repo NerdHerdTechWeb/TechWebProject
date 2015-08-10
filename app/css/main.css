@@ -146,6 +146,10 @@
 
 /*********************************/
 
+.fragmentEditor .row{
+    margin-bottom: 25px;
+}
+
 
 #navTabsContainer .nav-tabs, .no-border{
     border:none !important;
