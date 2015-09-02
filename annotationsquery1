@@ -1,0 +1,15 @@
+"results": {
+    "bindings": [
+      {
+        "author": { "type": "uri" , "value": "mailto:scraper@ltw1525.web.cs.unibo.it" } ,
+        "date": { "datatype": "http://www.w3.org/2001/XMLSchema#dateTime" , "type": "typed-literal" , "value": "2015-07-23T11:58:29+02:00" } ,
+        "label": { "datatype": "http://www.w3.org/2001/XMLSchema#string" , "type": "typed-literal" , "value": "DOI" } ,
+        "body": { "type": "bnode" , "value": "b0" } ,
+        "s": { "type": "uri" , "value": "http://www.dlib.org/dlib/march15/mccown/03mccown_ver1" } ,
+        "p": { "type": "uri" , "value": "http://prismstandard.org/namespaces/basic/2.0/doi" } ,
+        "o": { "datatype": "http://www.w3.org/2001/XMLSchema#string" , "type": "typed-literal" , "value": "10.1045/march2015-mccown" } ,
+        "body_l": { "datatype": "http://www.w3.org/2001/XMLSchema#string" , "type": "typed-literal" , "value": "A doi of the document is 10.1045/march2015-mccown" } ,
+        "start": { "datatype": "http://www.w3.org/2001/XMLSchema#normalizedString" , "type": "typed-literal" , "value": "/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]/p[2]" } ,
+        "startoffset": { "datatype": "http://www.w3.org/2001/XMLSchema#integer" , "type": "typed-literal" , "value": "115" } ,
+        "endoffset": { "datatype": "http://www.w3.org/2001/XMLSchema#integer" , "type": "typed-literal" , "value": "139" }
+      }
