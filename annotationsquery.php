@@ -29,24 +29,32 @@ $result = $sparql->query('
 							 	
     					GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
     					    {									
-       						    ?annotation rdf:type oa:Annotation ;
-				      			        oa:annotatedAt ?date ;
-              							    oa:annotatedBy ?author .
-								OPTIONAL { ?author foaf:name ?author_fullname }
-   								OPTIONAL { ?author schema:email ?author_email }
-						
-							 	OPTIONAL { ?annotation rdfs:label ?label }
+       						    ? ?annotation  rdf:type oa:Annotation ;
+							 	 oa:annotatedAt ?date ;
+              						     oa:annotatedBy ?author .
+							 OPTIONAL { ?author foaf:name ?author_fullname }
+							 OPTIONAL { ?author schema:email ?author_email}
+   								 
+							
+						 	 OPTIONAL { ?annotation rdfs:label ?label }
 							 	
-						         	OPTIONAL { ?annotation oa:hasBody ?body }
-							  	OPTIONAL { ?body rdf:subject ?s }
-							 	OPTIONAL { ?body rdf:predicate ?p }
-							 	OPTIONAL { ?body rdf:object ?o }
-			                			OPTIONAL { ?body rdfs:label ?body_l }
-    								OPTIONAL { ?o    rdfs:label ?o_label}
-    						
+					         	 OPTIONAL { ?annotation oa:hasBody ?body }
+							  	 OPTIONAL { ?body rdf:subject ?s }
+							 	 OPTIONAL { ?body rdf:predicate ?p }
+							 	 OPTIONAL { ?body rdf:object ?o }
+			                			 OPTIONAL { ?body rdfs:label ?body_l }
+    							 	OPTIONAL { ?o    rdfs:label ?o_label}
+    						      ?annotation oa:hasTarget ?node.
+    							   ?node rdf:type oa:SpecificResource ;
+            								      oa:hasSource ?source ;
+            									  oa:hasSelector ?selector.
+            						?selector rdf:type oa:FragmentSelector ;
+            								  rdf:value ?start ;
+            								  oa:start ?startoffset ;
+            								  oa:end ?endoffset.
     							
     						}
-						 }
+					 }
 			 LIMIT 10');
 
 // Tramite var_dump possiamo capire che oggetto è restuituito
