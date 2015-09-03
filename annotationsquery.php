@@ -29,7 +29,7 @@ $result = $sparql->query('
 							 	
     					GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
     					    {									
-       						    ? ?annotation  rdf:type oa:Annotation ;
+       						    ?annotation  rdf:type oa:Annotation ;
 							 	 oa:annotatedAt ?date ;
               						     oa:annotatedBy ?author .
 							 OPTIONAL { ?author foaf:name ?author_fullname }
