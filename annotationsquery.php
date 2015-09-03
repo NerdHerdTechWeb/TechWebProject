@@ -24,26 +24,26 @@ print_r($sparql->listNamedGraphs());
 // Forse UNION spacca ??
 $result = $sparql->query('
 
-		      			SELECT ?author ?author_fullname ?author_email ?date ?label ?body ?s ?p ?o ?body_l ?o_label ?start ?startoffset ?endoffset					
-						 WHERE {
+		      	SELECT ?author ?author_fullname ?author_email ?date ?label ?body ?s ?p ?o ?body_l ?o_label ?start ?startoffset ?endoffset					
+				 WHERE {
 							 	
-    						GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
+    					GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
     					    {									
        						    ?annotation rdf:type oa:Annotation ;
-									        oa:annotatedAt ?date ;
+				      			        oa:annotatedAt ?date ;
               							    oa:annotatedBy ?author .
 								OPTIONAL { ?author foaf:name ?author_fullname }
    								OPTIONAL { ?author schema:email ?author_email }
-							
+						
 							 	OPTIONAL { ?annotation rdfs:label ?label }
 							 	
-					         	OPTIONAL { ?annotation oa:hasBody ?body }
+						         	OPTIONAL { ?annotation oa:hasBody ?body }
 							  	OPTIONAL { ?body rdf:subject ?s }
 							 	OPTIONAL { ?body rdf:predicate ?p }
 							 	OPTIONAL { ?body rdf:object ?o }
-			                	OPTIONAL { ?body rdfs:label ?body_l }
-    							OPTIONAL { ?o    rdfs:label ?o_label}
-    							{ ?annotation oa:hasTarget ?source}
+			                			OPTIONAL { ?body rdfs:label ?body_l }
+    								OPTIONAL { ?o    rdfs:label ?o_label}
+    						
     							
     						}
 						 }
