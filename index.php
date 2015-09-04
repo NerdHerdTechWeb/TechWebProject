@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
+
 /**
  * Autoload by composer package manager
  */
@@ -50,15 +54,29 @@ $app->get('/', function () use ($app, $view) {
  */
 $app->group('/api', function () use ($app) {
 
+
+    $app->group('/annotations', function () use ($app){
+        /**
+         * JSON content type or anything else
+         */
+        $app->response->headers->set('Content-Type', 'application/json');
+        $app->map('/get.json', function () use ($app){
+            $client = new Sparql_Client();
+            $json = $client->getAnnotationsByDocument()->getAnnotationsJson();
+            echo $json;
+        })->via('GET', 'POST');
+        $app->map('/get.html', function () use ($app){
+            $app->response->headers->set('Content-Type', 'text/html charset=utf-8');
+            $client = new Sparql_Client();
+            $json = $client->getAnnotationsByDocument()->dumpHtml();
+            echo $json;
+        })->via('GET', 'POST');
+    });
+
     /**
      * Scraping group
      */
     $app->group('/scraping', function () use ($app) {
-
-        $app->group('/annotations/get', function () use ($app){
-            $client = new Sparql_Client();
-            $client->getAnnotationsByDocument();
-        });
 
         /**
          * Generic RDF query

@@ -30,7 +30,8 @@ class Sparql_Client
         EasyRdf_Namespace::set('dcterms', 'http://purl.org/dc/terms/');
         EasyRdf_Namespace::set('sem', 'http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#');
 
-        $this->sClient = new EasyRdf_Sparql_Client($this->sparql_client);
+
+        $this->sClient = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/query');
     }
 
     /**
@@ -43,42 +44,40 @@ class Sparql_Client
     {
         $defaultUri = 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525';
 
-        //TODO replace variable with params
         $query = "
-            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-            PREFIX oa: <http://www.w3.org/ns/oa#>
-            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-            PREFIX schema: <http://schema.org/>
-            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
-            SELECT ?watf ?author ?author_fullname ?author_email ?date ?label ?body ?s ?p ?o ?body_l ?o_label ?start ?startoffset ?endoffset
-            WHERE{
-                GRAPH <{$defaultUri}>
-                {
-                    ?annotation  rdf:type oa:Annotation ;
-                        oa:annotatedAt ?date ;
-                        oa:annotatedBy ?author .
-                    OPTIONAL { ?author foaf:name ?author_fullname }
-                    OPTIONAL { ?author schema:email ?author_email}
-                    OPTIONAL { ?annotation rdfs:label ?label }
-                    OPTIONAL { ?annotation rsch:type ?watf }
-                    OPTIONAL { ?annotation oa:hasBody ?body }
-                    OPTIONAL { ?body rdf:subject ?s }
-                    OPTIONAL { ?body rdf:predicate ?p }
-                    OPTIONAL { ?body rdf:object ?o }
-                    OPTIONAL { ?body rdfs:label ?body_l }
-                    OPTIONAL { ?o    rdfs:label ?o_label}
-                    ?annotation oa:hasTarget ?node.
-                    ?node rdf:type oa:SpecificResource ;
-                        oa:hasSource ?source ;
-                        oa:hasSelector ?selector.
-                    ?selector rdf:type oa:FragmentSelector ;
-                        rdf:value ?start ;
-                        oa:start ?startoffset ;
-                        oa:end ?endoffset
-                }
-            }";
-
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX schema: <http://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
+SELECT ?watf ?author ?author_fullname ?author_email ?date ?label ?body ?s ?p ?o ?body_l ?o_label ?start ?startoffset ?endoffset
+WHERE{
+	GRAPH <{$defaultUri}>
+	{
+		?annotation  rdf:type oa:Annotation ;
+			oa:annotatedAt ?date ;
+			oa:annotatedBy ?author .
+		OPTIONAL { ?author foaf:name ?author_fullname }
+		OPTIONAL { ?author schema:email ?author_email}
+		OPTIONAL { ?annotation rdfs:label ?label }
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+		OPTIONAL { ?body rdf:subject ?s }
+		OPTIONAL { ?body rdf:predicate ?p }
+		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?body rdfs:label ?body_l }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+		?annotation oa:hasTarget ?node.
+		?node rdf:type oa:SpecificResource ;
+		    oa:hasSource ?source ;
+		    oa:hasSelector ?selector.
+		?selector rdf:type oa:FragmentSelector ;
+			rdf:value ?start ;
+			oa:start ?startoffset ;
+			oa:end ?endoffset
+	}         
+}";
         $this->results = $this->sClient->query($query);
 
         return $this;
@@ -145,5 +144,14 @@ class Sparql_Client
     {
         // Lista di tutti i grafi per uno sepcifico endpoint
         return $this->sClient->listNamedGraphs();
+    }
+
+    /**
+     * Dump html
+     * @return mixed
+     */
+    public function dumpHtml()
+    {
+        return $this->results->dump();
     }
 }
