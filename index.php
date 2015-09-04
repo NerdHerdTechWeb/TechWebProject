@@ -55,6 +55,11 @@ $app->group('/api', function () use ($app) {
      */
     $app->group('/scraping', function () use ($app) {
 
+        $app->group('/annotations/get', function () use ($app){
+            $client = new Sparql_Client();
+            $client->getAnnotationsByDocument();
+        });
+
         /**
          * Generic RDF query
          */

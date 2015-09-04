@@ -36,11 +36,13 @@ class Sparql_Client
     /**
      * Get all annotation from single document
      * @param string $documentUri
-     * @param straing|array $queryParams
+     * @param array $queryParams
      * @return $this
      */
-    public function getAnnotationsByDocument($documentUri, $queryParams)
+    public function getAnnotationsByDocument($documentUri = '', $queryParams = array())
     {
+        $defaultUri = 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525';
+
         //TODO replace variable with params
         $query = "
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -51,7 +53,7 @@ class Sparql_Client
             PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
             SELECT ?watf ?author ?author_fullname ?author_email ?date ?label ?body ?s ?p ?o ?body_l ?o_label ?start ?startoffset ?endoffset
             WHERE{
-                GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
+                GRAPH <{$defaultUri}>
                 {
                     ?annotation  rdf:type oa:Annotation ;
                         oa:annotatedAt ?date ;
