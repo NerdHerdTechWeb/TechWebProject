@@ -40,9 +40,16 @@ class Sparql_Client
      * @param array $queryParams
      * @return $this
      */
-    public function getAnnotationsByDocument($documentUri = '', $queryParams = array())
+    public function getAnnotationsByDocument($queryParams = array())
     {
-        $defaultUri = 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525';
+        $defaults = array(
+            'graph' => 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525',
+            'source' => '',
+            'author_fullname' => '',
+            'author_email' => ''
+        );
+
+        $defaults = array_merge($defaults, $queryParams);
 
         $query = "
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -53,13 +60,13 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
 SELECT ?watf ?author ?author_fullname ?author_email ?date ?label ?body ?s ?p ?o ?body_l ?o_label ?start ?startoffset ?endoffset
 WHERE{
-	GRAPH <{$defaultUri}>
+	GRAPH <{$defaults['graph']}>
 	{
 		?annotation  rdf:type oa:Annotation ;
 			oa:annotatedAt ?date ;
 			oa:annotatedBy ?author .
-		OPTIONAL { ?author foaf:name ?author_fullname }
-		OPTIONAL { ?author schema:email ?author_email}
+		OPTIONAL { ?author foaf:name <{$defaults['author_fullname']}> }
+		OPTIONAL { ?author schema:email <{$defaults['author_email']}>}
 		OPTIONAL { ?annotation rdfs:label ?label }
 		OPTIONAL { ?annotation rsch:type ?watf }       
 		OPTIONAL { ?annotation oa:hasBody ?body }
@@ -70,7 +77,7 @@ WHERE{
 		OPTIONAL { ?o    rdfs:label ?o_label}
 		?annotation oa:hasTarget ?node.
 		?node rdf:type oa:SpecificResource ;
-		    oa:hasSource ?source ;
+		    oa:hasSource <{$defaults['source']}> ;
 		    oa:hasSelector ?selector.
 		?selector rdf:type oa:FragmentSelector ;
 			rdf:value ?start ;

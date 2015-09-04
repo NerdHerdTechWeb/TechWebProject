@@ -56,19 +56,18 @@ $app->group('/api', function () use ($app) {
 
 
     $app->group('/annotations', function () use ($app){
-        /**
-         * JSON content type or anything else
-         */
-        $app->response->headers->set('Content-Type', 'application/json');
         $app->map('/get.json', function () use ($app){
+            $app->response->headers->set('Content-Type', 'application/json');
+            $params = $app->request()->params();
             $client = new Sparql_Client();
-            $json = $client->getAnnotationsByDocument()->getAnnotationsJson();
+            $json = $client->getAnnotationsByDocument($params)->getAnnotationsJson();
             echo $json;
         })->via('GET', 'POST');
         $app->map('/get.html', function () use ($app){
             $app->response->headers->set('Content-Type', 'text/html charset=utf-8');
             $client = new Sparql_Client();
-            $json = $client->getAnnotationsByDocument()->dumpHtml();
+            $params = $app->request()->params();
+            $json = $client->getAnnotationsByDocument($params)->dumpHtml();
             echo $json;
         })->via('GET', 'POST');
     });
