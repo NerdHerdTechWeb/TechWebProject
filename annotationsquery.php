@@ -23,7 +23,7 @@ $sparql = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/query
 
 // La query così non da errore
 // Forse UNION spacca ??
-$result = $sparql->query('
+$result = $sparql->query("
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX oa: <http://www.w3.org/ns/oa#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -56,7 +56,7 @@ WHERE{
 			oa:start ?startoffset ;
 			oa:end ?endoffset
 	}         
-}');
+}");
 
 // Tramite var_dump possiamo capire che oggetto è restuituito
 // IN questo caso è di tipo EasyRdf_Sparql_Result perché la risposta è in json

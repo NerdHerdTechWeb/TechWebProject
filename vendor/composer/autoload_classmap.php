@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Data_Scraping' => $baseDir . '/app/models/Data_Scraping.php',
+    'Sparql_Client' => $baseDir . '/app/models/Sparql_Client.php',
 );
