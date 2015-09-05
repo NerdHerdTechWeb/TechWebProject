@@ -1,8 +1,5 @@
 <?php 
 
-
-require '/vendor/autoload.php';
-
 $client = new GuzzleHttp\Client();
 
 $res = $client->get('http://vitali.web.cs.unibo.it/TechWeb15/ProgettoDelCorso');
@@ -36,5 +33,3 @@ foreach ($rows as $r) {
 	}
 	
 	print_r($papersList);
-
-?>
