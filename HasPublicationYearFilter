@@ -24,3 +24,35 @@ SELECT ?source ?p ?o
 								
 //al posto di "1984-01-15 ci va la variabile inserita dal campo destinato alla data
 // quello che ci interessa da questa query è solo la source cioè il link al testo
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX schema: <http://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX fabio: <http://purl.org/spar/fabio/>
+PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
+
+
+SELECT ?watf ?body_l ?o_label ?source
+						WHERE{								
+		    ?annotation  rdf:type oa:Annotation.
+							
+		
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+  		
+  		OPTIONAL {?body rdf:predicate ?p}
+  		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?body rdfs:label ?body_l }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+  		?annotation oa:hasTarget ?node.
+	    	?node rdf:type oa:SpecificResource ;
+            	       oa:hasSource ?source .	
+  		FILTER REGEX (?watf , "hasAuthor"^^xs:string)
+  		FILTER REGEX (?o_label , "Charles Oppenheim"^^xs:string)
+  
+}
+		
