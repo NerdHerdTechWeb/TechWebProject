@@ -12,13 +12,14 @@ PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
 SELECT ?source ?p ?o 
 	WHERE{
 		 ?annotation  rdf:type oa:Annotation .							 					
-		 OPTIONAL { ?annotation rsch:type 'hasPublicationYear'^^xs:string }
+		 OPTIONAL { ?annotation rsch:type ?watf }
 		OPTIONAL { ?annotation oa:hasBody ?body }
 		OPTIONAL { ?body rdf:predicate ?p }
   		OPTIONAL { ?body rdf:object ?o }
 		?annotation oa:hasTarget ?node.
 	    	?node rdf:type oa:SpecificResource ;
-            	       oa:hasSource ?source .								
+            	       oa:hasSource ?source .
+            	 FILTER REGEX(?watf , 'hasPublicationYear'^^xs:string)
   		 FILTER (?o > '1984-01-15'^^xsd:date)				    		 
 		}									
 								
