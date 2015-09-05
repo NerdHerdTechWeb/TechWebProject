@@ -37,22 +37,20 @@ PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
 
 
 SELECT ?watf ?body_l ?o_label ?source
-						WHERE{								
-		    ?annotation  rdf:type oa:Annotation.
-							
-		
+	WHERE{								
+	
+	 ?annotation  rdf:type oa:Annotation.
 		OPTIONAL { ?annotation rsch:type ?watf }       
 		OPTIONAL { ?annotation oa:hasBody ?body }
-  		
   		OPTIONAL {?body rdf:predicate ?p}
   		OPTIONAL { ?body rdf:object ?o }
 		OPTIONAL { ?body rdfs:label ?body_l }
 		OPTIONAL { ?o    rdfs:label ?o_label}
   		?annotation oa:hasTarget ?node.
 	    	?node rdf:type oa:SpecificResource ;
-            	       oa:hasSource ?source .	
+            		       oa:hasSource ?source .	
   		FILTER REGEX (?watf , "hasAuthor"^^xs:string)
   		FILTER REGEX (?o_label , "Charles Oppenheim"^^xs:string)
-  
-}
+  		}
 		
+//al post di Charles Oppenheim il nome dell'autore inserito
