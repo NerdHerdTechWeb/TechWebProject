@@ -8,7 +8,7 @@ PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
 
-
+//filtro PublicationYear
 SELECT ?source ?p ?o 
 	WHERE{
 		 ?annotation  rdf:type oa:Annotation .							 					
@@ -35,7 +35,7 @@ PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
 
-
+//filtro Autore
 SELECT ?watf ?body_l ?o_label ?source
 	WHERE{								
 	
