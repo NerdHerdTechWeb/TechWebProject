@@ -8,7 +8,7 @@ PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
 
-
+//ricorda EasyRdf_Namespace::set('xs', 'http://www.w3.org/2001/XMLSchema#');
 //l'unica informazione di cui hai effettivamente hai bisogno è il ?source che è il link del documento.
 //Sarebbe bello se ad ogni link riuscissimo ad associare il relativo titolo del documento
 
