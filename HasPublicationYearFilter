@@ -81,7 +81,7 @@ WHERE{
 		OPTIONAL { ?body rdfs:label ?body_l }
 		OPTIONAL { ?o    rdfs:label ?o_label}
 		FILTER REGEX (?watf , 'hasURL'^^xs:string)
-  		FILTER REGEX (str(?o) , "google"). 
+  		FILTER REGEX (str(?o) , LCASE"google"). 
  				
 			     
 }
