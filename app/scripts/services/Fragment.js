@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
     'use strict';
 
@@ -9,17 +9,17 @@
     function fragment($modal) {
 
         function createFragment(event$) {
-            
+
             /**
-             * Get selected text 
+             * Get selected text
              */
-            var text = "";     
+            var text = "";
             if (typeof window.getSelection !== 'undefined') {
                 text = window.getSelection().toString();
             } else if (document.selection && document.selection.type != "Control") {
                 text = document.selection.createRange().text;
             }
-            
+
             /**
              * Open the modal if something has been matched
              */
@@ -40,12 +40,35 @@
                     }
                 });
             }
-            
+
             return text;
         }
 
+        /**
+         * Create XPATH from contained fragment element
+         * @param element | jquery target
+         * @returns {string}
+         */
+        function createXPATH(element) {
+            if (element.id !== '')
+                return 'id("' + element.id + '")';
+            if (element === document.body)
+                return element.tagName;
+
+            var ix = 0;
+            var siblings = element.parentNode.childNodes;
+            for (var i = 0; i < siblings.length; i++) {
+                var sibling = siblings[i];
+                if (sibling === element)
+                    return createXPATH(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
+                if (sibling.nodeType === 1 && sibling.tagName === element.tagName)
+                    ix++;
+            }
+        }
+
         return {
-            createFragment: createFragment
+            createFragment: createFragment,
+            createXPATH: createXPATH
         }
     }
 

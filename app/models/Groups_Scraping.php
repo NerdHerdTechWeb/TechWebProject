@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $client = new GuzzleHttp\Client();
 
@@ -15,21 +15,19 @@ $xpath = new DOMXpath($doc);
 $rows = $xpath->query('//table//tr[position()>1]');
 
 
-
 $papersList = array();
 
 foreach ($rows as $r) {
-	
-		$newPaper = array();
-	
-	
-	$newPaper['idgroup'] = trim($xpath->query("th[1]",$r)->item(0)->nodeValue);
-	$newPaper['nome'] = trim($xpath->query("th[2]",$r)->item(0)->nodeValue);
 
-    
+    $newPaper = array();
 
-	$papersList[] = $newPaper;
-	
-	}
-	
-	print_r($papersList);
+
+    $newPaper['idgroup'] = trim($xpath->query("th[1]", $r)->item(0)->nodeValue);
+    $newPaper['nome'] = trim($xpath->query("th[2]", $r)->item(0)->nodeValue);
+
+
+    $papersList[] = $newPaper;
+
+}
+
+print_r($papersList);
