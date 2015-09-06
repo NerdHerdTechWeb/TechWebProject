@@ -15,16 +15,16 @@ PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
 //filtro PublicationYear
 SELECT ?source ?p ?o 
 	WHERE{
-		 ?annotation  rdf:type oa:Annotation .							 					
-		 OPTIONAL { ?annotation rsch:type ?watf }
+		?annotation  rdf:type oa:Annotation .							 					
+		OPTIONAL { ?annotation rsch:type ?watf }
 		OPTIONAL { ?annotation oa:hasBody ?body }
 		OPTIONAL { ?body rdf:predicate ?p }
   		OPTIONAL { ?body rdf:object ?o }
 		?annotation oa:hasTarget ?node.
 	    	?node rdf:type oa:SpecificResource ;
             	       oa:hasSource ?source .
-            	 FILTER REGEX(?watf , 'hasPublicationYear'^^xs:string)
-  		 FILTER (?o > '1984-01-15'^^xsd:date)				    		 
+            	FILTER REGEX(?watf , 'hasPublicationYear'^^xs:string)
+  		FILTER (?o > '1984-01-15'^^xsd:date)				    		 
 		}									
 								
 //al posto di "1984-01-15 ci va la variabile inserita dal campo destinato alla data
@@ -53,7 +53,7 @@ SELECT ?watf ?body_l ?o_label ?source
 		OPTIONAL { ?o    rdfs:label ?o_label}
   		?annotation oa:hasTarget ?node.
 	    	?node rdf:type oa:SpecificResource ;
-            		       oa:hasSource ?source .	
+            	      oa:hasSource ?source .	
   		FILTER REGEX (?watf , "hasAuthor"^^xs:string)
   		FILTER REGEX (?o_label , "Charles Oppenheim"^^xs:string)
   		}
