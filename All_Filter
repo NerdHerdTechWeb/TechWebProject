@@ -1,0 +1,122 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX schema: <http://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX fabio: <http://purl.org/spar/fabio/>
+PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
+
+//ricorda EasyRdf_Namespace::set('xs', 'http://www.w3.org/2001/XMLSchema#');
+//l'unica informazione di cui hai effettivamente hai bisogno è il ?source che è il link del documento.
+//Sarebbe bello se ad ogni link riuscissimo ad associare il relativo titolo del documento
+
+//filtro PublicationYear
+SELECT ?source ?p ?o 
+	WHERE{
+		?annotation  rdf:type oa:Annotation .							 					
+		OPTIONAL { ?annotation rsch:type ?watf }
+		OPTIONAL { ?annotation oa:hasBody ?body }
+		OPTIONAL { ?body rdf:predicate ?p }
+  		OPTIONAL { ?body rdf:object ?o }
+		?annotation oa:hasTarget ?node.
+	    	?node rdf:type oa:SpecificResource ;
+            	       oa:hasSource ?source .
+            	FILTER REGEX(?watf , 'hasPublicationYear'^^xs:string)
+  		FILTER (?o > '1984-01-15'^^xsd:date)				    		 
+		}									
+								
+//al posto di "1984-01-15 ci va la variabile inserita dal campo destinato alla data
+// quello che ci interessa da questa query è solo la source cioè il link al testo
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX schema: <http://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX fabio: <http://purl.org/spar/fabio/>
+PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
+
+//filtro Autore
+SELECT ?watf ?body_l ?o_label ?source
+	WHERE{								
+	
+	 ?annotation  rdf:type oa:Annotation.
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+  		OPTIONAL {?body rdf:predicate ?p}
+  		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?body rdfs:label ?body_l }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+  		?annotation oa:hasTarget ?node.
+	    	?node rdf:type oa:SpecificResource ;
+            	      oa:hasSource ?source .	
+  		FILTER REGEX (?watf , "hasAuthor"^^xs:string)
+  		FILTER REGEX (?o_label , "Charles Oppenheim"^^xs:string)
+  		}
+		
+//al post di Charles Oppenheim il nome dell'autore inserito
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX schema: <http://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
+PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+//filter URL al posto di google si mette la variabile 
+SELECT ?watf ?label ?body  ?o ?body_l ?source
+WHERE{
+		?annotation  rdf:type oa:Annotation .
+		?annotation oa:hasTarget ?node.
+		?node rdf:type oa:SpecificResource ;
+		    oa:hasSource ?source .	
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+		OPTIONAL { ?body rdf:subject ?s }
+		OPTIONAL { ?body rdf:predicate ?p }
+		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?body rdfs:label ?body_l }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+		FILTER REGEX (?watf , 'hasURL'^^xs:string)
+  		FILTER REGEX (str(?o) , LCASE"google"). 
+ 				
+			     
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX schema: <http://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
+PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?watf ?body  ?o ?body_l ?source
+WHERE{
+		?annotation  rdf:type oa:Annotation .
+		?annotation oa:hasTarget ?node.
+		?node rdf:type oa:SpecificResource ;
+		    oa:hasSource ?source .	
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+		OPTIONAL { ?body rdf:subject ?s }
+		OPTIONAL { ?body rdf:predicate ?p }
+		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+		FILTER REGEX (?watf , 'hasTitle'^^xs:string)
+  		FILTER REGEX ((str(LCASE(?o))) , LCASE("testodainserire")).
+  					
+			     
+}
+// come prima il testo da inserire è sempre da prendere dalla variabile del campo
+
+
+
