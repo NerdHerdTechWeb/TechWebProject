@@ -139,8 +139,11 @@ WHERE {
 	 ?node rdf:type oa:SpecificResource ;
   		      oa:hasSource ?source ;
   	 FILTER regex (?watf , "references"^^xs:string)
-	 FILTER regex (LCASE(?body_l) , LCASE(""^^xs:string))
-}		
+	 FILTER regex (LCASE(?body_l) , LCASE("variabile"^^xs:string))
+	 
+}	
+
+// al posto di variabile ci va la il contenuto del campo dedicato
 
 
 
