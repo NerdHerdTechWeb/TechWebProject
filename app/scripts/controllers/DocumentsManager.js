@@ -12,6 +12,7 @@
         })
         .directive('insertTab', mainArea)
         .directive('createLocalPath', CreateLocalPath)
+        .directive('createLocalPathFromRemote', CreateLocalPathFromRemote)
 
     function documentsManager(documents, fragment, $scope, $timeout, $window, $modal) {
 
@@ -53,7 +54,7 @@
                 content: results[0].articleContent
             });
 
-            $timeout(function(){postDocumentLoad(data,$scope)}, 1000);
+            $timeout(function(){postDocumentLoad(data, $scope)}, 1000);
         }
 
         $scope.removeTab = function (index,documentId) {
@@ -76,12 +77,16 @@
         $scope.createLocalPathFromRemote = function(remotePath){
             return fragment.createLocalPathFromRemote(remotePath);
         }
+
+        $scope.loadAnnotations = function (source){
+            return fragment.loadAnnotations(source);
+        }
     }
 
     /**
      * Replaces all src after document is loaded
      */
-    function postDocumentLoad(data, scope){
+    function postDocumentLoad(data, $scope){
         jQuery('tr').unwrap('tbody');
         jQuery('#navTabsContainer img:not(.img-replaced)').each(function(i,el){
             var img = jQuery(this);
@@ -89,6 +94,7 @@
             img.attr('src',data.documents.imgpath+src);
             img.addClass('img-replaced');
         });
+        $scope.loadAnnotations(data.documents.link);
         jQuery('#document_'+data.documents.documentId).toggleClass('disabled');
     }
 
@@ -128,6 +134,15 @@
                         var remotePath = scope.createRemotePath(localPath);
                         console.log(remotePath);
                     });
+            }
+        }
+    }
+
+    function CreateLocalPathFromRemote (){
+        return {
+            restrict: 'AC',
+            link: function (scope, element, attrs) {
+
             }
         }
     }

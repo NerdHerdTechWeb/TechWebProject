@@ -6,7 +6,7 @@
         .module('semanticNotations')
         .factory('fragment', fragment);
 
-    function fragment($modal) {
+    function fragment($modal,$http) {
 
         function createFragment(event$) {
 
@@ -82,15 +82,38 @@
             var splitting = str.split('/');
             var needle = splitting.splice(10,10);
             var joined = needle.join('/');
-            var local = String(xpath_conf.dLibLocal + joined).toLocaleLowerCase();
+            var local = xpath_conf.dLibLocal + joined;
             return local;
+        }
+
+        function loadAnnotations (documentSource){
+            var payload = $.param({
+                source: documentSource,
+                graph: 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525'
+            });
+            var config = { headers: {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}}
+
+            $http.post('//'+window.location.host+'/api/annotations/get.json', payload, config).
+                then(function(response) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    var data = response.data;
+                    for(var key in data){
+                        data[key].localPath = createLocalPathFromRemote(data[key].start);
+                    }
+                    console.log(data);
+                }, function(response) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                })
         }
 
         return {
             createFragment: createFragment,
             createLocalXPATH: createLocalXPATH,
             createRemoteXPATH: createRemoteXPATH,
-            createLocalPathFromRemote: createLocalPathFromRemote
+            createLocalPathFromRemote: createLocalPathFromRemote,
+            loadAnnotations: loadAnnotations
         }
     }
 
