@@ -11,6 +11,7 @@
             };
         })
         .directive('insertTab', mainArea)
+        .directive('createLocalPath', CreateLocalPath)
 
     function documentsManager(documents, fragment, $scope, $timeout, $window, $modal) {
 
@@ -29,7 +30,7 @@
                 console.log(error);
             }
         );
-        
+
         $scope.getMainDocument = function (link, from, data) {
             documents.getDocument(link, from).then(
                 function (results) {
@@ -51,24 +52,37 @@
                 documentId: data.documents.documentId,
                 content: results[0].articleContent
             });
-            
-            $timeout(function(){postDocumentLoad(data)}, 1000);
+
+            $timeout(function(){postDocumentLoad(data,$scope)}, 1000);
         }
-        
+
         $scope.removeTab = function (index,documentId) {
             jQuery('#document_'+documentId).toggleClass('disabled');
             $scope.documentsLoaded.splice(index, 1);
         };
-        
+
         $scope.showSelectedText = function(event$){
             $scope.fragmentText = fragment.createFragment(event$);
         }
+
+        $scope.createLocalXPATH = function(element$){
+            return fragment.createLocalXPATH(element$);
+        }
+
+        $scope.createRemotePath = function(localPath){
+            return fragment.createRemoteXPATH(localPath);
+        }
+
+        $scope.createLocalPathFromRemote = function(remotePath){
+            return fragment.createLocalPathFromRemote(remotePath);
+        }
     }
-    
+
     /**
-     * Replaces all src after document is loaded 
+     * Replaces all src after document is loaded
      */
-    function postDocumentLoad(data){
+    function postDocumentLoad(data, scope){
+        jQuery('tr').unwrap('tbody');
         jQuery('#navTabsContainer img:not(.img-replaced)').each(function(i,el){
             var img = jQuery(this);
             var src = img.attr('src');
@@ -88,7 +102,7 @@
             link: function (scope, element, attrs) {
                 var data = scope.$eval(attrs.insertTab);
                 var documents = jQuery(element);
-                
+
                 if(data.documents.first){
                     scope.skCircle.removeClass('doc-preloader-hide').addClass('doc-preloader-show');
                     scope.getMainDocument(data.documents.link, data.documents.from, data);
@@ -103,5 +117,19 @@
             }
         }
     }
-    
+
+    function CreateLocalPath (){
+        return {
+            restrict: 'AC',
+            link: function (scope, element, attrs) {
+                jQuery(document).on('click', '#navTabsContainer .table-responsive .table',
+                    function(event){
+                        var localPath = scope.createLocalXPATH(event.target);
+                        var remotePath = scope.createRemotePath(localPath);
+                        console.log(remotePath);
+                    });
+            }
+        }
+    }
+
 })(jQuery);

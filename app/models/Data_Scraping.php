@@ -45,6 +45,12 @@ class Data_Scraping
     static $dlibUriNiceToHave = 'http://www.dlib.org/dlib/may15/05contents.html';
 
     /**
+     * Root xpath to combine with application document part xpath
+     * @var string
+     */
+    static $dLibRootXPATH = '/html/body/form/table[3]/tr/td/table[5]/tr/td/';
+
+    /**
      * Testing purpose method
      * @return string | json
      */

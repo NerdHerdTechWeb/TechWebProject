@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../../bower_components/angular-toggle-switch/angular-toggle-switch-bootstrap.css">
     <script type="text/javascript">
         var init_conf = {{ angularConfig|json_encode()|raw }};
+        var xpath_conf = {{ rootXpath|json_encode()|raw }};
     </script>
 </head>
 <body ng-app="semanticNotations">

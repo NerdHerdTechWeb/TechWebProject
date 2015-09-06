@@ -13,6 +13,7 @@ require 'vendor/autoload.php';
  * Require common configuration files needed
  */
 $view = require 'app/config/view.php';
+$xpath = require 'app/config/xpath.php';
 
 /**
  * Init slim application
@@ -35,7 +36,7 @@ $twigView->parserExtensions = array(
 /**
  * General routing not grouped
  */
-$app->get('/', function () use ($app, $view) {
+$app->get('/', function () use ($app, $view, $xpath) {
     /**
      * We are passing some data to the view
      * in array format
@@ -44,7 +45,8 @@ $app->get('/', function () use ($app, $view) {
         array('angularConfig' =>
             array(
                 'partialsView' => $view['angular.view.path']
-            )
+            ),
+            'rootXpath' => $xpath['root']
         )
     );
 });

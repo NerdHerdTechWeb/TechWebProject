@@ -49,7 +49,7 @@
          * @param element | jquery target
          * @returns {string}
          */
-        function createXPATH(element) {
+        function createLocalXPATH(element) {
             if (element.id !== '')
                 return 'id("' + element.id + '")';
             if (element === document.body)
@@ -60,15 +60,37 @@
             for (var i = 0; i < siblings.length; i++) {
                 var sibling = siblings[i];
                 if (sibling === element)
-                    return createXPATH(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
+                    return createLocalXPATH(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
                 if (sibling.nodeType === 1 && sibling.tagName === element.tagName)
                     ix++;
             }
         }
 
+        function createRemoteXPATH(localPath, remoteRootXPATH) {
+            var str = localPath;
+            //TODO check if dLib or not
+            var splitting = str.split('/');
+            var needle = splitting.splice(5,5);
+            var joined = needle.join('/');
+            var remote = String(xpath_conf.dLib + joined).toLocaleLowerCase();
+            return remote;
+        }
+
+        function createLocalPathFromRemote (remotePath, localRootPath){
+            var str = remotePath;
+            //TODO check if dLib or not
+            var splitting = str.split('/');
+            var needle = splitting.splice(10,10);
+            var joined = needle.join('/');
+            var local = String(xpath_conf.dLibLocal + joined).toLocaleLowerCase();
+            return local;
+        }
+
         return {
             createFragment: createFragment,
-            createXPATH: createXPATH
+            createLocalXPATH: createLocalXPATH,
+            createRemoteXPATH: createRemoteXPATH,
+            createLocalPathFromRemote: createLocalPathFromRemote
         }
     }
 
