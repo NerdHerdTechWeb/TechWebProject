@@ -70,7 +70,7 @@
             var str = localPath;
             //TODO check if dLib or not
             var splitting = str.split('/');
-            var needle = splitting.splice(5,5);
+            var needle = splitting.splice(5);
             var joined = needle.join('/');
             var remote = String(xpath_conf.dLib + joined).toLocaleLowerCase();
             return remote;
@@ -80,7 +80,7 @@
             var str = remotePath;
             //TODO check if dLib or not
             var splitting = str.split('/');
-            var needle = splitting.splice(10,10);
+            var needle = splitting.splice(10);
             var joined = needle.join('/');
             var local = xpath_conf.dLibLocal + joined;
             return local;
