@@ -86,6 +86,33 @@ WHERE{
 			     
 }
 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX schema: <http://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
+PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?watf ?body  ?o ?body_l ?source
+WHERE{
+		?annotation  rdf:type oa:Annotation .
+		?annotation oa:hasTarget ?node.
+		?node rdf:type oa:SpecificResource ;
+		    oa:hasSource ?source .	
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+		OPTIONAL { ?body rdf:subject ?s }
+		OPTIONAL { ?body rdf:predicate ?p }
+		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+		FILTER REGEX (?watf , 'hasTitle'^^xs:string)
+  		FILTER REGEX ((str(LCASE(?o))) , LCASE("testodainserire")).
+  					
+			     
+}
+// come prima il testo da inserire è sempre da prendere dalla variabile del campo
 
 
 
