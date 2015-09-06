@@ -93,19 +93,31 @@
             });
             var config = { headers: {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}}
 
-            $http.post('//'+window.location.host+'/api/annotations/get.json', payload, config).
-                then(function(response) {
+            $http.post('//'+window.location.host+'/api/annotations/get.json', payload, config)
+                .then(function(response) {
                     // this callback will be called asynchronously
                     // when the response is available
                     var data = response.data;
                     for(var key in data){
                         data[key].localPath = createLocalPathFromRemote(data[key].start);
                     }
-                    console.log(data);
+
+                    hilightFragment(data);
+
                 }, function(response) {
                     // called asynchronously if an error occurs
                     // or server returns response with an error status.
                 })
+        }
+
+        function hilightFragment (annotations){
+            for(var key in annotations){
+                $(document.evaluate(annotations[key].localPath,
+                    document,
+                    null,
+                    XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+                    .singleNodeValue).css('color','red');
+            }
         }
 
         return {
@@ -113,7 +125,8 @@
             createLocalXPATH: createLocalXPATH,
             createRemoteXPATH: createRemoteXPATH,
             createLocalPathFromRemote: createLocalPathFromRemote,
-            loadAnnotations: loadAnnotations
+            loadAnnotations: loadAnnotations,
+            hilightFragment: hilightFragment
         }
     }
 
