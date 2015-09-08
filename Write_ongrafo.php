@@ -34,3 +34,25 @@ $result=$sparql->update('
 //	print $prova
 
 ?>
+
+<?php
+$url = 'http://tweb2015.cs.unibo.it:8080/data/update?user=ltw1540&pass=jMLP£23a';
+//print urlencode($url);
+//$url = 'http://localhost:3030/ds/update';
+$data = array('update' => 'INSERT DATA
+	{ GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540> { <http://lib/lib1> <rdf:type> <http://libro/libro> } }	');
+
+//'application/sparql-update'
+//application/x-www-form-urlencoded\r\n
+$options = array(
+    'http' => array(
+        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+        'method'  => 'POST',
+        'content' => http_build_query($data),
+    ),
+);
+$context  = stream_context_create($options);
+$result = file_get_contents($url, false, $context);
+
+var_dump($result);
+?>
