@@ -8,14 +8,22 @@
 
     function fragment($modal,$http) {
 
+        var dlibRootPath = '/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]';
+
         function createFragment(event$) {
 
+            var range = {};
+            var startOffset = 0;
+            var endOffset = 0;
             /**
              * Get selected text
              */
             var text = "";
             if (typeof window.getSelection !== 'undefined') {
                 text = window.getSelection().toString();
+                range = window.getSelection().getRangeAt(0);
+                startOffset = range.startOffset;
+                endOffset = range.endOffset
             } else if (document.selection && document.selection.type != "Control") {
                 text = document.selection.createRange().text;
             }
@@ -112,12 +120,117 @@
 
         function hilightFragment (annotations){
             for(var key in annotations){
-                $(document.evaluate(annotations[key].localPath,
-                    document,
-                    null,
-                    XPathResult.FIRST_ORDERED_NODE_TYPE, null)
-                    .singleNodeValue).css('color','red');
+                var equals = false;
+                if(annotations[key].watf != ''){
+                    var r = document.createRange();
+                    var color = 'red';
+                    switch (annotations[key].lable) {
+                        case 'hasComment':
+                            color = 'yellow';
+                            break;
+                        case 'hasAuthor':
+                            color = 'green';
+                            break;
+
+                        default:
+                            color = 'pink';
+                    }
+                    if(annotations[key].start !== ''){
+                        var lc = $(document.evaluate(annotations[key].localPath,
+                            document,
+                            null,
+                            XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+                            .singleNodeValue)[0];
+
+                        //console.log(annotations[key].start, annotations[key].startoffset,  annotations[key].endoffset);
+
+                        if(key >= 1){
+                            var kk = key-1;
+                            while(kk >= 0){
+                                if(annotations[key].startoffset == annotations[kk].startoffset){
+                                    if(annotations[key].endoffset == annotations[kk].endoffset)
+                                        if(annotations[key].start == annotations[kk].start){
+
+                                        }
+                                }
+                                kk--;
+                            }
+                        }
+
+                        if(!equals)
+                            render_fragment(lc,annotations[key].startoffset,annotations[key].endoffset, annotations[key].start, annotations[key]);
+                    }
+                }
             }
+        }
+
+
+        function render_fragment(node, start, end, xpath, annotation) {
+            var range = document.createRange();
+            if(!node) return;
+            if(start >200) return;
+            if(xpath === dlibRootPath ) return;
+            while (node.nodeType != 3)
+                if(node.firstChild) node = node.firstChild;
+                else return
+            while (node.length < start) {
+                start -= node.length;
+                end -= node.length;
+                if (node.nextSibling !== null && node.nextSibling.nodeType == 8){
+                    node = node.nextSibling;
+                }
+                if (node.nextSibling === null) {
+                    node = node.parentNode.nextSibling;
+                } else if(node.nextSibling.nodeName === 'BR'){
+                    while(node.nextSibling.nodeName === 'BR')
+                        node = node.nextSibling;
+                    if(node.nextSibling)
+                        node = node.nextSibling;
+                }else {
+                    if(!node.length && node.nextSibling.nodeName === 'SPAN'){
+                        var validLength = false;
+                        while(!validLength){
+                            node = node.nextSibling;
+                            if(!node.firstChild){
+                                node = node.nextSibling;
+                            }
+                            if(node.firstChild)
+                                validLength = true;
+                        }
+                        if(node.nextSibling)
+                            node = node.nextSibling;
+                    }else{
+                        node = node.nextSibling.firstChild;
+                    }
+                }
+            }
+
+            range.setStart(node, start);
+            if (node.length < end) {
+                range.setEnd(node, node.length);
+                if (node.nextSibling != null && node.nextSibling.nodeType == 8)
+                    node = node.nextSibling;
+                if (node.nextSibling == null) {
+                    render_fragment(node.parentNode.nextSibling, 0, (end - node.length), xpath, annotation);
+                } else {
+                    render_fragment(node.nextSibling, 0, (end - node.length), xpath, annotation);
+                }
+            } else {
+                range.setEnd(node, end);
+            }
+
+            var annotationColor = typeof annotation !== 'undefined' ? annotation.watf : 'genericAnnotation';
+            var span = document.createElement('span');
+            span.setAttribute('data-xpath', xpath);
+            span.setAttribute('data-start', start);
+            span.setAttribute('data-end', end);
+            span.setAttribute('data-container', 'body');
+            span.setAttribute('data-toggle', 'popover');
+            span.setAttribute('data-html', 'true');
+            span.setAttribute('data-content', 'metadata');
+            span.setAttribute('class', 'annotation ' + annotationColor);
+            range.surroundContents(span);
+            return range;
         }
 
         return {
