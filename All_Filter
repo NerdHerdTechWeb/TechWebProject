@@ -40,7 +40,7 @@ PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
 
-//filtro Autore
+//filtro Autore (da sistemare)
 SELECT ?watf ?body_l ?o_label ?source
 	WHERE{								
 	
@@ -71,7 +71,7 @@ PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 //filter URL al posto di google si mette la variabile 
-SELECT ?watf ?label ?body  ?o ?body_l ?source
+SELECT ?watf ?body  ?o ?body_l ?source
 WHERE{
 		?annotation  rdf:type oa:Annotation .
 		?annotation oa:hasTarget ?node.
