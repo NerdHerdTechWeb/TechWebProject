@@ -49,7 +49,7 @@
             var newItemNo = $scope.documentsLoaded.length + 1;
             $scope.documentsLoaded = [];
             $scope.documentsLoaded.push({
-                title: 'Document ' + newItemNo,
+                title: data.documents.title,
                 hoverTitle: data.documents.title,
                 documentId: data.documents.documentId,
                 content: results[0].articleContent
@@ -61,7 +61,7 @@
         }
 
         $scope.removeTab = function (index, documentId) {
-            jQuery('#document_' + documentId).toggleClass('disabled');
+            //jQuery('#document_' + documentId).toggleClass('disabled');
             $scope.documentsLoaded.splice(index, 1);
         };
 
@@ -102,7 +102,7 @@
             img.addClass('img-replaced');
         });
         $scope.loadAnnotations(data.documents.link);
-        jQuery('#document_' + data.documents.documentId).toggleClass('disabled');
+        //jQuery('#document_' + data.documents.documentId).toggleClass('disabled');
     }
 
     /**

@@ -224,10 +224,7 @@
             span.setAttribute('data-xpath', xpath);
             span.setAttribute('data-start', start);
             span.setAttribute('data-end', end);
-            span.setAttribute('data-container', 'body');
-            span.setAttribute('data-toggle', 'popover');
-            span.setAttribute('data-html', 'true');
-            span.setAttribute('data-content', 'metadata');
+            span.setAttribute('data-annotation-id', end);
             span.setAttribute('class', 'annotation ' + annotationColor);
             range.surroundContents(span);
             return range;

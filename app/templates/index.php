@@ -41,10 +41,10 @@
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/help">Help</a></li>
-                <li><a href="#/about">About</a></li>
-                <li><toggle-switch ng-model="annotator.status" knob-label="Annotator &nbsp;&nbsp;&nbsp;&nbsp;f"><toggle-switch></li>
+            <ul class="nav navbar-nav navbar-right textShadow">
+                <li><a href="#/homeproject">Home</a></li>
+                <li><a href="#/annotator">Annotator</a></li>
+                <li><toggle-switch ng-model="annotator.status" knob-label="Editor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f"><toggle-switch></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -57,18 +57,18 @@
 
 <!-- Preloade css3 animation -->
 <div class="sk-circle doc-preloader-hide">
-  <div class="sk-circle1 sk-child"></div>
-  <div class="sk-circle2 sk-child"></div>
-  <div class="sk-circle3 sk-child"></div>
-  <div class="sk-circle4 sk-child"></div>
-  <div class="sk-circle5 sk-child"></div>
-  <div class="sk-circle6 sk-child"></div>
-  <div class="sk-circle7 sk-child"></div>
-  <div class="sk-circle8 sk-child"></div>
-  <div class="sk-circle9 sk-child"></div>
-  <div class="sk-circle10 sk-child"></div>
-  <div class="sk-circle11 sk-child"></div>
-  <div class="sk-circle12 sk-child"></div>
+    <div class="sk-circle1 sk-child"></div>
+    <div class="sk-circle2 sk-child"></div>
+    <div class="sk-circle3 sk-child"></div>
+    <div class="sk-circle4 sk-child"></div>
+    <div class="sk-circle5 sk-child"></div>
+    <div class="sk-circle6 sk-child"></div>
+    <div class="sk-circle7 sk-child"></div>
+    <div class="sk-circle8 sk-child"></div>
+    <div class="sk-circle9 sk-child"></div>
+    <div class="sk-circle10 sk-child"></div>
+    <div class="sk-circle11 sk-child"></div>
+    <div class="sk-circle12 sk-child"></div>
 </div>
 
 </body>

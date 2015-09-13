@@ -1,16 +1,63 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
+    <div class="row" ng-controller="DocumentsManager as vm">
+        <div lateral-menu class="lateral-menu menu-close">
+            <div class="menu-hilighter"><span class="glyphicon glyphicon-chevron-right"></span></div>
+
             <!--Sidebar content-->
+            <div class="sidebar-module panel panel-default">
+                <div class="panel-heading">Documents</div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a id="document_{{$index}}" class="list-group-item"
+                           ng-repeat="documents in vm.documentEntries"
+                           href=""
+                           insert-tab="{
+                            documents: 
+                                { 
+                                    title: documents.label,
+                                    link: documents.link, 
+                                    from: documents.from, 
+                                    imgpath: documents.imagepath, 
+                                    first: $first,
+                                    documentId: $index
+                                }
+                            }">
+                            {{documents.label}}
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-            other content
-
+            <div class="sidebar-module panel panel-default" ng-controller="WidgetMeta as vm">
+                <div class="panel-heading">Meta</div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a class="list-group-item" ng-repeat="meta in vm.metaEntries" href ng-click="open()">{{meta.comment}}</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-10">
+
+        <div id="navTabsContainer" class="col-md-11 col-md-offset-1 col-xs-11 col-xs-offset-1 col-lg-11 col-lg-offset-1" create-local-path create-local-path-from-remote>
             <!--Body content-->
 
-            body content
+            <div ng-if="documentsLoaded.length == 0" id="noDocLoaded">Please choose one documnet from left menu to start edit your annotations</div>
 
+            <tabset>
+                <tab ng-repeat="documentLoaded in documentsLoaded"
+                     active="documentLoaded.active"
+                     disable="documentLoaded.disabled"
+                     title="{{documentLoaded.hoverTitle}}">
+                    <tab-heading>{{documentLoaded.title}}
+                        <a ng-if="!$first" title="close" ng-click="removeTab($index,documentLoaded.documentId)" href=''>
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                    </tab-heading>
+                    <div class="table-responsive" ng-mouseup="showSelectedText($event)">
+                        <table ng-bind-html="documentLoaded.content | unsafe" class="table"></table>
+                    </div>
+                </tab>
+            </tabset>
         </div>
     </div>
 </div>
