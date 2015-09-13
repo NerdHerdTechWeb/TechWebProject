@@ -1,3 +1,24 @@
+EasyRdf_Namespace::set('prism', 'http://prismstandard.org/namespaces/basic/2.0/');  
+EasyRdf_Namespace::set('schema', 'http://schema.org/'); 
+EasyRdf_Namespace::set('oa', 'http://www.w3.org/ns/oa#');  
+EasyRdf_Namespace::set('xsd', 'http://www.w3.org/2001/XMLSchema#');
+EasyRdf_Namespace::set('dlib', 'http://www.dlib.org/dlib/november14/');
+EasyRdf_Namespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+EasyRdf_Namespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
+EasyRdf_Namespace::set('foaf', 'http://xmlns.com/foaf/0.1/');
+EasyRdf_Namespace::set('rsch', 'http://vitali.web.cs.unibo.it/raschietto/');
+EasyRdf_Namespace::set('dcterms', 'http://purl.org/dc/terms/');
+EasyRdf_Namespace::set('sem', 'http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#');
+EasyRdf_Namespace::set('xs', 'http://www.w3.org/2001/XMLSchema#');
+EasyRdf_Namespace::set('dc', 'http://purl.org/dc/elements/1.1/');
+EasyRdf_Namespace::set('fabio','http://purl.org/spar/fabio/');
+EasyRdf_Namespace::set('frbr','http://purl.org/vocab/frbr/core#');
+
+EasyRdf_Namespace::set('skos','http://www.w3.org/2004/02/skos/core#');
+EasyRdf_Namespace::set('sro','http://salt.semanticauthoring.org/ontologies/sro#');
+EasyRdf_Namespace::set ('deo','http://purl.org/spar/deo/');	
+
+
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX oa: <http://www.w3.org/ns/oa#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
