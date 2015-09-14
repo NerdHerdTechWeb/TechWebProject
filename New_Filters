@@ -18,6 +18,7 @@ EasyRdf_Namespace::set('frbr','http://purl.org/vocab/frbr/core#');
 EasyRdf_Namespace::set('skos','http://www.w3.org/2004/02/skos/core#');
 EasyRdf_Namespace::set('sro','http://salt.semanticauthoring.org/ontologies/sro#');
 EasyRdf_Namespace::set ('deo','http://purl.org/spar/deo/');	
+EasyRdf_Namespace::set('cito','http://purl.org/spar/cito/');
 
 $sparql = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/query');
 // Lista di tutti i grafi per uno sepcifico endpoint
