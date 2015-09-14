@@ -270,5 +270,6 @@
 .hasTitle{background-color: #00efff;}
 .references{
     background-color: #ffb3b3;}
-.hasDoi{background-color: red;}
-.denotesRhetoric{background-color: green;}
+.hasDOI{background-color: #ff9f95;}
+.hasURL{background-color: #a3b5c7;}
+.denotesRhetoric{background-color: #801655;}
