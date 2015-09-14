@@ -6,12 +6,12 @@
         .module('semanticNotations')
         .controller('DocumentSearchFilter', documentSearchFilter);
 
-    function documentSearchFilter($scope, $modalInstance, filters) {
+    function documentSearchFilter($rootScope, $scope, $modalInstance, filters, documents) {
 
-        $scope.filters = filters;
+        $scope.filters = {};
 
         $scope.ok = function () {
-            $modalInstance.close($scope.filters);
+            $modalInstance.close();
         };
 
         $scope.cancel = function () {

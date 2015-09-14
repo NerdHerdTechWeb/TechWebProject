@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row" ng-controller="DocumentsManager as vm">
+    <div class="row">
         <div lateral-menu class="lateral-menu menu-close">
             <div class="menu-hilighter"><span class="glyphicon glyphicon-chevron-right"></span></div>
 
@@ -9,7 +9,7 @@
                 <div class="panel-body">
                     <div class="list-group">
                         <a id="document_{{$index}}" class="list-group-item"
-                           ng-repeat="documents in vm.documentEntries"
+                           ng-repeat="documents in documentEntries"
                            href=""
                            insert-tab="{
                             documents: 

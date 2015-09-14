@@ -22,15 +22,19 @@
         $scope.skCircle = jQuery('.sk-circle');
         $scope.fragmentText = '';
 
-        vm.documentEntries = [];
+        $scope.documentEntries = [];
 
         documents.getDocuments().then(
             function (results) {
-                vm.documentEntries = results;
+                $scope.documentEntries = results;
             }, function (error) { // Check for errors
                 console.log(error);
             }
         );
+
+        $scope.showNotationModal = function(event){
+            console.log(event);
+        }
 
         $scope.getMainDocument = function (link, from, data) {
             documents.getDocument(link, from).then(

@@ -137,9 +137,9 @@
                     }
                     if(annotations[key].start !== ''){
                         var lc = $(document.evaluate(annotations[key].localPath,
-                            document,
-                            null,
-                            XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+                                document,
+                                null,
+                                XPathResult.FIRST_ORDERED_NODE_TYPE, null)
                             .singleNodeValue)[0];
 
                         //console.log(annotations[key].start, annotations[key].startoffset,  annotations[key].endoffset);
@@ -225,6 +225,9 @@
             span.setAttribute('data-start', start);
             span.setAttribute('data-end', end);
             span.setAttribute('data-annotation-id', end);
+            span.setAttribute('data-date', annotation.date);
+            span.setAttribute('data-author', annotation.author);
+            span.setAttribute('ng-click', 'showNotationModal($event)');
             span.setAttribute('class', 'annotation ' + annotationColor);
             range.surroundContents(span);
             return range;
