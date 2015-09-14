@@ -106,6 +106,7 @@
             img.addClass('img-replaced');
         });
         $scope.loadAnnotations(data.documents.link);
+        $scope.$apply();
         //jQuery('#document_' + data.documents.documentId).toggleClass('disabled');
     }
 
