@@ -1,0 +1,182 @@
+<?php
+require_once 'vendor/autoload.php';
+EasyRdf_Namespace::set('prism', 'http://prismstandard.org/namespaces/basic/2.0/');  
+EasyRdf_Namespace::set('schema', 'http://schema.org/'); 
+EasyRdf_Namespace::set('oa', 'http://www.w3.org/ns/oa#');  
+EasyRdf_Namespace::set('xsd', 'http://www.w3.org/2001/XMLSchema#');
+EasyRdf_Namespace::set('dlib', 'http://www.dlib.org/dlib/november14/');
+EasyRdf_Namespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+EasyRdf_Namespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
+EasyRdf_Namespace::set('foaf', 'http://xmlns.com/foaf/0.1/');
+EasyRdf_Namespace::set('rsch', 'http://vitali.web.cs.unibo.it/raschietto/');
+EasyRdf_Namespace::set('dcterms', 'http://purl.org/dc/terms/');
+EasyRdf_Namespace::set('sem', 'http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#');
+EasyRdf_Namespace::set('xs', 'http://www.w3.org/2001/XMLSchema#');
+EasyRdf_Namespace::set('dc', 'http://purl.org/dc/elements/1.1/');
+EasyRdf_Namespace::set('fabio','http://purl.org/spar/fabio/');
+EasyRdf_Namespace::set('frbr','http://purl.org/vocab/frbr/core#');
+EasyRdf_Namespace::set('skos','http://www.w3.org/2004/02/skos/core#');
+EasyRdf_Namespace::set('sro','http://salt.semanticauthoring.org/ontologies/sro#');
+EasyRdf_Namespace::set ('deo','http://purl.org/spar/deo/');	
+
+$sparql = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/query');
+// Lista di tutti i grafi per uno sepcifico endpoint
+//print_r($sparql->listNamedGraphs());
+
+
+$y ="2002-01-15";
+$year = $sparql->query("
+
+SELECT ?source
+WHERE{
+	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
+	{
+		?annotation  rdf:type oa:Annotation .							 					
+		OPTIONAL { ?annotation rsch:type ?watf }
+		OPTIONAL { ?annotation oa:hasBody ?body }
+		OPTIONAL { ?body rdf:predicate ?p }
+  		OPTIONAL { ?body rdf:object ?o }
+		?annotation oa:hasTarget ?node.
+	    	?node rdf:type oa:SpecificResource ;
+            	       oa:hasSource ?source .
+		FILTER regex(?watf , 'hasPublicationYear')
+		FILTER (?o > '$y'^^xsd:date)
+  					
+            				    		 
+		}	
+			
+		      
+}
+LIMIT 400");
+
+//var_dump($year->dump());
+
+$variableauthor="";
+$au = $sparql->query("
+
+SELECT ?source
+WHERE{
+	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
+	{
+		
+	
+	 ?annotation  rdf:type oa:Annotation.
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+  		OPTIONAL {?body rdf:predicate ?p}
+  		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?body rdfs:label ?body_l }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+  		?annotation oa:hasTarget ?node.
+	    	?node rdf:type oa:SpecificResource ;
+            	      oa:hasSource ?source .	
+  		FILTER REGEX (?watf , 'hasAuthor')
+  		FILTER REGEX (?o_label , '$variableauthor')
+  		
+           				    		 
+		}	
+			
+		      
+}
+LIMIT 400");
+
+//var_dump($au->dump());
+
+// Tramite var_dump possiamo capire che oggetto è restuituito
+// IN questo caso è di tipo EasyRdf_Sparql_Result perché la risposta è in json
+// EasyRdf trasfomra il json in oggetto
+// Ho notato che non siamo in grado di risalire al json
+
+
+
+$url="google";
+$address = $sparql->query("
+
+SELECT ?source
+WHERE{
+	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
+	{
+			
+		?annotation  rdf:type oa:Annotation .
+		?annotation oa:hasTarget ?node.
+		?node rdf:type oa:SpecificResource ;
+		    oa:hasSource ?source .	
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+		OPTIONAL { ?body rdf:subject ?s }
+		OPTIONAL { ?body rdf:predicate ?p }
+		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?body rdfs:label ?body_l }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+		FILTER regex (?watf , 'hasURL')
+		FILTER REGEX (str(?o) , LCASE('$url')).
+  		 
+   
+	}
+			
+		      
+}
+LIMIT 10");
+
+
+//var_dump($address->dump());
+
+
+$head = "gibbs";
+$title = $sparql->query("
+
+SELECT ?source
+WHERE{
+	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
+	{
+			
+		?annotation  rdf:type oa:Annotation .
+		?annotation oa:hasTarget ?node.
+		?node rdf:type oa:SpecificResource ;
+		    oa:hasSource ?source .	
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+		OPTIONAL { ?body rdf:subject ?s }
+		OPTIONAL { ?body rdf:predicate ?p }
+		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+		FILTER regex (?watf , 'hasTitle')
+  		FILTER regex ((str(LCASE(?o))) , LCASE('$head')).
+       
+	}
+			
+		      
+}
+LIMIT 10");
+
+//var_dump($title->dump());
+
+
+$cit = "Econometrics";
+$cites = $sparql->query("
+
+SELECT ?source
+WHERE{
+	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
+	{
+		?annotation  rdf:type oa:Annotation .								 
+  	 OPTIONAL { ?annotation rsch:type ?watf}
+	 OPTIONAL { ?annotation oa:hasBody ?body }
+  	 OPTIONAL { ?body rdfs:label ?body_l }
+	 OPTIONAL { ?body rdf:object ?s }
+	 OPTIONAL { ?body rdf:object ?o }
+	 OPTIONAL { ?o    rdfs:label ?o_label}
+  	 ?annotation oa:hasTarget ?node.
+	 ?node rdf:type oa:SpecificResource ;
+  		      oa:hasSource ?source ;
+  	 FILTER regex (?watf , 'references')
+	 FILTER regex (LCASE(?o_label) , LCASE('$cit')).
+	
+        				    		 
+		}	
+			
+		      
+}
+LIMIT 10");
+
+var_dump($cites->dump());
