@@ -49,12 +49,21 @@
                        tooltip-placement="top"
                        tooltip-trigger="mouseenter">
             </div>
-
             <div class="col-md-6">
                 <label>Title</label>
                 <input type="text" name="title" class="form-control"
                        ng-model="filters.title"
                        tooltip="Search by title"
+                       tooltip-placement="top"
+                       tooltip-trigger="mouseenter">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Cities</label>
+                <input type="text" name="cities" class="form-control"
+                       ng-model="filters.cities"
+                       tooltip="Search by cities"
                        tooltip-placement="top"
                        tooltip-trigger="mouseenter">
             </div>
