@@ -39,7 +39,13 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search" ng-model="search.searchCriteria">
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">Search by url</button>
+                <button type="button" class="btn btn-default navbar-btn"
+                        tooltip="Apply document filter"
+                        tooltip-placement="bottom"
+                        tooltip-trigger="mouseenter"
+                        ng-click="showModalFilter()"
+                    ><span class="glyphicon glyphicon-tasks"></span></button>
             </form>
             <ul class="nav navbar-nav navbar-right textShadow">
                 <li><a href="#/homeproject">Home</a></li>
@@ -97,6 +103,7 @@
 <script type="text/javascript" src="../app/scripts/controllers/WidgetMeta.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/WidgetMetaModal.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/FragmentModal.js"></script>
+<script type="text/javascript" src="../app/scripts/controllers/modal/DocumentSearchFilter.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Search.SearchBar.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Widget.DocumentsList.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Widget.Meta.js"></script>
