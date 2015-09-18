@@ -25,6 +25,16 @@
             }
         }]);
 
+    /**
+     *
+     * @param documents
+     * @param fragment
+     * @param $scope
+     * @param $timeout
+     * @param $window
+     * @param $modal
+     * @param $compile
+     */
     function documentsManager(documents, fragment, $scope, $timeout, $window, $modal, $compile) {
 
         // vm is our capture variable
@@ -123,7 +133,9 @@
     }
 
     /**
-     * Replaces all img src after document is loaded
+     *
+     * @param data
+     * @param $scope
      */
     function postDocumentLoad(data, $scope) {
         jQuery('tr').unwrap('tbody');
@@ -137,6 +149,11 @@
         //jQuery('#document_' + data.documents.documentId).toggleClass('disabled');
     }
 
+    /**
+     *
+     * @returns {{restrict: string, link: Function}}
+     * @constructor
+     */
     function CreateLocalPath() {
         return {
             restrict: 'AC',
@@ -151,6 +168,11 @@
         }
     }
 
+    /**
+     *
+     * @returns {{restrict: string, link: Function}}
+     * @constructor
+     */
     function CreateLocalPathFromRemote() {
         return {
             restrict: 'AC',

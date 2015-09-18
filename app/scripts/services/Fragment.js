@@ -6,11 +6,24 @@
         .module('semanticNotations')
         .factory('fragment', fragment);
 
+    /**
+     *
+     * @param $modal
+     * @param $http
+     * @param $resource
+     * @param $compile
+     * @returns {{createFragment: createFragment, createLocalXPATH: createLocalXPATH, createRemoteXPATH: createRemoteXPATH, createLocalPathFromRemote: createLocalPathFromRemote, loadAnnotations: loadAnnotations, hilightFragment: hilightFragment}}
+     */
     function fragment($modal, $http, $resource, $compile) {
 
         var dlibRootPath = '/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]';
 
 
+        /**
+         *
+         * @param event$
+         * @returns {string}
+         */
         function createFragment(event$) {
 
             var range = {};
@@ -75,6 +88,12 @@
             }
         }
 
+        /**
+         *
+         * @param localPath
+         * @param remoteRootXPATH
+         * @returns {string}
+         */
         function createRemoteXPATH(localPath, remoteRootXPATH) {
             var str = localPath;
             //TODO check if dLib or not
@@ -85,6 +104,12 @@
             return remote;
         }
 
+        /**
+         *
+         * @param remotePath
+         * @param localRootPath
+         * @returns {string}
+         */
         function createLocalPathFromRemote (remotePath, localRootPath){
             var str = remotePath;
             //TODO check if dLib or not
@@ -96,7 +121,9 @@
         }
 
         /**
-         * Resiurce deferred promise
+         *
+         * @param params
+         * @returns {*}
          */
         function loadAnnotations (params){
             var Annotations = $resource('//'+window.location.host+'/api/annotations/get.json',{source:params.source,graph:params.graph});
@@ -133,10 +160,12 @@
          })
          }*/
 
-        /*
-         * Internal services function
+        /**
          *
-         **/
+         * @param annotations
+         * @param scope$
+         * @param compile$
+         */
         function hilightFragment (annotations, scope$, compile$){
             for(var key in annotations){
                 var equals = false;
@@ -169,7 +198,16 @@
             }
         }
 
-
+        /**
+         *
+         * @param node
+         * @param start
+         * @param end
+         * @param xpath
+         * @param annotation
+         * @param scope$
+         * @returns {Range|TextRange}
+         */
         function render_fragment(node, start, end, xpath, annotation, scope$) {
             var range = document.createRange();
             if(!node) return;

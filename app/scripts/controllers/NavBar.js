@@ -6,6 +6,12 @@
         .module('semanticNotations')
         .controller('NavBar', navBar);
 
+    /**
+     *
+     * @param $scope
+     * @param $window
+     * @param $modal
+     */
     function navBar($scope, $window, $modal) {
         $scope.annotator = {"status":false};
 
