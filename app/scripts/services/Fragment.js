@@ -107,31 +107,20 @@
                 console.log(error);
             });
         }
-
-        /*function loadAnnotations (documentSource){
-         var payload = $.param({
-         source: documentSource,
-         graph: 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525'
-         });
-         var config = { headers: {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}}
-
-         $http.post('//'+window.location.host+'/api/annotations/get.json', payload, config)
-         .then(function(response) {
-         // this callback will be called asynchronously
-         // when the response is available
-         var data = response.data;
-         for(var key in data){
-         data[key].localPath = createLocalPathFromRemote(data[key].start);
-         }
-
-         hilightFragment(data);
-
-
-         }, function(response) {
-         // called asynchronously if an error occurs
-         // or server returns response with an error status.
-         })
-         }*/
+        
+        function openAnnotationsModal(event){
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: '/app/partials/modals/annotationModal.html',
+                controller: 'AnnotationsModal',
+                size: 'lg',
+                resolve: {
+                    fragmentText: function () {
+                        return event;
+                    }
+                }
+            });
+        }
 
         /*
          * Internal services function
@@ -232,9 +221,11 @@
             span.setAttribute('data-annotation-id', end);
             span.setAttribute('data-date', annotation.date);
             span.setAttribute('data-author', annotation.author);
+            span.setAttribute('data-fragment', range.toString());
+            span.setAttribute('data-type', annotationColor);
             span.setAttribute('ng-click', 'showNotationModal($event)');
             span.setAttribute('class', 'annotation ' + annotationColor);
-            $compile(range.surroundContents(span))(scope$);
+            range.surroundContents(span);
             $compile(span)(scope$);
             return range;
         }
@@ -245,7 +236,8 @@
             createRemoteXPATH: createRemoteXPATH,
             createLocalPathFromRemote: createLocalPathFromRemote,
             loadAnnotations: loadAnnotations,
-            hilightFragment: hilightFragment
+            hilightFragment: hilightFragment,
+            openAnnotationsModal: openAnnotationsModal
         }
     }
 

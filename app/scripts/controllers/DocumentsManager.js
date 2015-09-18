@@ -13,17 +13,6 @@
         //.directive('insertTab', mainArea)
         .directive('createLocalPath', CreateLocalPath)
         .directive('createLocalPathFromRemote', CreateLocalPathFromRemote)
-        .directive('createFragmentSpan', ['$compile','$rootScope', function($compile){
-            return {
-                restrict: 'A',
-                link: function (scope, element, attrs){
-                    scope.$watch('spanInjected',function(){
-                        //$compile(element.contents())(scope);
-                        console.log('sti cazzi');
-                    });
-                }
-            }
-        }]);
 
     function documentsManager(documents, fragment, $scope, $timeout, $window, $modal, $compile) {
 
@@ -32,7 +21,6 @@
         $scope.documentsLoaded = [];
         $scope.skCircle = jQuery('.sk-circle');
         $scope.fragmentText = '';
-        $scope.spanInjected = false;
 
         $scope.documentEntries = [];
 
@@ -45,7 +33,7 @@
         );
 
         $scope.showNotationModal = function(event){
-            console.log(event);
+            return fragment.openAnnotationsModal(event);
         }
 
         $scope.getMainDocument = function (link, from, data, event$) {

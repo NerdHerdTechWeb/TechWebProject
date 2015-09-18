@@ -8,7 +8,6 @@
             <div class="col-md-12">
                 <span class="help-block">Fragment selected</span>
                 <input style="width:100% !important;" type="text" name="subject" class="form-control"
-                       value="{{fragmentText.selection}}"
                        ng-model="fragment.subject"
                        tooltip="Fragment selected. You cannot modifies it"
                        tooltip-placement="top"
@@ -21,9 +20,14 @@
                         <span class="help-block">Choose an annotation type to assciate to the document</span>
                         <div class="input-group">
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Document <span class="caret"></span></button>
+                                <button type="button" class="btn btn-default dropdown-toggle" 
+                                data-toggle="dropdown" 
+                                aria-haspopup="true" 
+                                aria-expanded="false">{{annotationTypeLiteral}} <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
-                                    <li ng-repeat="(key, docP) in documentProperties"><a ng-click="selectType(key)" data-type="{{key}}" href>{{docP}}</a></li>
+                                    <li ng-repeat="(key, docP) in documentProperties">
+                                        <a ng-click="selectType(key)" data-type="{{key}}" href>{{docP}}</a>
+                                    </li>
                                 </ul>
                             </div><!-- /btn-group -->
                             <input ng-if="type === 'hasAuthor'"
