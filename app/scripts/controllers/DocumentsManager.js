@@ -1,4 +1,4 @@
-(function (jQuery) {
+(function (jQuery,window) {
 
     'use strict';
 
@@ -10,17 +10,29 @@
                 return $sce.trustAsHtml(val);
             };
         })
-        .directive('insertTab', mainArea)
+        //.directive('insertTab', mainArea)
         .directive('createLocalPath', CreateLocalPath)
         .directive('createLocalPathFromRemote', CreateLocalPathFromRemote)
+        .directive('createFragmentSpan', ['$compile','$rootScope', function($compile){
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs){
+                    scope.$watch('spanInjected',function(){
+                        //$compile(element.contents())(scope);
+                        console.log('sti cazzi');
+                    });
+                }
+            }
+        }]);
 
-    function documentsManager(documents, fragment, $scope, $timeout, $window, $modal) {
+    function documentsManager(documents, fragment, $scope, $timeout, $window, $modal, $compile) {
 
         // vm is our capture variable
         var vm = this;
         $scope.documentsLoaded = [];
         $scope.skCircle = jQuery('.sk-circle');
         $scope.fragmentText = '';
+        $scope.spanInjected = false;
 
         $scope.documentEntries = [];
 
@@ -36,7 +48,8 @@
             console.log(event);
         }
 
-        $scope.getMainDocument = function (link, from, data) {
+        $scope.getMainDocument = function (link, from, data, event$) {
+            $scope.skCircle.removeClass('doc-preloader-hide').addClass('doc-preloader-show');
             documents.getDocument(link, from).then(
                 function (results) {
                     vm.documentEntry = results;
@@ -52,17 +65,19 @@
             var resource = results[0];
             var newItemNo = $scope.documentsLoaded.length + 1;
             $scope.documentsLoaded = [];
+            $scope.documentData = data;
             $scope.documentsLoaded.push({
-                title: data.documents.title,
-                hoverTitle: data.documents.title,
-                documentId: data.documents.documentId,
+                title: data.label,
+                hoverTitle: data.label,
+                documentId: data.documentId,
                 content: results[0].articleContent
             });
 
-            $timeout(function () {
-                postDocumentLoad(data, $scope)
-            }, 1000);
         }
+
+        $scope.$watch('documentsLoaded',function(){
+            $scope.loadAnnotations($scope.documentData.link);
+        });
 
         $scope.removeTab = function (index, documentId) {
             //jQuery('#document_' + documentId).toggleClass('disabled');
@@ -86,54 +101,40 @@
         }
 
         $scope.loadAnnotations = function (source) {
-            return fragment.loadAnnotations(source);
-        }
-
-        $scope.hilightFragment = function (annotations) {
-            fragment.hilightFragment(annotations);
+            return fragment.loadAnnotations({
+                source: source,
+                graph: 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525'
+            }).then(function(results){
+                jQuery('tr').unwrap('tbody');
+                jQuery('#navTabsContainer img:not(.img-replaced)').each(function (i, el) {
+                    var img = jQuery(this);
+                    var src = img.attr('src');
+                    img.attr('src', $scope.documentData.imagepath + src);
+                    img.addClass('img-replaced');
+                });
+                var rLe = results.length;
+                for(var key in results){
+                    if(key < rLe)
+                        results[key].localPath = fragment.createLocalPathFromRemote(results[key].start);
+                }
+                fragment.hilightFragment(results, $scope, $compile);
+            });
         }
     }
 
     /**
-     * Replaces all src after document is loaded
+     * Replaces all img src after document is loaded
      */
     function postDocumentLoad(data, $scope) {
         jQuery('tr').unwrap('tbody');
         jQuery('#navTabsContainer img:not(.img-replaced)').each(function (i, el) {
             var img = jQuery(this);
             var src = img.attr('src');
-            img.attr('src', data.documents.imgpath + src);
+            img.attr('src', data.imagepath + src);
             img.addClass('img-replaced');
         });
-        $scope.loadAnnotations(data.documents.link);
-        $scope.$apply();
+        $scope.loadAnnotations(data.link);
         //jQuery('#document_' + data.documents.documentId).toggleClass('disabled');
-    }
-
-    /**
-     * Main document area directive
-     * All selected documents will be loaded here
-     */
-    function mainArea() {
-        return {
-            restrict: 'AC',
-            link: function (scope, element, attrs) {
-                var data = scope.$eval(attrs.insertTab);
-                var documents = jQuery(element);
-
-                /*if(data.documents.first){
-                 scope.skCircle.removeClass('doc-preloader-hide').addClass('doc-preloader-show');
-                 scope.getMainDocument(data.documents.link, data.documents.from, data);
-                 }*/
-                /**
-                 * Load documents by click
-                 */
-                documents.on('click', function (event) {
-                    scope.skCircle.removeClass('doc-preloader-hide').addClass('doc-preloader-show');
-                    scope.getMainDocument(data.documents.link, data.documents.from, data);
-                });
-            }
-        }
     }
 
     function CreateLocalPath() {
@@ -159,4 +160,5 @@
         }
     }
 
-})(jQuery);
+
+})(jQuery,window);

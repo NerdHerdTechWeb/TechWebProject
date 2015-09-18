@@ -6,9 +6,10 @@
         .module('semanticNotations')
         .factory('fragment', fragment);
 
-    function fragment($modal,$http) {
+    function fragment($modal, $http, $resource, $compile) {
 
         var dlibRootPath = '/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]';
+
 
         function createFragment(event$) {
 
@@ -94,55 +95,59 @@
             return local;
         }
 
-        function loadAnnotations (documentSource){
-            var payload = $.param({
-                source: documentSource,
-                graph: 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525'
+        /**
+         * Resiurce deferred promise
+         */
+        function loadAnnotations (params){
+            var Annotations = $resource('//'+window.location.host+'/api/annotations/get.json',{source:params.source,graph:params.graph});
+            return Annotations.query().$promise.then(function(results) {
+                return results;
+            }, function(error) {
+                // Check for errors
+                console.log(error);
             });
-            var config = { headers: {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}}
-
-            $http.post('//'+window.location.host+'/api/annotations/get.json', payload, config)
-                .then(function(response) {
-                    // this callback will be called asynchronously
-                    // when the response is available
-                    var data = response.data;
-                    for(var key in data){
-                        data[key].localPath = createLocalPathFromRemote(data[key].start);
-                    }
-
-                    hilightFragment(data);
-
-                }, function(response) {
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error status.
-                })
         }
 
-        function hilightFragment (annotations){
+        /*function loadAnnotations (documentSource){
+         var payload = $.param({
+         source: documentSource,
+         graph: 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525'
+         });
+         var config = { headers: {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}}
+
+         $http.post('//'+window.location.host+'/api/annotations/get.json', payload, config)
+         .then(function(response) {
+         // this callback will be called asynchronously
+         // when the response is available
+         var data = response.data;
+         for(var key in data){
+         data[key].localPath = createLocalPathFromRemote(data[key].start);
+         }
+
+         hilightFragment(data);
+
+
+         }, function(response) {
+         // called asynchronously if an error occurs
+         // or server returns response with an error status.
+         })
+         }*/
+
+        /*
+         * Internal services function
+         *
+         **/
+        function hilightFragment (annotations, scope$, compile$){
             for(var key in annotations){
                 var equals = false;
                 if(annotations[key].watf != ''){
                     var r = document.createRange();
-                    var color = 'red';
-                    switch (annotations[key].lable) {
-                        case 'hasComment':
-                            color = 'yellow';
-                            break;
-                        case 'hasAuthor':
-                            color = 'green';
-                            break;
-
-                        default:
-                            color = 'pink';
-                    }
                     if(annotations[key].start !== ''){
                         var lc = $(document.evaluate(annotations[key].localPath,
-                                document,
-                                null,
-                                XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+                            document,
+                            null,
+                            XPathResult.FIRST_ORDERED_NODE_TYPE, null)
                             .singleNodeValue)[0];
-
-                        //console.log(annotations[key].start, annotations[key].startoffset,  annotations[key].endoffset);
 
                         if(key >= 1){
                             var kk = key-1;
@@ -158,18 +163,18 @@
                         }
 
                         if(!equals)
-                            render_fragment(lc,annotations[key].startoffset,annotations[key].endoffset, annotations[key].start, annotations[key]);
+                            render_fragment(lc,annotations[key].startoffset,annotations[key].endoffset, annotations[key].start, annotations[key],scope$);
                     }
                 }
             }
         }
 
 
-        function render_fragment(node, start, end, xpath, annotation) {
+        function render_fragment(node, start, end, xpath, annotation, scope$) {
             var range = document.createRange();
             if(!node) return;
-            if(start >200) return;
-            if(xpath === dlibRootPath ) return;
+            //if(start >400) return;
+            //if(xpath === dlibRootPath ) return;
             while (node.nodeType != 3)
                 if(node.firstChild) node = node.firstChild;
                 else return
@@ -211,9 +216,9 @@
                 if (node.nextSibling != null && node.nextSibling.nodeType == 8)
                     node = node.nextSibling;
                 if (node.nextSibling == null) {
-                    render_fragment(node.parentNode.nextSibling, 0, (end - node.length), xpath, annotation);
+                    render_fragment(node.parentNode.nextSibling, 0, (end - node.length), xpath, annotation, scope$);
                 } else {
-                    render_fragment(node.nextSibling, 0, (end - node.length), xpath, annotation);
+                    render_fragment(node.nextSibling, 0, (end - node.length), xpath, annotation, scope$);
                 }
             } else {
                 range.setEnd(node, end);
@@ -229,7 +234,8 @@
             span.setAttribute('data-author', annotation.author);
             span.setAttribute('ng-click', 'showNotationModal($event)');
             span.setAttribute('class', 'annotation ' + annotationColor);
-            range.surroundContents(span);
+            $compile(range.surroundContents(span))(scope$);
+            $compile(span)(scope$);
             return range;
         }
 

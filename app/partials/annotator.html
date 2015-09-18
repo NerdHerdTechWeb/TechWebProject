@@ -10,18 +10,8 @@
                     <div class="list-group">
                         <a id="document_{{$index}}" class="list-group-item"
                            ng-repeat="documents in documentEntries"
-                           href=""
-                           insert-tab="{
-                            documents: 
-                                { 
-                                    title: documents.label,
-                                    link: documents.link, 
-                                    from: documents.from, 
-                                    imgpath: documents.imagepath, 
-                                    first: $first,
-                                    documentId: $index
-                                }
-                            }">
+                           href
+                           ng-click="getMainDocument(documents.link,documents.from,documents,$event)">
                             {{documents.label}}
                         </a>
                     </div>
@@ -54,7 +44,7 @@
                         </a>
                     </tab-heading>
                     <div class="table-responsive" ng-mouseup="showSelectedText($event)">
-                        <table ng-bind-html="documentLoaded.content | unsafe" class="table"></table>
+                        <table bind-html-compile="documentLoaded.content" create-fragment-span class="table"></table>
                     </div>
                 </tab>
             </tabset>
