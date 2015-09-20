@@ -46,6 +46,12 @@
                         tooltip-trigger="mouseenter"
                         ng-click="showModalFilter()"
                     ><span class="glyphicon glyphicon-tasks"></span></button>
+                <button type="button" class="btn btn-default navbar-btn"
+                        tooltip="Manage unsaved annotation"
+                        tooltip-placement="bottom"
+                        tooltip-trigger="mouseenter"
+                        ng-click="showModalFilter()"
+                    ><span class="glyphicon glyphicon-inbox"></span></button>
             </form>
             <ul class="nav navbar-nav navbar-right textShadow">
                 <li><a href="#/homeproject">Home</a></li>

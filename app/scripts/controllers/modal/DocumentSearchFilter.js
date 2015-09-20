@@ -6,12 +6,29 @@
         .module('semanticNotations')
         .controller('DocumentSearchFilter', documentSearchFilter);
 
-    function documentSearchFilter($rootScope, $scope, $modalInstance, filters, documents) {
+    function documentSearchFilter($resource, $scope, $modalInstance, filters, documents) {
 
         $scope.filters = {};
 
-        $scope.ok = function () {
+        $scope.searchFilter = function () {
             $modalInstance.close();
+            var filters = $scope.filters;
+            var date = $scope.dt;
+            var merged = angular.extend(filters,{"date":date});
+            
+            var Search = $resource('//'+window.location.host+'/api/annotations/get.html', {}, 
+            {
+                save: {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' } 
+                }
+            });
+            return Search.save($.param(merged)).$promise.then(function(results) {
+                return results;
+            }, function(error) {
+                // Check for errors
+                console.log(error);
+            });
         };
 
         $scope.cancel = function () {

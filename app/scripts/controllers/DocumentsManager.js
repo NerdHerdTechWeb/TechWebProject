@@ -66,28 +66,7 @@
         $scope.$watch('documentsLoaded',function(){
             $scope.loadAnnotations($scope.documentData.link);
         });
-
-        $scope.removeTab = function (index, documentId) {
-            //jQuery('#document_' + documentId).toggleClass('disabled');
-            $scope.documentsLoaded.splice(index, 1);
-        };
-
-        $scope.showSelectedText = function (event$) {
-            $scope.fragmentText = fragment.createFragment(event$);
-        }
-
-        $scope.createLocalXPATH = function (element$) {
-            return fragment.createLocalXPATH(element$);
-        }
-
-        $scope.createRemotePath = function (localPath) {
-            return fragment.createRemoteXPATH(localPath);
-        }
-
-        $scope.createLocalPathFromRemote = function (remotePath) {
-            return fragment.createLocalPathFromRemote(remotePath);
-        }
-
+        
         $scope.loadAnnotations = function (source) {
             return fragment.loadAnnotations({
                 source: source,
@@ -108,22 +87,24 @@
                 fragment.hilightFragment(results, $scope, $compile);
             });
         }
+
+        $scope.showSelectedText = function (event$) {
+            $scope.fragmentText = fragment.createFragment(event$);
+        }
+
+        $scope.createLocalXPATH = function (element$) {
+            return fragment.createLocalXPATH(element$);
+        }
+
+        $scope.createRemotePath = function (localPath) {
+            return fragment.createRemoteXPATH(localPath);
+        }
+
+        $scope.createLocalPathFromRemote = function (remotePath) {
+            return fragment.createLocalPathFromRemote(remotePath);
+        }
     }
 
-    /**
-     * Replaces all img src after document is loaded
-     */
-    function postDocumentLoad(data, $scope) {
-        jQuery('tr').unwrap('tbody');
-        jQuery('#navTabsContainer img:not(.img-replaced)').each(function (i, el) {
-            var img = jQuery(this);
-            var src = img.attr('src');
-            img.attr('src', data.imagepath + src);
-            img.addClass('img-replaced');
-        });
-        $scope.loadAnnotations(data.link);
-        //jQuery('#document_' + data.documents.documentId).toggleClass('disabled');
-    }
 
     function CreateLocalPath() {
         return {

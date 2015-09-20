@@ -1,5 +1,6 @@
 <div class="modal-header">
     <h3 class="modal-title">Annotator editor</h3>
+    <small style="color: red;">If you want edit this annotations you must logged in</small>
 </div>
 
 <div class="modal-body fragmentEditor">
@@ -8,7 +9,7 @@
             <div class="col-md-12">
                 <span class="help-block">Fragment selected</span>
                 <input style="width:100% !important;" type="text" name="subject" class="form-control"
-                       ng-model="fragment.subject"
+                       ng-model="documentAType.subject"
                        tooltip="Fragment selected. You cannot modifies it"
                        tooltip-placement="top"
                        tooltip-trigger="mouseenter"
@@ -17,8 +18,8 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6">
-                        <span class="help-block">Choose an annotation type to assciate to the document</span>
-                        <div class="input-group">
+                        <span class="help-block">Choose an annotation type to associate on the document</span>
+                        <div class="input-group" ng-switch on="dat">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default dropdown-toggle" 
                                 data-toggle="dropdown" 
@@ -26,43 +27,101 @@
                                 aria-expanded="false">{{annotationTypeLiteral}} <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <li ng-repeat="(key, docP) in documentProperties">
-                                        <a ng-click="selectType(key)" data-type="{{key}}" href>{{docP}}</a>
+                                        <a ng-click="selectDocumentAType(key)" data-type="{{key}}" href>{{docP}}</a>
                                     </li>
                                 </ul>
                             </div><!-- /btn-group -->
-                            <input ng-if="type === 'hasAuthor'"
-                                   ng-model="fragment.author"
+                            <input ng-switch-when="hasAuthor"
+                                   ng-model="documentAType.author"
                                    tooltip="Typein a valid author name"
                                    tooltip-placement="top"
                                    tooltip-trigger="mouseenter"
                                    required
                                    placeholder="Type in a valid author name" type="text" class="form-control" aria-label="...">
-                            <input ng-if="type === 'hasDOI'"
-                                   ng-model="fragment.doi"
+                            <input ng-switch-when="hasDOI"
+                                   ng-model="documentAType.doi"
                                    tooltip="Typein a valid doi"
                                    tooltip-placement="top"
                                    tooltip-trigger="mouseenter"
                                    required
                                    placeholder="Type in a valid DOI"
                                    type="text" class="form-control" aria-label="...">
-                            <input ng-if="type === 'hasPublicationYear'"
-                                   ng-model="fragment.publicationYear"
+                            <input ng-switch-when="hasPublicationYear"
+                                   ng-model="documentAType.publicationYear"
                                    tooltip="Typein a valid date ore choose one from wizard"
                                    tooltip-placement="top"
                                    tooltip-trigger="mouseenter"
                                    required
                                    placeholder="Typein a valid date ore choose one from wizard"
                                    type="text" class="form-control" aria-label="...">
+                            <input ng-switch-when="hasTitle"
+                                   ng-model="documentAType.title"
+                                   tooltip="Typein a title"
+                                   tooltip-placement="top"
+                                   tooltip-trigger="mouseenter"
+                                   required
+                                   placeholder="Typein a title"
+                                   type="text" class="form-control" aria-label="...">
+                            <input ng-switch-when="hasURL"
+                                   ng-model="documentAType.url"
+                                   tooltip="Typein a valid url"
+                                   tooltip-placement="top"
+                                   tooltip-trigger="mouseenter"
+                                   required
+                                   placeholder="Typein a valid url"
+                                   type="text" class="form-control" aria-label="...">
+                            <input ng-switch-when="references"
+                                   ng-model="documentAType.references"
+                                   tooltip="Typein a reference for the document"
+                                   tooltip-placement="top"
+                                   tooltip-trigger="mouseenter"
+                                   required
+                                   placeholder="Typein a reference for the document"
+                                   type="text" class="form-control" aria-label="...">
+                            <input ng-switch-default
+                                   ng-model="documentAType.author"
+                                   tooltip="Typein a valid author name"
+                                   tooltip-placement="top"
+                                   tooltip-trigger="mouseenter"
+                                   required
+                                   placeholder="Type in a valid author name" type="text" class="form-control" aria-label="...">
                         </div><!-- /input-group -->
                     </div><!-- /.col-lg-6 -->
                     <div class="col-md-6">
-                        <span class="help-block">Choose an annotation type to assciate to the fragment</span>
-                        <div class="input-group">
-                            <input type="text" class="form-control" aria-label="...">
+                        <span class="help-block">Choose an annotation type to associate on the fragment</span>
+                        <div class="input-group" ng-switch on="fat">
+                            <input ng-switch-when="hasCitation"
+                                   ng-model="fragmentAType.citation"
+                                   tooltip="Typein a citation for the fragment"
+                                   tooltip-placement="top"
+                                   tooltip-trigger="mouseenter"
+                                   required
+                                   placeholder="Typein a citation for the fragment"
+                                   type="text" class="form-control" aria-label="...">
+                            <input ng-switch-when="hasComment"
+                                   ng-model="fragmentAType.comment"
+                                   tooltip="Typein a comment for the fragment"
+                                   tooltip-placement="top"
+                                   tooltip-trigger="mouseenter"
+                                   required
+                                   placeholder="Typein a comment for the fragment"
+                                   type="text" class="form-control" aria-label="...">
+                            <input ng-switch-default
+                                   ng-model="fragmentAType.citation"
+                                   tooltip="Typein a citation for the fragment"
+                                   tooltip-placement="top"
+                                   tooltip-trigger="mouseenter"
+                                   required
+                                   placeholder="Typein a citation for the fragment"
+                                   type="text" class="form-control" aria-label="...">
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fragment <span class="caret"></span></button>
+                                <button type="button" class="btn btn-default dropdown-toggle" 
+                                data-toggle="dropdown" aria-haspopup="true" 
+                                aria-expanded="false">{{annotationFragmentTypeLiteral}} <span class="caret"></span></button>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li ng-repeat="(key, docP) in documentProperties"><a ng-click="selectType(key)" data-type="{{key}}" href>{{docP}}</a></li>
+                                    <li ng-repeat="(key, docP) in fragmentProperties">
+                                        <a ng-click="selectFragmentAType(key)" data-type="{{key}}" href>{{docP}}</a>
+                                    </li>
                                 </ul>
                             </div><!-- /btn-group -->
                         </div><!-- /input-group -->

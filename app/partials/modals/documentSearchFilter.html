@@ -3,7 +3,7 @@
 </div>
 
 <div class="modal-body docSearchFilter">
-    <form name="documentSearchFilter" class="form-horizontal">
+    <form name="documentSearchFilter" class="form-horizontal" ng-submit="searchFilter()">
         <div class="row">
             <div class="col-md-6">
                 <label>Author name</label>
@@ -73,6 +73,6 @@
 </div>
 
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">Search</button>
+    <button class="btn btn-primary" ng-click="searchFilter()">Search</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>
