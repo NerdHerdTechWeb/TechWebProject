@@ -57,6 +57,16 @@ $app->get('/', function () use ($app, $view, $xpath) {
 $app->group('/api', function () use ($app) {
 
 
+    $app->group('/search', function() use ($app){
+        $app->map('/get.json', function () use ($app){
+            $app->response->headers->set('Content-Type', 'application/json');
+            $params = $app->request()->params();
+            $client = new Sparql_Client();
+            $json = $client->documentSearch($params)->getSearchJson();
+            echo $json;
+        })->via('GET', 'POST');
+    });
+
     $app->group('/annotations', function () use ($app){
         $app->map('/get.json', function () use ($app){
             $app->response->headers->set('Content-Type', 'application/json');
@@ -69,8 +79,8 @@ $app->group('/api', function () use ($app) {
             $app->response->headers->set('Content-Type', 'text/html charset=utf-8');
             $client = new Sparql_Client();
             $params = $app->request()->params();
-            $json = $client->getAnnotationsByDocument($params)->dumpHtml();
-            echo $json;
+            $html = $client->getAnnotationsByDocument($params)->dumpHtml();
+            echo $html;
         })->via('GET', 'POST');
     });
 

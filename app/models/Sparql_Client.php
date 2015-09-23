@@ -1,10 +1,14 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: masettir
- * Date: 04/09/2015
- * Time: 12.27
+ * 
+ * Easy Rdf Wrapper
+ * 
+ * Updates documents
+ * Gets documents List
+ * Gets annotations per document
+ * Creates document
+ * 
  */
 class Sparql_Client
 {
@@ -18,9 +22,9 @@ class Sparql_Client
      */
     public function __construct()
     {
-        EasyRdf_Namespace::set('prism', 'http://prismstandard.org/namespaces/basic/2.0/');
-        EasyRdf_Namespace::set('schema', 'http://schema.org/');
-        EasyRdf_Namespace::set('oa', 'http://www.w3.org/ns/oa#');
+        EasyRdf_Namespace::set('prism', 'http://prismstandard.org/namespaces/basic/2.0/');  
+        EasyRdf_Namespace::set('schema', 'http://schema.org/'); 
+        EasyRdf_Namespace::set('oa', 'http://www.w3.org/ns/oa#');  
         EasyRdf_Namespace::set('xsd', 'http://www.w3.org/2001/XMLSchema#');
         EasyRdf_Namespace::set('dlib', 'http://www.dlib.org/dlib/november14/');
         EasyRdf_Namespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
@@ -29,8 +33,15 @@ class Sparql_Client
         EasyRdf_Namespace::set('rsch', 'http://vitali.web.cs.unibo.it/raschietto/');
         EasyRdf_Namespace::set('dcterms', 'http://purl.org/dc/terms/');
         EasyRdf_Namespace::set('sem', 'http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#');
-
-
+        EasyRdf_Namespace::set('xs', 'http://www.w3.org/2001/XMLSchema#');
+        EasyRdf_Namespace::set('dc', 'http://purl.org/dc/elements/1.1/');
+        EasyRdf_Namespace::set('fabio','http://purl.org/spar/fabio/');
+        EasyRdf_Namespace::set('frbr','http://purl.org/vocab/frbr/core#');
+        EasyRdf_Namespace::set('skos','http://www.w3.org/2004/02/skos/core#');
+        EasyRdf_Namespace::set('sro','http://salt.semanticauthoring.org/ontologies/sro#');
+        EasyRdf_Namespace::set ('deo','http://purl.org/spar/deo/');	
+        EasyRdf_Namespace::set('cito','http://purl.org/spar/cito/');
+        
         $this->sClient = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/query');
     }
 
@@ -139,8 +150,72 @@ WHERE{
             }
             $i++;
         }
-
         return $rows;
+    }
+    
+    /**
+     * 
+     * Search documents by filters
+     * Fill left sidebar
+     * Return a list of documents
+     * 
+     */
+    public function documentSearch($params = array())
+    {
+        $author = !empty($params['author']) ? $params['author'] : '';
+        $url = !empty($params['url']) ? $params['url'] : '';
+        
+        $query = "
+SELECT ?source
+WHERE{
+	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
+	{
+	 {
+	 ?annotation  rdf:type oa:Annotation.
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+		OPTIONAL { ?body rdf:subject ?s }
+  		OPTIONAL {?body rdf:predicate ?p}
+  		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?body rdfs:label ?body_l }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+  		?annotation oa:hasTarget ?node.
+	    	?node rdf:type oa:SpecificResource ;
+            	      oa:hasSource ?source .
+  		FILTER regex (?watf , 'hasURL')
+		FILTER REGEX (str(?o) , LCASE('$url'))
+	 } UNION {
+	     FILTER regex (?watf , 'hasURL')
+		 FILTER REGEX (str(?o) , LCASE('$url'))
+	 }
+		}
+}
+LIMIT 400";
+
+        $this->results = $this->sClient->query($query);
+        return $this;
+    }
+    
+    /**
+     * 
+     * Returns documents list as json
+     * Returns json object not an array of json objects
+     * 
+     */
+    public function getSearchJson(){
+        $rows = array();
+        $i = 0;
+        foreach ($this->results as $row => $val) {
+            foreach($val as $k => $v){
+                $rows[] = (string)$v;
+            }
+            $i++;
+        }
+        if(count($rows) <= 1)
+            $res = array('resource' => $rows[0]);
+        else 
+            $res = array_unique($rows);
+        return json_encode(array_unique($res));
     }
 
     /**

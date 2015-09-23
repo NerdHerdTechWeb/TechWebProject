@@ -11,19 +11,21 @@
         $scope.filters = {};
 
         $scope.searchFilter = function () {
-            $modalInstance.close();
             var filters = $scope.filters;
             var date = $scope.dt;
             var merged = angular.extend(filters,{"date":date});
             
-            var Search = $resource('//'+window.location.host+'/api/annotations/get.html', {}, 
+            $scope.isDisabled = true;
+            
+            var Search = $resource('//'+window.location.host+'/api/search/get.json', {}, 
             {
-                save: {
+                documents: {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' } 
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 }
             });
-            return Search.save($.param(merged)).$promise.then(function(results) {
+            return Search.documents($.param(merged)).$promise.then(function(results) {
+                $modalInstance.close();
                 return results;
             }, function(error) {
                 // Check for errors

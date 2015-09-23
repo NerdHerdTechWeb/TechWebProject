@@ -1,78 +1,90 @@
-<div class="modal-header">
-    <h3 class="modal-title">Document Search Filter</h3>
-</div>
-
-<div class="modal-body docSearchFilter">
-    <form name="documentSearchFilter" class="form-horizontal" ng-submit="searchFilter()">
-        <div class="row">
-            <div class="col-md-6">
-                <label>Author name</label>
-                <input type="text" name="author" class="form-control"
-                       ng-model="filters.author"
-                       tooltip="Search by author name"
-                       tooltip-placement="top"
-                       tooltip-trigger="mouseenter">
-            </div>
-
-            <div class="col-md-6">
-                <label>Publication date</label>
-                <div class="input-group">
-                    <input type="text" name="publicatinDate" class="form-control"
-                           tooltip="Search by publication date"
+<div class="modalCollapse">
+    <div class="modal-header">
+        <h3 class="modal-title">Document Search Filter</h3>
+    </div>
+    
+    <div class="modal-body docSearchFilter">
+        <form name="documentSearchFilter" class="form-horizontal" ng-submit="searchFilter()" ng-if="!isDisabled">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Author name</label>
+                    <input type="text" name="author" class="form-control"
+                           ng-model="filters.author"
+                           tooltip="Search by author name"
                            tooltip-placement="top"
-                           placeholder="gg/mm/aaaa"
-                           tooltip-trigger="mouseenter"
-                           datepicker-popup="{{format}}"
-                           ng-model="dt"
-                           is-open="status.opened"
-                           min-date="minDate"
-                           max-date="maxDate"
-                           datepicker-options="dateOptions"
-                           date-disabled="disabled(date, mode)"
-                           close-text="Close">
-                    <span class="input-group-btn">
-                        <button type="button"
-                                class="btn btn-default"
-                                ng-click="open($event)">
-                            <i class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                    </span>
+                           tooltip-trigger="mouseenter">
+                </div>
+    
+                <div class="col-md-6">
+                    <label>Publication date</label>
+                    <div class="input-group">
+                        <input type="text" name="publicatinDate" class="form-control"
+                               tooltip="Search by publication date"
+                               tooltip-placement="top"
+                               placeholder="gg/mm/aaaa"
+                               tooltip-trigger="mouseenter"
+                               datepicker-popup="{{format}}"
+                               ng-model="dt"
+                               is-open="status.opened"
+                               min-date="minDate"
+                               max-date="maxDate"
+                               datepicker-options="dateOptions"
+                               date-disabled="disabled(date, mode)"
+                               close-text="Close">
+                        <span class="input-group-btn">
+                            <button type="button"
+                                    class="btn btn-default"
+                                    ng-click="open($event)">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label>Document URL</label>
-                <input type="text" name="url" class="form-control"
-                       ng-model="filters.url"
-                       tooltip="Search by url"
-                       tooltip-placement="top"
-                       tooltip-trigger="mouseenter">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Document URL</label>
+                    <input type="text" name="url" class="form-control"
+                           ng-model="filters.url"
+                           tooltip="Search by url"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter">
+                </div>
+    
+                <div class="col-md-6">
+                    <label>Title</label>
+                    <input type="text" name="title" class="form-control"
+                           ng-model="filters.title"
+                           tooltip="Search by title"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter">
+                </div>
             </div>
-
-            <div class="col-md-6">
-                <label>Title</label>
-                <input type="text" name="title" class="form-control"
-                       ng-model="filters.title"
-                       tooltip="Search by title"
-                       tooltip-placement="top"
-                       tooltip-trigger="mouseenter">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Cities</label>
+                    <input type="text" name="cities" class="form-control"
+                           ng-model="filters.cities"
+                           tooltip="Search by cities"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <label>Cities</label>
-                <input type="text" name="cities" class="form-control"
-                       ng-model="filters.cities"
-                       tooltip="Search by cities"
-                       tooltip-placement="top"
-                       tooltip-trigger="mouseenter">
+        </form>
+        
+        <div ng-if="isDisabled">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    <span class="sr-only">Waiting please</span>
+                </div>
             </div>
+            <div class="text-info" style="text-align:center;">Waiting please</div>
         </div>
-    </form>
-</div>
-
-<div class="modal-footer">
-    <button class="btn btn-primary" ng-click="searchFilter()">Search</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        
+    </div>
+    
+    <div class="modal-footer" ng-init="isDisabled = false">
+        <button class="btn btn-primary" ng-disabled="isDisabled" ng-click="searchFilter()">Search</button>
+        <button class="btn btn-warning" ng-disabled="isDisabled" ng-click="cancel()">Cancel</button>
+    </div>
 </div>
