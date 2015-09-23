@@ -11,11 +11,7 @@
         $scope.fragmentText = fragmentText
         $scope.fragmentModel = fragmentText;
         $scope.inputSubject = fragmentText;
-        $scope.inputAuthor = '';
-        $scope.inputDOI = '';
-        $scope.inputTitle = '';
-        $scope.inputPublicationYear = '';
-        $scope.inputAnnotationType = '';
+        $scope.fragment = {};
 
         $scope.annotationTypeLiteral = 'Choose Annotation'
 

@@ -13,28 +13,7 @@
         //.directive('insertTab', mainArea)
         .directive('createLocalPath', CreateLocalPath)
         .directive('createLocalPathFromRemote', CreateLocalPathFromRemote)
-        .directive('createFragmentSpan', ['$compile','$rootScope', function($compile){
-            return {
-                restrict: 'A',
-                link: function (scope, element, attrs){
-                    scope.$watch('spanInjected',function(){
-                        //$compile(element.contents())(scope);
-                        console.log('sti cazzi');
-                    });
-                }
-            }
-        }]);
 
-    /**
-     *
-     * @param documents
-     * @param fragment
-     * @param $scope
-     * @param $timeout
-     * @param $window
-     * @param $modal
-     * @param $compile
-     */
     function documentsManager(documents, fragment, $scope, $timeout, $window, $modal, $compile) {
 
         // vm is our capture variable
@@ -42,7 +21,6 @@
         $scope.documentsLoaded = [];
         $scope.skCircle = jQuery('.sk-circle');
         $scope.fragmentText = '';
-        $scope.spanInjected = false;
 
         $scope.documentEntries = [];
 
@@ -55,7 +33,7 @@
         );
 
         $scope.showNotationModal = function(event){
-            console.log(event);
+            return fragment.openAnnotationsModal(event);
         }
 
         $scope.getMainDocument = function (link, from, data, event$) {
@@ -88,28 +66,7 @@
         $scope.$watch('documentsLoaded',function(){
             $scope.loadAnnotations($scope.documentData.link);
         });
-
-        $scope.removeTab = function (index, documentId) {
-            //jQuery('#document_' + documentId).toggleClass('disabled');
-            $scope.documentsLoaded.splice(index, 1);
-        };
-
-        $scope.showSelectedText = function (event$) {
-            $scope.fragmentText = fragment.createFragment(event$);
-        }
-
-        $scope.createLocalXPATH = function (element$) {
-            return fragment.createLocalXPATH(element$);
-        }
-
-        $scope.createRemotePath = function (localPath) {
-            return fragment.createRemoteXPATH(localPath);
-        }
-
-        $scope.createLocalPathFromRemote = function (remotePath) {
-            return fragment.createLocalPathFromRemote(remotePath);
-        }
-
+        
         $scope.loadAnnotations = function (source) {
             return fragment.loadAnnotations({
                 source: source,
@@ -130,30 +87,25 @@
                 fragment.hilightFragment(results, $scope, $compile);
             });
         }
+
+        $scope.showSelectedText = function (event$) {
+            $scope.fragmentText = fragment.createFragment(event$);
+        }
+
+        $scope.createLocalXPATH = function (element$) {
+            return fragment.createLocalXPATH(element$);
+        }
+
+        $scope.createRemotePath = function (localPath) {
+            return fragment.createRemoteXPATH(localPath);
+        }
+
+        $scope.createLocalPathFromRemote = function (remotePath) {
+            return fragment.createLocalPathFromRemote(remotePath);
+        }
     }
 
-    /**
-     *
-     * @param data
-     * @param $scope
-     */
-    function postDocumentLoad(data, $scope) {
-        jQuery('tr').unwrap('tbody');
-        jQuery('#navTabsContainer img:not(.img-replaced)').each(function (i, el) {
-            var img = jQuery(this);
-            var src = img.attr('src');
-            img.attr('src', data.imagepath + src);
-            img.addClass('img-replaced');
-        });
-        $scope.loadAnnotations(data.link);
-        //jQuery('#document_' + data.documents.documentId).toggleClass('disabled');
-    }
 
-    /**
-     *
-     * @returns {{restrict: string, link: Function}}
-     * @constructor
-     */
     function CreateLocalPath() {
         return {
             restrict: 'AC',
@@ -168,11 +120,6 @@
         }
     }
 
-    /**
-     *
-     * @returns {{restrict: string, link: Function}}
-     * @constructor
-     */
     function CreateLocalPathFromRemote() {
         return {
             restrict: 'AC',

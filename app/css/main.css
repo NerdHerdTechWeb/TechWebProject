@@ -273,3 +273,7 @@
 .hasDOI{background-color: #ff9f95;}
 .hasURL{background-color: #a3b5c7;}
 .denotesRhetoric{background-color: #801655;}
+
+.annotation{
+    cursor: pointer;
+}

@@ -9,7 +9,7 @@
                 <span class="help-block">Fragment selected</span>
                 <input style="width:100% !important;" type="text" name="subject" class="form-control"
                        value="{{fragmentText.selection}}"
-                       ng-model="inputSubject"
+                       ng-model="fragment.subject"
                        tooltip="Fragment selected. You cannot modifies it"
                        tooltip-placement="top"
                        tooltip-trigger="mouseenter"
@@ -27,14 +27,14 @@
                                 </ul>
                             </div><!-- /btn-group -->
                             <input ng-if="type === 'hasAuthor'"
-                                   ng-model="inputAuthor"
+                                   ng-model="fragment.author"
                                    tooltip="Typein a valid author name"
                                    tooltip-placement="top"
                                    tooltip-trigger="mouseenter"
                                    required
                                    placeholder="Type in a valid author name" type="text" class="form-control" aria-label="...">
                             <input ng-if="type === 'hasDOI'"
-                                   ng-model="inputDOI"
+                                   ng-model="fragment.doi"
                                    tooltip="Typein a valid doi"
                                    tooltip-placement="top"
                                    tooltip-trigger="mouseenter"
@@ -42,7 +42,7 @@
                                    placeholder="Type in a valid DOI"
                                    type="text" class="form-control" aria-label="...">
                             <input ng-if="type === 'hasPublicationYear'"
-                                   ng-model="inputPublicationYear"
+                                   ng-model="fragment.publicationYear"
                                    tooltip="Typein a valid date ore choose one from wizard"
                                    tooltip-placement="top"
                                    tooltip-trigger="mouseenter"
