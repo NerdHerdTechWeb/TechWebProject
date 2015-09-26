@@ -9,6 +9,7 @@
     function documentSearchFilter($resource, $scope, $modalInstance, filters, documents) {
 
         $scope.filters = {};
+        $scope.documentSearchResult = [];
 
         $scope.searchFilter = function () {
             var filters = $scope.filters;
@@ -26,6 +27,7 @@
             });
             return Search.documents($.param(merged)).$promise.then(function(results) {
                 $modalInstance.close();
+                $scope.$emit('documentFiltered', results);
                 return results;
             }, function(error) {
                 // Check for errors

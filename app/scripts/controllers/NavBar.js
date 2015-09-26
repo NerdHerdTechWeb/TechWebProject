@@ -26,6 +26,7 @@
                 animation: true,
                 templateUrl: '/app/partials/modals/documentSearchFilter.html',
                 controller: 'DocumentSearchFilter',
+                scope: $scope,
                 size: 'lg',
                 resolve: {
                     filters: function () {

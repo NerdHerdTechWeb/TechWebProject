@@ -31,6 +31,15 @@
                 console.log(error);
             }
         );
+        
+        $scope.$on('documentFiltered', function(event, args){
+            $scope.documentEntries = [];
+            var tempRes = [];
+            for(var k in args){
+                tempRes.push({'label': 'a caso', 'link': args[k]});
+            }
+            $scope.documentEntries = tempRes;
+        });
 
         $scope.showNotationModal = function(event){
             return fragment.openAnnotationsModal(event);

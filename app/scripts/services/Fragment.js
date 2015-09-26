@@ -17,6 +17,7 @@
     function fragment($modal, $http, $resource, $compile) {
 
         var dlibRootPath = '/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]';
+        var statistRoothPath = '/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]';
 
 
         /**
