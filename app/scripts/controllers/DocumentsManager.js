@@ -36,13 +36,23 @@
             $scope.documentEntries = [];
             var tempRes = [];
             for(var k in args){
-                tempRes.push({'label': 'a caso', 'link': args[k]});
+                tempRes.push({'label':  args[k], 'link': args[k]});
             }
             $scope.documentEntries = tempRes;
         });
 
         $scope.showNotationModal = function(event){
-            return fragment.openAnnotationsModal(event);
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: '/app/partials/modals/annotationModal.html',
+                controller: 'AnnotationsModal',
+                size: 'lg',
+                resolve: {
+                    fragmentText: function () {
+                        return event;
+                    }
+                }
+            });
         }
 
         $scope.getMainDocument = function (link, from, data, event$) {
@@ -73,7 +83,7 @@
         }
 
         $scope.$watch('documentsLoaded',function(){
-            $scope.loadAnnotations($scope.documentData.link);
+            typeof $scope.documentData !== 'undefined' ? $scope.loadAnnotations($scope.documentData.link) : '';
         });
         
         $scope.loadAnnotations = function (source) {

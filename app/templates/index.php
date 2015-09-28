@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="../../bower_components/bootstrap-flat/css/bootstrap-flat-extras.min.css">
     <link rel="stylesheet" href="../../bower_components/angular-toggle-switch/angular-toggle-switch.css">
     <link rel="stylesheet" href="../../bower_components/angular-toggle-switch/angular-toggle-switch-bootstrap.css">
+    <link rel="stylesheet" href="../../bower_components/angular-ui-notification/dist/angular-ui-notification.min.css">
     <script type="text/javascript">
         var init_conf = {{ angularConfig|json_encode()|raw }};
         var xpath_conf = {{ rootXpath|json_encode()|raw }};
@@ -52,11 +53,23 @@
                         tooltip-trigger="mouseenter"
                         ng-click="showModalFilter()"
                     ><span class="glyphicon glyphicon-inbox"></span></button>
+                    <button ng-if="logStatus === false" type="button" class="btn btn-primary navbar-btn"
+                        tooltip="Login if you want edit annotations"
+                        tooltip-placement="bottom"
+                        tooltip-trigger="mouseenter"
+                        ng-click="login()"
+                    ><span class="glyphicon glyphicon-log-in"></span></button>
+                    <button ng-if="logStatus === true" type="button" class="btn btn-danger navbar-btn"
+                        tooltip="Logut"
+                        tooltip-placement="bottom"
+                        tooltip-trigger="mouseenter"
+                        ng-click="logout()"
+                    ><span class="glyphicon glyphicon-log-out"></span></button>
             </form>
             <ul class="nav navbar-nav navbar-right textShadow">
                 <li><a href="#/homeproject">Home</a></li>
                 <li><a href="#/annotator">Annotator</a></li>
-                <li><toggle-switch ng-model="annotator.status" knob-label="Editor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f"><toggle-switch></li>
+                <!-- <li><toggle-switch ng-model="annotator.status" knob-label="Editor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f"><toggle-switch></li> -->
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -99,6 +112,7 @@
 <script type="text/javascript" src="../../bower_components/angular-toggle-switch/angular-toggle-switch.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-ui-tinymce/src/tinymce.js"></script>
 <script type="text/javascript" src="../../bower_components/ui-select/src/select3.js"></script>
+<script type="text/javascript" src="../../bower_components/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
 <script type="text/javascript" src="../../bower_components/moment/moment.js"></script>
 
 <!-- Application Scripts -->
@@ -111,8 +125,10 @@
 <script type="text/javascript" src="../app/scripts/controllers/modal/FragmentModal.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/AnnotationsModal.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/DocumentSearchFilter.js"></script>
+<script type="text/javascript" src="../app/scripts/controllers/modal/UserLoginModal.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Search.SearchBar.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Widget.DocumentsList.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Widget.Meta.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Fragment.js"></script>
+<script type="text/javascript" src="../app/scripts/services/User.js"></script>
 </html>

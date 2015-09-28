@@ -51,7 +51,8 @@
             'toggle-switch',
             'ui.tinymce',
             'ui.select2',
-            'angular-bind-html-compile'
+            'angular-bind-html-compile',
+            'ui-notification'
         ])
         .directive('lateralMenu', LateralMenu)
 

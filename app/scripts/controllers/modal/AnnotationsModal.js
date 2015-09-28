@@ -6,9 +6,12 @@
         .module('semanticNotations')
         .controller('AnnotationsModal', annotationsModal);
 
-    function annotationsModal($scope, $modalInstance, fragmentText) {
+    function annotationsModal($scope, $modalInstance, $log, $modal, fragmentText, user) {
         
         var ct = jQuery(fragmentText.currentTarget);
+        
+        $scope.logInStatus = user.logInStatus();
+        $scope.switchLoginView = false;
         
         $scope.documentProperties = {
             hasAuthor: 'Author',
@@ -64,5 +67,19 @@
             $scope.fat = type;
             $scope.annotationFragmentTypeLiteral = $scope.fragmentProperties[type];
         }
+        
+        $scope.login = function (){
+            $scope.switchLoginView = true;
+        }
+        
+        $scope.doLogin = function (){
+            user.login();
+            $scope.logInStatus = user.logInStatus();
+            $scope.switchLoginView = false;
+        }
+        
+        $scope.$on('logInEvent', function (event, args){
+            $scope.logInStatus = user.logInStatus();
+        });
     }
 })();

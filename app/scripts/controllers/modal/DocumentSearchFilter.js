@@ -6,7 +6,7 @@
         .module('semanticNotations')
         .controller('DocumentSearchFilter', documentSearchFilter);
 
-    function documentSearchFilter($resource, $scope, $modalInstance, filters, documents) {
+    function documentSearchFilter($resource, $scope, $modalInstance, $log, filters, documents) {
 
         $scope.filters = {};
         $scope.documentSearchResult = [];
@@ -31,7 +31,7 @@
                 return results;
             }, function(error) {
                 // Check for errors
-                console.log(error);
+                $log.error(error);
             });
         };
 

@@ -135,20 +135,6 @@
                 console.log(error);
             });
         }
-        
-        function openAnnotationsModal(event){
-            var modalInstance = $modal.open({
-                animation: true,
-                templateUrl: '/app/partials/modals/annotationModal.html',
-                controller: 'AnnotationsModal',
-                size: 'lg',
-                resolve: {
-                    fragmentText: function () {
-                        return event;
-                    }
-                }
-            });
-        }
 
         /**
          *
@@ -275,8 +261,7 @@
             createRemoteXPATH: createRemoteXPATH,
             createLocalPathFromRemote: createLocalPathFromRemote,
             loadAnnotations: loadAnnotations,
-            hilightFragment: hilightFragment,
-            openAnnotationsModal: openAnnotationsModal
+            hilightFragment: hilightFragment
         }
     }
 

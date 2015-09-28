@@ -164,6 +164,9 @@ WHERE{
     {
         $author = !empty($params['author']) ? $params['author'] : '';
         $url = !empty($params['url']) ? $params['url'] : '';
+        $title = !empty($params['title']) ? $params['title'] : '';
+        $cities = !empty($params['cities']) ? $params['cities'] : '';
+        $date = !empty($params['date']) ? $params['date'] : '';
         
         $query = "
 SELECT ?source
@@ -185,8 +188,11 @@ WHERE{
   		FILTER regex (?watf , 'hasURL')
 		FILTER REGEX (str(?o) , LCASE('$url'))
 	 } UNION {
-	     FILTER regex (?watf , 'hasURL')
-		 FILTER REGEX (str(?o) , LCASE('$url'))
+	    FILTER regex (?watf , 'hasAuthor')
+	    FILTER REGEX (str(?o_label) , '$author')
+	 } UNION {
+	    FILTER regex(?watf , 'hasPublicationYear')
+        FILTER (?o > '$date'^^xsd:date)
 	 }
 		}
 }
@@ -212,7 +218,7 @@ LIMIT 400";
             $i++;
         }
         if(count($rows) <= 1)
-            $res = array('resource' => $rows[0]);
+            $res = array('resource' => !empty($rows) ? $rows[0] : false);
         else 
             $res = array_unique($rows);
         return json_encode(array_unique($res));
