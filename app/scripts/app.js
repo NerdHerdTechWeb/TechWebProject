@@ -47,6 +47,7 @@
         .module('semanticNotations', [
             'ngResource',
             'ngRoute',
+            'ngCookies',
             'ui.bootstrap',
             'toggle-switch',
             'ui.tinymce',

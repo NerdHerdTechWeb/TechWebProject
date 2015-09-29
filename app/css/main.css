@@ -109,6 +109,10 @@
     color: #02cc00;
 }
 
+input.ng-invalid.ng-touched {
+    border: 1px solid #a94442;
+  }
+
 @-webkit-keyframes sk-circleBounceDelay {
     0%, 80%, 100% {
         -webkit-transform: scale(0);

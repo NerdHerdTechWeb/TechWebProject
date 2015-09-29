@@ -47,6 +47,8 @@
             });
         }
         
+        $scope.$watch(function($scope){$scope.logStatus = user.logInStatus();});
+        
         $scope.$on('logInEvent', function(event, args){
             $scope.logStatus = user.logInStatus();
         })

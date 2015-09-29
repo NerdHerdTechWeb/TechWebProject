@@ -11,7 +11,7 @@
         $scope.doLogin = function () {
             user.login();
             $scope.$emit('logInEvent');
-            $modalInstance.close();
+            //$modalInstance.close();
         };
 
         $scope.cancel = function () {

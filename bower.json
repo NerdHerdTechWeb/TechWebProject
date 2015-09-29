@@ -31,6 +31,8 @@
     "angular-ui-tinymce": "latest",
     "tinymce": "latest",
     "ui-select": "latest",
-    "angular-ui-notification": "~0.0.14"
+    "angular-ui-notification": "~0.0.14",
+    "angular-cookie": "~4.0.9",
+    "angular-cookies": "~1.4.6"
   }
 }
