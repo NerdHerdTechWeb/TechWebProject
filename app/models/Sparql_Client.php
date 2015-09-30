@@ -185,15 +185,30 @@ WHERE{
   		?annotation oa:hasTarget ?node.
 	    	?node rdf:type oa:SpecificResource ;
             	      oa:hasSource ?source .
-  		FILTER regex (?watf , 'hasURL')
+  	{					  
+  		FILTER REGEX (?watf , 'hasAuthor')
+		FILTER REGEX (?o_label , '$author')}
+				
+		UNION {
+		FILTER regex (?watf , 'hasURL')
 		FILTER REGEX (str(?o) , LCASE('$url'))
-	 } UNION {
-	    FILTER regex (?watf , 'hasAuthor')
-	    FILTER REGEX (str(?o_label) , '$author')
-	 } UNION {
-	    FILTER regex(?watf , 'hasPublicationYear')
-        FILTER (?o > '$date'^^xsd:date)
-	 }
+			}
+		UNION {
+		FILTER regex (?watf , 'hasTitle')
+  		FILTER regex ((str(LCASE(?o))) , LCASE('$title'))
+			}
+
+		UNION {
+		FILTER regex(?watf , 'hasPublicationYear')
+		FILTER (?o > '$date'^^xsd:date)  		
+			}
+		
+		UNION{
+		FILTER regex (?watf , 'references')
+		FILTER regex (LCASE(?o_label) , LCASE('$cities'))
+		
+	    
+			}
 		}
 }
 LIMIT 400";
