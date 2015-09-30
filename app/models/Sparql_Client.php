@@ -162,11 +162,11 @@ WHERE{
      */
     public function documentSearch($params = array())
     {
-        $author = !empty($params['author']) ? $params['author'] : '';
-        $url = !empty($params['url']) ? $params['url'] : '';
-        $title = !empty($params['title']) ? $params['title'] : '';
-        $cities = !empty($params['cities']) ? $params['cities'] : '';
-        $date = !empty($params['date']) ? $params['date'] : '';
+        $author = !empty($params['author']) ? $params['author'] : 'false';
+        $url = !empty($params['url']) ? $params['url'] : 'false';
+        $title = !empty($params['title']) ? $params['title'] : 'false';
+        $cities = !empty($params['cities']) ? $params['cities'] : 'false';
+        $date = !empty($params['date']) ? $params['date'] : 'false';
         
         $query = "
 SELECT ?source
