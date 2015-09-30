@@ -186,12 +186,12 @@ WHERE{
 	    	?node rdf:type oa:SpecificResource ;
             	      oa:hasSource ?source .
   	{					  
-  		FILTER REGEX (?watf , 'hasAuthor')
-		FILTER REGEX (?o_label , '$author')}
+  		FILTER regex (?watf , 'hasAuthor')
+		FILTER regex (?o_label , '$author')}
 				
 		UNION {
 		FILTER regex (?watf , 'hasURL')
-		FILTER REGEX (str(?o) , LCASE('$url'))
+		FILTER regex (str(?o) , LCASE('$url'))
 			}
 		UNION {
 		FILTER regex (?watf , 'hasTitle')
