@@ -6,12 +6,15 @@
         .module('semanticNotations')
         .controller('UserLoginModal', userLoginModal);
 
-    function userLoginModal($scope, $modalInstance, user) {
+    function userLoginModal($scope, $modalInstance, $log, user) {
 
         $scope.doLogin = function () {
-            user.login();
-            $scope.$emit('logInEvent');
-            //$modalInstance.close();
+            var isValidForm = $scope.form.$valid;
+            if(isValidForm){
+                user.login($scope.user);
+                $scope.$emit('logInEvent');
+                $modalInstance.close();
+            }
         };
 
         $scope.cancel = function () {

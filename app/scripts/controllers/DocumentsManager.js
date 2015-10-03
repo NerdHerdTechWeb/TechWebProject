@@ -13,8 +13,9 @@
         //.directive('insertTab', mainArea)
         .directive('createLocalPath', CreateLocalPath)
         .directive('createLocalPathFromRemote', CreateLocalPathFromRemote)
+        .directive('createFragmentSpan', CreateFragmentSpan)
 
-    function documentsManager(documents, fragment, $scope, $timeout, $window, $modal, $compile) {
+    function documentsManager(documents, fragment, $scope, $timeout, $window, $modal, $compile, $log) {
 
         // vm is our capture variable
         var vm = this;
@@ -144,6 +145,17 @@
             restrict: 'AC',
             link: function (scope, element, attrs) {
 
+            }
+        }
+    }
+    
+    function CreateFragmentSpan(){
+        return {
+            restrict: 'AC',
+            link: function (scope, element, attrs) {
+                scope.$watch(element.html(), function(){
+                    console.log(element);
+                });
             }
         }
     }

@@ -188,7 +188,7 @@
             var range = document.createRange();
             if(!node) return;
             //if(start >400) return;
-            //if(xpath === dlibRootPath ) return;
+            if(xpath === dlibRootPath ) return;
             while (node.nodeType != 3)
                 if(node.firstChild) node = node.firstChild;
                 else return
@@ -246,7 +246,8 @@
             span.setAttribute('data-annotation-id', end);
             span.setAttribute('data-date', annotation.date);
             span.setAttribute('data-author', annotation.author);
-            span.setAttribute('data-fragment', range.toString());
+           // span.setAttribute('data-fragment', range.toString());
+            span.setAttribute('data-fragment', annotation.o_label || annotation.o);
             span.setAttribute('data-type', annotationColor);
             span.setAttribute('ng-click', 'showNotationModal($event)');
             span.setAttribute('class', 'annotation ' + annotationColor);

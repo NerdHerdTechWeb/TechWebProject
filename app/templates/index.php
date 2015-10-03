@@ -47,19 +47,19 @@
                         tooltip-trigger="mouseenter"
                         ng-click="showModalFilter()"
                     ><span class="glyphicon glyphicon-tasks"></span></button>
-                <button type="button" class="btn btn-default navbar-btn"
+                <button ng-if="logStatus === true" type="button" class="btn btn-default navbar-btn"
                         tooltip="Manage unsaved annotation"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
                         ng-click="showModalFilter()"
                     ><span class="glyphicon glyphicon-inbox"></span></button>
-                    <button ng-if="logStatus === false" type="button" class="btn btn-primary navbar-btn"
+                <button ng-if="logStatus === false" type="button" class="btn btn-primary navbar-btn"
                         tooltip="Login if you want edit annotations"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
                         ng-click="login()"
                     ><span class="glyphicon glyphicon-log-in"></span></button>
-                    <button ng-if="logStatus === true" type="button" class="btn btn-danger navbar-btn"
+                <button ng-if="logStatus === true" type="button" class="btn btn-danger navbar-btn"
                         tooltip="Logut"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"

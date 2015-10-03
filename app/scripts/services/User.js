@@ -9,12 +9,15 @@
     function user($cookies, Notification) {
         
         var loginStatus = $cookies.get('logsession') == '1' ? true : false;
+        var credentials = {};
 
         // ngResource call to our static data
 
-        function login() {
+        function login(userForm) {
             loginStatus = true;
             $cookies.put('logsession','1');
+            credentials.email = userForm.email;
+            credentials.password = userForm.password;
             Notification.success('You are now logged in');
         }
         
@@ -32,13 +35,14 @@
         }
         
         function userData (){
-            
+            return credentials;
         }
 
         return {
             login: login,
             logout: logout,
-            logInStatus: logInStatus
+            logInStatus: logInStatus,
+            userData: userData
         }
     }
 
