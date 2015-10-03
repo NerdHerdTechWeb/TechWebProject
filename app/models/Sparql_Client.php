@@ -162,11 +162,11 @@ WHERE{
      */
     public function documentSearch($params = array())
     {
-        $author = !empty($params['author']) ? $params['author'] : '';
-        $url = !empty($params['url']) ? $params['url'] : '';
-        $title = !empty($params['title']) ? $params['title'] : '';
-        $cities = !empty($params['cities']) ? $params['cities'] : '';
-        $date = !empty($params['date']) ? $params['date'] : '';
+        $author = !empty($params['author']) ? $params['author'] : 'false';
+        $url = !empty($params['url']) ? $params['url'] : 'false';
+        $title = !empty($params['title']) ? $params['title'] : 'false';
+        $cities = !empty($params['cities']) ? $params['cities'] : 'false';
+        $date = !empty($params['date']) ? $params['date'] : 'false';
         
         $query = "
 SELECT ?source
@@ -185,15 +185,30 @@ WHERE{
   		?annotation oa:hasTarget ?node.
 	    	?node rdf:type oa:SpecificResource ;
             	      oa:hasSource ?source .
-  		FILTER regex (?watf , 'hasURL')
-		FILTER REGEX (str(?o) , LCASE('$url'))
-	 } UNION {
-	    FILTER regex (?watf , 'hasAuthor')
-	    FILTER REGEX (str(?o_label) , '$author')
-	 } UNION {
-	    FILTER regex(?watf , 'hasPublicationYear')
-        FILTER (?o > '$date'^^xsd:date)
-	 }
+  	{					  
+  		FILTER regex (?watf , 'hasAuthor')
+		FILTER regex (?o_label , '$author')}
+				
+		UNION {
+		FILTER regex (?watf , 'hasURL')
+		FILTER regex (str(?o) , LCASE('$url'))
+			}
+		UNION {
+		FILTER regex (?watf , 'hasTitle')
+  		FILTER regex ((str(LCASE(?o))) , LCASE('$title'))
+			}
+
+		UNION {
+		FILTER regex(?watf , 'hasPublicationYear')
+		FILTER (?o > '$date'^^xsd:date)  		
+			}
+		
+		UNION{
+		FILTER regex (?watf , 'references')
+		FILTER regex (LCASE(?o_label) , LCASE('$cities'))
+		
+	    
+			}
 		}
 }
 LIMIT 400";
