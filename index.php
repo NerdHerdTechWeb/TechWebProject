@@ -82,6 +82,13 @@ $app->group('/api', function () use ($app) {
             $html = $client->getAnnotationsByDocument($params)->dumpHtml();
             echo $html;
         })->via('GET', 'POST');
+        $app->map('/update', function () use ($app){
+            $app->response->headers->set('Content-Type', 'text/html charset=utf-8');
+            $client = new Sparql_Client();
+            $params = $app->request()->params();
+            $response = $client->updateDocumentAnnotation($params);
+            echo $response;
+        })->via('GET', 'POST');
     });
 
     /**

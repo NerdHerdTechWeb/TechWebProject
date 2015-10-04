@@ -5,16 +5,18 @@
     </div>
     
     <div class="modal-body fragmentEditor">
-        <form class="form-horizontal">
+        <form class="form-horizontal" novalidate>
             <div class="row">
                 <div class="col-md-12">
                     <span class="help-block">Fragment selected</span>
-                    <input style="width:100% !important;" type="text" name="subject" class="form-control"
-                           ng-model="documentAType.subject"
-                           tooltip="Fragment selected. You cannot modifies it"
-                           tooltip-placement="top"
-                           tooltip-trigger="mouseenter"
-                           readonly>
+                    <textarea class="form-control"
+                              name="subject"
+                              rows="3"
+                              ng-model="documentAType.subject"
+                              tooltip="Fragment selected. Readonly"
+                              tooltip-placement="top"
+                              tooltip-trigger="mouseenter"
+                              readonly></textarea>
                 </div>
                 <div class="col-md-12">
                     <div class="row">
@@ -51,7 +53,7 @@
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
                                        placeholder="Typein a valid date ore choose one from wizard"
-                                       type="text" class="form-control" aria-label="...">
+                                       type="date" class="form-control" aria-label="...">
                                 <input ng-switch-when="hasTitle"
                                        ng-model="documentAType.title"
                                        tooltip="Typein a title"
@@ -65,7 +67,10 @@
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
                                        placeholder="Typein a valid url"
-                                       type="text" class="form-control" aria-label="...">
+                                       type="url" name="url" class="form-control" aria-label="...">
+                                <div ng-show="form.$submitted || form.$touched">
+                                    <span class="text-danger" ng-show="form.url.$error.url">This is not a valid url.</span>
+                                </div>
                                 <input ng-switch-when="references"
                                        ng-model="documentAType.references"
                                        tooltip="Typein a reference for the document"

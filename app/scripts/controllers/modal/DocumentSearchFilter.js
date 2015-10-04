@@ -6,7 +6,7 @@
         .module('semanticNotations')
         .controller('DocumentSearchFilter', documentSearchFilter);
 
-    function documentSearchFilter($resource, $scope, $modalInstance, $log, filters, documents) {
+    function documentSearchFilter($window, $resource, $scope, $modalInstance, $log, filters, documents) {
 
         $scope.filters = {};
         $scope.documentSearchResult = [];
@@ -18,7 +18,7 @@
             
             $scope.isDisabled = true;
             
-            var Search = $resource('//'+window.location.host+'/api/search/get.json', {}, 
+            var Search = $resource('//'+$window.location.host+'/api/search/get.json', {},
             {
                 documents: {
                     method: 'POST',

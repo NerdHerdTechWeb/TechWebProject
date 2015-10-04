@@ -47,8 +47,8 @@ class Sparql_Client
 
     /**
      * Get all annotation from single document
-     * @param string $documentUri
      * @param array $queryParams
+     * @internal param string $documentUri
      * @return $this
      */
     public function getAnnotationsByDocument($queryParams = array())
@@ -102,11 +102,13 @@ WHERE{
     }
 
     /**
-     *
+     * @param $params array
+     * @return string
      */
-    public function updateDocumentAnnotation()
+    public function updateDocumentAnnotation($params)
     {
-
+        //TODO implementation of update
+        return json_encode(array('message' => $params));
     }
 
     /**

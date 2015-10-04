@@ -140,7 +140,7 @@ class Data_Scraping
                 $newPaper['label'] = trim($xpath->query("text()", $r)->item(0)->nodeValue);
                 $newPaperLink = trim($xpath->query("@href", $r)->item(0)->nodeValue);
                 $newPaper['link'] = $source['preurl'] . $newPaperLink;
-                $newPaper['imagepath'] = preg_replace('([^\/]+$)','',$newPaper['link']);
+                $newPaper['imagepath'] = preg_replace('([^\/]+$)', '', $newPaper['link']);
                 $newPaper['from'] = 'dlib';
 
                 $papersList[] = $newPaper;
@@ -242,8 +242,9 @@ class Data_Scraping
     /**
      * Serialize single RStat article to JSON
      * The single article of Rivista statica needs custom xpath query
-     * @param $xpath
+     * @param \DOMXPath $xpath
      * @param $citationsCollection
+     * @param $body
      * @return string|json
      */
     protected static function getRstatDocument(DOMXPath $xpath, $citationsCollection, $body)
@@ -253,9 +254,9 @@ class Data_Scraping
         $elements = $doc->getElementsByTagName('table')->item(9);
         $childs = $elements->childNodes;
         $content = '';
-        foreach ($childs  as $element) {
+        foreach ($childs as $element) {
             #echo $element->getNodePath()."\n";
-            $content = $doc->saveHTML($element)."\n";
+            $content = $doc->saveHTML($element) . "\n";
         }
 
         $papersList = array(
@@ -267,8 +268,9 @@ class Data_Scraping
     /**
      * Serialize single DLib Magazine article to JSON
      * The single article of DLib Magazine needs custom xpath query
-     * @param $xpath
+     * @param \DOMXPath $xpath
      * @param $citationsCollection
+     * @param $body
      * @return string|json
      */
     protected static function getDlibDocument(DOMXPath $xpath, $citationsCollection, $body)
@@ -278,9 +280,9 @@ class Data_Scraping
         $elements = $doc->getElementsByTagName('table')->item(9);
         $childs = $elements->childNodes;
         $content = '';
-        foreach ($childs  as $element) {
+        foreach ($childs as $element) {
             #echo $element->getNodePath()."\n";
-            $content = $doc->saveHTML($element)."\n";
+            $content = $doc->saveHTML($element) . "\n";
         }
 
         $papersList = array(
@@ -316,8 +318,8 @@ class Data_Scraping
 
         $ACD = empty($articleContentDiv);
         $ACP = empty($articleContentP);
-        if(!$ACD) $articleContent = $articleContentDiv->nodeValue;
-        if(!$ACP) $articleContent = $articleContentP->nodeValue;
+        if (!$ACD) $articleContent = $articleContentDiv->nodeValue;
+        if (!$ACP) $articleContent = $articleContentP->nodeValue;
 
         $papersList = array(
             'titleh3' => $titleh3,

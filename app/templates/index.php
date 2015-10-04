@@ -132,4 +132,5 @@
 <script type="text/javascript" src="../app/scripts/services/Widget.Meta.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Fragment.js"></script>
 <script type="text/javascript" src="../app/scripts/services/User.js"></script>
+<script type="text/javascript" src="../app/scripts/services/Annotations.manager.js"></script>
 </html>

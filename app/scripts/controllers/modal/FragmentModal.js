@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
     'use strict';
 
@@ -20,21 +20,21 @@
             hasDOI: 'DOI',
             hasPublicationYear: 'Publication Year',
             reference: 'Reference',
-            hasTitle: 'TItle',
-            hasURL: 'URL',
+            hasTitle: 'Title',
+            hasURL: 'URL'
         };
 
         $scope.type = 'hasTitle';
 
 
         $scope.tinymceOptions = {
-            onChange: function(e) {
+            onChange: function (e) {
                 // put logic here for keypress and cut/paste changes
             },
             inline: false,
-            plugins : 'advlist autolink link image lists charmap print preview',
+            plugins: 'advlist autolink link image lists charmap print preview',
             skin: 'lightgray',
-            theme : 'modern'
+            theme: 'modern'
         };
 
         $scope.ok = function () {
@@ -46,7 +46,7 @@
             $modalInstance.dismiss('cancel');
         };
 
-        $scope.selectType = function(type){
+        $scope.selectType = function (type) {
             $scope.type = type;
             $scope.annotationTypeLiteral = $scope.documentProperties[type];
         }
