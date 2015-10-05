@@ -13,7 +13,9 @@
 class Sparql_Client
 {
     protected $sparql_client = 'http://tweb2015.cs.unibo.it:8080/data/query';
+    protected $sparql_client_modify = 'http://tweb2015.cs.unibo.it:8080/data/update';
     protected $sClient;
+    protected $sClientModify;
 
     public $results = false;
 
@@ -42,7 +44,8 @@ class Sparql_Client
         EasyRdf_Namespace::set ('deo','http://purl.org/spar/deo/');	
         EasyRdf_Namespace::set('cito','http://purl.org/spar/cito/');
         
-        $this->sClient = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/query');
+        $this->sClient = new EasyRdf_Sparql_Client($this->sparql_client);
+        $this->sClientModify = new EasyRdf_Sparql_Client($this->sparql_client_modify);
     }
 
     /**
@@ -102,13 +105,18 @@ WHERE{
     }
 
     /**
-     * @param $params array
+     * @param $queryParams array
      * @return string
      */
-    public function updateDocumentAnnotation($params)
+    public function updateDocumentAnnotation($queryParams)
     {
         //TODO implementation of update
-        return json_encode(array('message' => $params));
+        $defaults = array(
+            'graph' => 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540'
+        );
+
+        $defaults = array_merge($defaults, $queryParams);
+        return json_encode(array('message' => $defaults));
     }
 
     /**
