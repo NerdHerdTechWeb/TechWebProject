@@ -268,16 +268,17 @@ input.ng-invalid.ng-touched {
     font-size: 16px;
 }
 
-.hasComment{background-color: #295aff;}
-.hasAuthor{background-color: #23ff1c;}
-.hasPublicationYear{background-color: #fe0eff;}
-.hasTitle{background-color: #00efff;}
+.hasComment{background-color: #295aff !important;}
+.hasAuthor{background-color: #23ff1c !important;}
+.hasPublicationYear{background-color: #fe0eff !important;}
+.hasTitle{background-color: #00efff !important;}
 .references{
-    background-color: #ffb3b3;}
-.hasDOI{background-color: #ff9f95;}
-.hasURL{background-color: #a3b5c7;}
-.denotesRhetoric{background-color: #801655;}
+    background-color: #ffb3b3 !important;}
+.hasDOI{background-color: #ff9f95 !important;}
+.hasURL{background-color: #a3b5c7 !important;}
+.denotesRhetoric{background-color: #801655 !important;}
 
 .annotation{
     cursor: pointer;
 }
+

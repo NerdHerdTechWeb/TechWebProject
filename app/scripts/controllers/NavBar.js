@@ -12,7 +12,7 @@
      * @param $window
      * @param $modal
      */
-    function navBar($scope, $window, $modal, $log, user) {
+    function navBar($scope, $modal, user) {
         $scope.annotator = {"status":false};
 
         $scope.$watch('annotator.status',function(newVal, oldVal){
@@ -20,6 +20,7 @@
         });
 
         $scope.filters = {};
+        $scope.filtersShow = false;
         $scope.logStatus = user.logInStatus();
 
         $scope.showModalFilter = function (){
@@ -35,6 +36,14 @@
                     }
                 }
             });
+        }
+
+        $scope.showFilters = function (){
+            $scope.filtersShow = true;
+        }
+
+        $scope.hideFilters = function (){
+            $scope.filtersShow = false;
         }
         
         $scope.login = function(){

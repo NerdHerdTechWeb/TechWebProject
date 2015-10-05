@@ -36,17 +36,38 @@
             </button>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2" ng-controller="SearchSearchBar as vm">
-            <form class="navbar-form navbar-left" role="search">
+
+            <form id="fragmentFilters" ng-show="filtersShow" ng-hide="!filterShow" class="navbar-form navbar-left" role="search" novalidate>
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default hasAuthor">Authors</button>
+                    <button type="button" class="btn btn-default hasPublicationYear">Publication year</button>
+                    <button type="button" class="btn btn-default hasTitle">Title</button>
+                    <button type="button" class="btn btn-default hasDOI">DOI</button>
+                    <button type="button" class="btn btn-default hasURL">URL</button>
+                    <button type="button" class="btn btn-default hasComment">Comments</button>
+                    <button type="button" class="btn btn-default denotesRhetoric">Rethorics</button>
+                    <button type="button" class="btn btn-default">Citations</button>
+                    <button type="button" class="btn btn-default references">References</button>
+                </div>
+            </form>
+
+            <form id="navForm" ng-show="!filtersShow" ng-hide="filterShow" class="navbar-form navbar-left" role="search" novalidate>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search" ng-model="search.searchCriteria">
                 </div>
                 <button type="submit" class="btn btn-default">Search by url</button>
                 <button type="button" class="btn btn-default navbar-btn"
-                        tooltip="Apply document filter"
+                        tooltip="Apply document fragment filter"
+                        tooltip-placement="bottom"
+                        tooltip-trigger="mouseenter"
+                        ng-click="showFilters()"
+                    ><span class="glyphicon glyphicon-tasks"></span></button>
+                <button type="button" class="btn btn-default navbar-btn"
+                        tooltip="Advanced document search"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
                         ng-click="showModalFilter()"
-                    ><span class="glyphicon glyphicon-tasks"></span></button>
+                    ><span class="glyphicon glyphicon-list"></span></button>
                 <button ng-if="logStatus === true" type="button" class="btn btn-default navbar-btn"
                         tooltip="Manage unsaved annotation"
                         tooltip-placement="bottom"
