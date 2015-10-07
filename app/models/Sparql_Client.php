@@ -196,10 +196,13 @@ WHERE{
 	    	?node rdf:type oa:SpecificResource ;
             	      oa:hasSource ?source .
   	
-  	{ FILTER ((?watf = 'hasPublicationYear' && ?o > xsd:date('2015-08-15'))  || (?watf = 'hasAuthor' && ?o_label = 'Charles Oppenheim') || (?watf ='hasURL' && regex (str(?o) , LCASE('google'))) || (?watf ='hasTitle' && regex (LCASE(str(?o)) ,LCASE('Repubblica.it Esteri'))) || (?watf ='references' && regex (str(?o) , LCASE('wolska')))                      ) }
-	  	
+  { FILTER ((?watf = 'hasPublicationYear' && ?o > xsd:date('2015-08-15'))  ||
+	 (?watf = 'hasAuthor' && ?o_label = 'Charles Oppenheim') ||
+	  (?watf ='hasURL' && regex (str(?o) , LCASE('google'))) ||
+	   (?watf ='hasTitle' && regex (LCASE(str(?o)) ,LCASE('Repubblica.it Esteri'))) ||
+	    (?watf ='references' && regex (str(?o) , LCASE('wolska')))) }
+	  	}
 	}
-  }
   	
   	
 LIMIT 400";
