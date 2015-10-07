@@ -38,27 +38,13 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2" ng-controller="SearchSearchBar as vm">
 
-            <!-- <form id="fragmentFilters" class="navbar-form navbar-left" role="search" novalidate>
-                <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default hasAuthor">Authors</button>
-                    <button type="button" class="btn btn-default hasPublicationYear">Publication year</button>
-                    <button type="button" class="btn btn-default hasTitle">Title</button>
-                    <button type="button" class="btn btn-default hasDOI">DOI</button>
-                    <button type="button" class="btn btn-default hasURL">URL</button>
-                    <button type="button" class="btn btn-default hasComment">Comments</button>
-                    <button type="button" class="btn btn-default denotesRhetoric">Rethorics</button>
-                    <button type="button" class="btn btn-default">Citations</button>
-                    <button type="button" class="btn btn-default references">References</button>
-                </div>
-            </form> -->
-
             <form id="navForm" class="navbar-form navbar-left" role="search" novalidate>
                 <button show-menu type="button" class="btn btn-default navbar-btn"
                         tooltip="Menu"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
                     ><span class="glyphicon glyphicon-menu-hamburger"></span></button>
-                <button type="button" class="btn btn-default navbar-btn"
+                <button show-filters type="button" class="btn btn-default navbar-btn"
                         tooltip="Apply document fragment filter"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"

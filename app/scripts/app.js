@@ -56,6 +56,9 @@
             'ui-notification'
         ])
         .directive('lateralMenu', LateralMenu)
+        .directive('showMenu', showMenu)
+        .directive('showFilters', showFilters)
+        .directive('filtersSelection', filtersSelection)
 
     semanticNotations.config(['$routeProvider',
         function ($routeProvider) {
@@ -64,23 +67,80 @@
                     templateUrl: init_conf.partialsView + 'help.html'
                 }).
                 when('/about', {
-                    templateUrl: init_conf.partialsView+'about.html'
+                    templateUrl: init_conf.partialsView + 'about.html'
                 }).
                 when('/annotator', {
-                    templateUrl: init_conf.partialsView+'annotator.html'
+                    templateUrl: init_conf.partialsView + 'annotator.html'
                 }).
                 otherwise({
                     redirectTo: '/homeproject',
-                    templateUrl: init_conf.partialsView+'index.html'
+                    templateUrl: init_conf.partialsView + 'index.html'
                 });
         }]);
 
-    function LateralMenu(){
+    /**
+     *
+     * @returns {{restrict: string, link: link}}
+     * @constructor
+     */
+    function LateralMenu() {
         return {
             restrict: 'AC',
             link: function (scope, element, attrs) {
-                jQuery(element).on('mouseout',function(event){jQuery(this).addClass('menu-close').removeClass('menu-open')})
-                jQuery(element).on('mouseover',function(event){jQuery(this).addClass('menu-open').removeClass('menu-close')})
+                jQuery(element).on('mouseout', function (event) {
+                    jQuery(this).addClass('menu-close').removeClass('menu-open')
+                })
+                jQuery(element).on('mouseover', function (event) {
+                    jQuery(this).addClass('menu-open').removeClass('menu-close')
+                })
+            }
+        }
+    }
+
+    /**
+     * Show menu and hide fragment filters menu
+     * @returns {{restrict: string, link: link}}
+     */
+    function showMenu(){
+        return {
+            restrict:'A',
+            link: function (scope, elem, attrs){
+                elem.on('click', function(){
+                    if($('#site-wrapper').hasClass('show-nav')) {
+                        $('#site-wrapper').removeClass('show-nav');
+                    }else {
+                        $('#site-wrapper').addClass('show-nav');
+                    }
+                })
+            }
+        }
+    }
+
+    /**
+     * Show fragment filters and hide menu
+     * @returns {{restrict: string, link: link}}
+     */
+    function showFilters(){
+        return {
+            restrict:'A',
+            link: function (scope, elem, attrs){
+
+            }
+        }
+    }
+
+    /**
+     * Show fragment filters and hide menu
+     * @returns {{restrict: string, link: link}}
+     */
+    function filtersSelection(){
+        return {
+            restrict:'A',
+            link: function (scope, elem, attrs){
+                elem.addClass('active');
+                elem.on('click', function(){
+                    elem.toggleClass('active');
+                })
             }
         }
     }

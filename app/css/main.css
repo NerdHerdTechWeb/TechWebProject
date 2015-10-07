@@ -286,7 +286,10 @@ input.ng-invalid.ng-touched {
 /*<!-- lateral menu -->*/
 body{
     overflow-x: hidden;
-;
+}
+
+.filtersHided{
+    display: none;
 }
 
 #site-wrapper {
@@ -320,7 +323,7 @@ body{
   -webkit-transform: translate3d(350px, 0, 0);
   transform: translate3d(350px, 0, 0);
 }
-#site-menu {
+#site-menu, #site-filters {
   width: 350px;
   height: 100%;
   position: absolute;

@@ -4,8 +4,7 @@
 
     angular
         .module('semanticNotations')
-        .controller('NavBar', navBar)
-        .directive('showMenu', showMenu);
+        .controller('NavBar', navBar);
 
     /**
      *
@@ -58,21 +57,6 @@
         $scope.logout = function(){
             user.logout();
             $scope.logStatus = user.logInStatus();
-        }
-    }
-    
-    function showMenu(){
-        return {
-            restrict:'A',
-            link: function (scope, elem, attrs){
-                elem.on('click', function(){
-                    if($('#site-wrapper').hasClass('show-nav')) {
-                        $('#site-wrapper').removeClass('show-nav');
-                    }else {
-                        $('#site-wrapper').addClass('show-nav');
-                    }
-                })
-            }
         }
     }
 })();
