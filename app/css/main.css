@@ -284,9 +284,14 @@ input.ng-invalid.ng-touched {
 
 
 /*<!-- lateral menu -->*/
+body{
+    overflow-x: hidden;
+;
+}
+
 #site-wrapper {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
 }
 #site-canvas {

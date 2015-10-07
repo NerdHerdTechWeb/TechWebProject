@@ -58,15 +58,15 @@
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
                     ><span class="glyphicon glyphicon-menu-hamburger"></span></button>
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" ng-model="search.searchCriteria">
-                </div>
-                <button type="submit" class="btn btn-default">Search by url</button>
                 <button type="button" class="btn btn-default navbar-btn"
                         tooltip="Apply document fragment filter"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
                     ><span class="glyphicon glyphicon-tasks"></span></button>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="search.searchCriteria">
+                </div>
+                <button type="submit" class="btn btn-default">Search by url</button>
                 <button type="button" class="btn btn-default navbar-btn"
                         tooltip="Advanced document search"
                         tooltip-placement="bottom"
