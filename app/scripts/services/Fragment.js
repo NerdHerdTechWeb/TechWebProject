@@ -175,7 +175,7 @@
         }
 
         /**
-         *
+         * Internal us
          * @param node
          * @param start
          * @param end

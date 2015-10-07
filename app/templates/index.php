@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="../app/css/main.css">
+    <link rel="stylesheet" href="../app/css/magic.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap-flat/css/bootstrap-flat.min.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap-flat/css/bootstrap-flat-extras.min.css">
@@ -37,7 +38,7 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2" ng-controller="SearchSearchBar as vm">
 
-            <form id="fragmentFilters" ng-show="filtersShow" ng-hide="!filterShow" class="navbar-form navbar-left" role="search" novalidate>
+            <!-- <form id="fragmentFilters" class="navbar-form navbar-left" role="search" novalidate>
                 <div class="btn-group" role="group" aria-label="...">
                     <button type="button" class="btn btn-default hasAuthor">Authors</button>
                     <button type="button" class="btn btn-default hasPublicationYear">Publication year</button>
@@ -49,9 +50,14 @@
                     <button type="button" class="btn btn-default">Citations</button>
                     <button type="button" class="btn btn-default references">References</button>
                 </div>
-            </form>
+            </form> -->
 
-            <form id="navForm" ng-show="!filtersShow" ng-hide="filterShow" class="navbar-form navbar-left" role="search" novalidate>
+            <form id="navForm" class="navbar-form navbar-left" role="search" novalidate>
+                <button show-menu type="button" class="btn btn-default navbar-btn"
+                        tooltip="Menu"
+                        tooltip-placement="bottom"
+                        tooltip-trigger="mouseenter"
+                    ><span class="glyphicon glyphicon-menu-hamburger"></span></button>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search" ng-model="search.searchCriteria">
                 </div>
@@ -60,7 +66,6 @@
                         tooltip="Apply document fragment filter"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
-                        ng-click="showFilters()"
                     ><span class="glyphicon glyphicon-tasks"></span></button>
                 <button type="button" class="btn btn-default navbar-btn"
                         tooltip="Advanced document search"
@@ -99,7 +104,7 @@
 </nav>
 
 <!-- Main view rendered by Angular -->
-<div id="wrapper" ng-view></div>
+<div id="site-wrapper" ng-view></div>
 
 <!-- Preloade css3 animation -->
 <div class="sk-circle doc-preloader-hide">
@@ -153,5 +158,5 @@
 <script type="text/javascript" src="../app/scripts/services/Widget.Meta.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Fragment.js"></script>
 <script type="text/javascript" src="../app/scripts/services/User.js"></script>
-<script type="text/javascript" src="../app/scripts/services/Annotations.manager.js"></script>
+<script type="text/javascript" src="../app/scripts/services/Annotations.Manager.js"></script>
 </html>

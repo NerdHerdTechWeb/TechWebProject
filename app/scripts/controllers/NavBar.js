@@ -4,7 +4,8 @@
 
     angular
         .module('semanticNotations')
-        .controller('NavBar', navBar);
+        .controller('NavBar', navBar)
+        .directive('showMenu', showMenu);
 
     /**
      *
@@ -37,14 +38,6 @@
                 }
             });
         }
-
-        $scope.showFilters = function (){
-            $scope.filtersShow = true;
-        }
-
-        $scope.hideFilters = function (){
-            $scope.filtersShow = false;
-        }
         
         $scope.login = function(){
             var modalInstance = $modal.open({
@@ -65,6 +58,21 @@
         $scope.logout = function(){
             user.logout();
             $scope.logStatus = user.logInStatus();
+        }
+    }
+    
+    function showMenu(){
+        return {
+            restrict:'A',
+            link: function (scope, elem, attrs){
+                elem.on('click', function(){
+                    if($('#site-wrapper').hasClass('show-nav')) {
+                        $('#site-wrapper').removeClass('show-nav');
+                    }else {
+                        $('#site-wrapper').addClass('show-nav');
+                    }
+                })
+            }
         }
     }
 })();
