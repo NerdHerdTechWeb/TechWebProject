@@ -197,7 +197,7 @@ WHERE{
             	      oa:hasSource ?source .
   	
   { FILTER ((?watf = 'hasPublicationYear' && ?o > xsd:date('$date'))  ||
-	 (?watf = 'hasAuthor' && ?o_label = '$author') ||
+	 (?watf = 'hasAuthor' && regex(?o_label , '$author')) ||
 	  (?watf ='hasURL' && regex (str(?o) , LCASE('$url'))) ||
 	   (?watf ='hasTitle' && regex (LCASE(str(?o)) ,LCASE('$title'))) ||
 	    (?watf ='references' && regex (str(?o) , LCASE('$cities')))) }
