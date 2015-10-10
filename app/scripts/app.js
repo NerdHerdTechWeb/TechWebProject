@@ -53,7 +53,8 @@
             'ui.tinymce',
             'ui.select2',
             'angular-bind-html-compile',
-            'ui-notification'
+            'ui-notification',
+            'frapontillo.bootstrap-switch'
         ])
         .directive('lateralMenu', LateralMenu)
         .directive('showMenu', showMenu)

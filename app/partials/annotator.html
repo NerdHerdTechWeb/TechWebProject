@@ -8,18 +8,73 @@
                 </a>
             </h3>
 
-            <div class="sidebar-module panel panel-default" ng-controller="WidgetMeta as vm">
+            <div class="sidebar-module panel panel-default" ng-controller="WidgetFilters">
+                <div class="panel-heading">Filters</div>
                 <div class="panel-body">
                     <div class="list-group">
-                        <a href filters-selection class="list-group-item">Authors</a>
-                        <a href filters-selection class="list-group-item">Publication year</a>
-                        <a href filters-selection class="list-group-item">Title</a>
-                        <a href filters-selection class="list-group-item">DOI</a>
-                        <a href filters-selection class="list-group-item">URL</a>
-                        <a href filters-selection class="list-group-item">Comments</a>
-                        <a href filters-selection class="list-group-item">Rethorics</a>
-                        <a href filters-selection class="list-group-item">Citations</a>
-                        <a href filters-selection class="list-group-item">References</a>
+                        <div class="list-group-item">
+                            <input bs-switch ng-model="filters.hasAuthor" type="checkbox"
+                                   switch-active="{{ isActive }}"
+                                   switch-on-text="Authors"
+                                   switch-off-text="Authors"
+                                   ng-value="'hasAuthors'">
+                        </div>
+                        <div class="list-group-item">
+                            <input bs-switch ng-model="filters.hasPublicationYear" type="checkbox"
+                                   switch-active="{{ isActive }}"
+                                   switch-on-text="Publication year"
+                                   switch-off-text="Publication year"
+                                   ng-value="hasPublicationYear">
+                        </div>
+                        <div class="list-group-item">
+                            <input class="list-group-item"
+                                   bs-switch ng-model="filters.hasTitle" type="checkbox"
+                                   switch-on-text="Title"
+                                   switch-off-text="Title"
+                                   ng-value="'hasTitle'">
+                        </div>
+                        <div class="list-group-item">
+                            <input class="list-group-item"
+                                   bs-switch ng-model="filters.hasDOI" type="checkbox"
+                                   switch-on-text="DOI"
+                                   switch-off-text="DOI"
+                                   ng-value="'hasDOI'">
+                        </div>
+                        <div class="list-group-item">
+                            <input class="list-group-item"
+                                   bs-switch ng-model="filters.hasURL" type="checkbox"
+                                   switch-on-text="URL"
+                                   switch-off-text="URL"
+                                   ng-value="'hasURL'">
+                        </div>
+                        <div class="list-group-item">
+                            <input class="list-group-item"
+                                   bs-switch ng-model="filters.hasComment" type="checkbox"
+                                   switch-on-text="Comments"
+                                   switch-off-text="Comments"
+                                   ng-value="'hasComments'">
+                        </div>
+                        <div class="list-group-item">
+                            <input class="list-group-item"
+                                   bs-switch ng-model="filters.hasRethoric" type="checkbox"
+                                   switch-on-text="Rethorics"
+                                   switch-off-text="Rethorics"
+                                   ng-value="'hasRethorics'">
+                        </div>
+                        <div class="list-group-item">
+                            <input class="list-group-item"
+                                   bs-switch ng-model="filters.hasCitations" type="checkbox"
+                                   switch-on-text="Citations"
+                                   switch-off-text="Citations"
+                                   ng-value="'hasCitations'">
+                        </div>
+                        <div class="list-group-item">
+                            <input class="list-group-item"
+                                   bs-switch ng-model="filters.references" type="checkbox"
+                                   switch-on-text="References"
+                                   switch-off-text="References"
+                                   ng-value="'references'">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -50,23 +105,29 @@
 
         </div>
         <div class="row">
-            <div id="navTabsContainer" class="col-md-11 col-md-offset-1 col-xs-11 col-xs-offset-1 col-lg-11 col-lg-offset-1" create-local-path create-local-path-from-remote>
+            <div id="navTabsContainer"
+                 class="col-md-11 col-md-offset-1 col-xs-11 col-xs-offset-1 col-lg-11 col-lg-offset-1" create-local-path
+                 create-local-path-from-remote>
                 <!--Body content-->
-    
-                <div ng-if="documentsLoaded.length == 0" id="noDocLoaded">Please choose one document from left menu to start edit your annotations</div>
-    
+
+                <div ng-if="documentsLoaded.length == 0" id="noDocLoaded">Please choose one document from left menu to
+                    start edit your annotations
+                </div>
+
                 <tabset>
                     <tab ng-repeat="documentLoaded in documentsLoaded"
                          active="documentLoaded.active"
                          disable="documentLoaded.disabled"
                          title="{{documentLoaded.hoverTitle}}">
                         <tab-heading>{{documentLoaded.title}}
-                            <a ng-if="!$first" title="close" ng-click="removeTab($index,documentLoaded.documentId)" href=''>
+                            <a ng-if="!$first" title="close" ng-click="removeTab($index,documentLoaded.documentId)"
+                               href=''>
                                 <i class="glyphicon glyphicon-remove"></i>
                             </a>
                         </tab-heading>
                         <div class="table-responsive" ng-mouseup="showSelectedText($event)">
-                            <table bind-html-compile="documentLoaded.content" create-fragment-span class="table"></table>
+                            <table bind-html-compile="documentLoaded.content" create-fragment-span
+                                   class="table"></table>
                         </div>
                     </tab>
                 </tabset>

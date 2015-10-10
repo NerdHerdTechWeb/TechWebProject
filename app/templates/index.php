@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="../app/css/main.css">
     <link rel="stylesheet" href="../app/css/magic.css">
+    <link rel="stylesheet" href="../app/css/bt-switch.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap-flat/css/bootstrap-flat.min.css">
     <link rel="stylesheet" href="../../bower_components/bootstrap-flat/css/bootstrap-flat-extras.min.css">
@@ -44,11 +45,6 @@
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
                     ><span class="glyphicon glyphicon-menu-hamburger"></span></button>
-                <button show-filters type="button" class="btn btn-default navbar-btn"
-                        tooltip="Apply document fragment filter"
-                        tooltip-placement="bottom"
-                        tooltip-trigger="mouseenter"
-                    ><span class="glyphicon glyphicon-tasks"></span></button>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search" ng-model="search.searchCriteria">
                 </div>
@@ -126,7 +122,9 @@
 <script type="text/javascript" src="../../bower_components/ui-select/src/select3.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-cookies/angular-cookies.min.js"></script>
+<script type="text/javascript" src="../../bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"></script>
 <script type="text/javascript" src="../../bower_components/moment/moment.js"></script>
+<script type="text/javascript" src="../app/scripts/utils/bt-switch.js"></script>
 
 <!-- Application Scripts -->
 <script type="text/javascript" src="../app/scripts/app.js"></script>
@@ -134,6 +132,7 @@
 <script type="text/javascript" src="../app/scripts/controllers/SearchSearchBar.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/DocumentsManager.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/WidgetMeta.js"></script>
+<script type="text/javascript" src="../app/scripts/controllers/WidgetFilters.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/WidgetMetaModal.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/FragmentModal.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/AnnotationsModal.js"></script>
