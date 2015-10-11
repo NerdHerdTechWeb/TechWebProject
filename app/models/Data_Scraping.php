@@ -111,13 +111,10 @@ class Data_Scraping
         $papersSources = $mappings;
 
         $papersList = array();
-        #$client = new Client();
         $doc = new DOMDocument();
 
         foreach ($papersSources as $source) {
-            /**
-             * Try catching pattern
-             */
+
             try {
                 $res = file_get_contents($source['url']);
             } catch (Exception $e) {
@@ -148,6 +145,47 @@ class Data_Scraping
         }
 
         return json_encode($papersList);
+    }
+
+    /**
+     * Create the left menu object documents list from a collection of uri
+     * @param array $collection collection of dLib documents uri
+     * @return string
+     */
+    public static function dLibScrapingUrlCollection($collection = array())
+    {
+        //TODO check empty collection
+        $doc = new DOMDocument();
+
+        foreach ($collection as $key => $val) {
+
+            try {
+                $res = file_get_contents($val);
+            } catch (Exception $e) {
+                return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
+            }
+
+            $body = $res;
+
+            $doc->loadHTML($body);
+
+            $xpath = new DOMXpath($doc);
+
+            $title = $xpath->query('//html//body//form//table[3]//tr//td//table[5]//tr//td//table[1]//tr[1]//td[2]//h3[2]')->item(0)->nodeValue;
+
+            $newPaper = array();
+
+            $newPaper['label'] = trim($title);
+            $newPaper['link'] = $val;
+            $newPaper['imagepath'] = preg_replace('([^\/]+$)', '', $newPaper['link']);
+            $newPaper['from'] = 'dlib';
+
+            $papersList[] = $newPaper;
+
+        }
+
+        return json_encode($papersList);
+
     }
 
     /**

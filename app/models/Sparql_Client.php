@@ -14,6 +14,7 @@ class Sparql_Client
 {
     protected $sparql_client = 'http://tweb2015.cs.unibo.it:8080/data/query';
     protected $sparql_client_modify = 'http://tweb2015.cs.unibo.it:8080/data/update';
+    protected $sparql_client_delete = 'http://tweb2015.cs.unibo.it:8080/data/delete';
     protected $sClient;
     protected $sClientModify;
 
@@ -205,7 +206,7 @@ WHERE{
 	}
   	
   	
-LIMIT 400";
+LIMIT 100";
 
         $this->results = $this->sClient->query($query);
         return $this;
@@ -214,7 +215,7 @@ LIMIT 400";
     /**
      * 
      * Returns documents list as json
-     * Returns json object not an array of json objects
+     * Returns json object instead that an array of json objects
      * 
      */
     public function getSearchJson(){
@@ -227,10 +228,14 @@ LIMIT 400";
             $i++;
         }
         if(count($rows) <= 1)
-            $res = array('resource' => !empty($rows) ? $rows[0] : false);
+            $res = array(!empty($rows) ? $rows[0] : false);
         else 
             $res = array_unique($rows);
-        return json_encode(array_unique($res));
+
+        //TODO check uri domain (dLib, rStat, anything else)
+        $leftMenuObject = Data_Scraping::dLibScrapingUrlCollection(array_unique($res));
+
+        return $leftMenuObject;
     }
 
     /**

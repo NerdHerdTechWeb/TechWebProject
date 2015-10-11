@@ -29,7 +29,7 @@
             function (results) {
                 $scope.documentEntries = results;
             }, function (error) { // Check for errors
-                console.log(error);
+                $log.error(error);
             }
         );
         
@@ -37,7 +37,14 @@
             $scope.documentEntries = [];
             var tempRes = [];
             for(var k in args){
-                tempRes.push({'label':  args[k], 'link': args[k]});
+                var argJ = typeof args[k].toJSON === 'function' ? args[k].toJSON() : false;
+
+                if(argJ) tempRes.push({
+                    'label': argJ.label,
+                    'link': argJ.link,
+                    'imagepath': argJ.imagepath,
+                    'from': argJ.from
+                });
             }
             $scope.documentEntries = tempRes;
         });

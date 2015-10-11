@@ -22,7 +22,8 @@
             {
                 documents: {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    isArray: true
                 }
             });
             return Search.documents($.param(merged)).$promise.then(function(results) {
