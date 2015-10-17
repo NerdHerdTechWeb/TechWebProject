@@ -9,7 +9,7 @@
             </h3>
 
             <div class="sidebar-module panel panel-default" ng-controller="WidgetFilters">
-                <div class="panel-heading">Filters</div>
+                <div class="panel-heading">Filters <a href><span class="pull-right glyphicon glyphicon-chevron-up"></span></a></div>
                 <div class="panel-body">
                     <div class="list-group">
                         <div class="list-group-item">
@@ -81,7 +81,7 @@
 
             <!--Sidebar content-->
             <div class="sidebar-module panel panel-default">
-                <div class="panel-heading">Documents</div>
+                <div class="panel-heading">Documents <a href><span class="pull-right glyphicon glyphicon-chevron-up"></span></a></div>
                 <div class="panel-body">
                     <div class="list-group">
                         <a id="document_{{$index}}" class="list-group-item"
@@ -95,7 +95,7 @@
             </div>
 
             <div class="sidebar-module panel panel-default" ng-controller="WidgetMeta as vm">
-                <div class="panel-heading">Meta</div>
+                <div class="panel-heading">Meta <a href><span class="pull-right glyphicon glyphicon-chevron-up"></span></a></div>
                 <div class="panel-body">
                     <div class="list-group">
                         <a class="list-group-item" ng-repeat="meta in vm.metaEntries" href ng-click="open()">{{meta.comment}}</a>
