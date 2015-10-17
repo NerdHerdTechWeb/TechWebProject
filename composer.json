@@ -8,6 +8,6 @@
     },
 
     "autoload":{
-        "classmap":["app/models/"]
+        "classmap":["app/models/","app/helpers/"]
     }
 }

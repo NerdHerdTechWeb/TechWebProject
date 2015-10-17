@@ -13,8 +13,7 @@
 class Sparql_Client
 {
     protected $sparql_client = 'http://tweb2015.cs.unibo.it:8080/data/query';
-    protected $sparql_client_modify = 'http://tweb2015.cs.unibo.it:8080/data/update';
-    protected $sparql_client_delete = 'http://tweb2015.cs.unibo.it:8080/data/delete';
+    protected $sparql_client_modify = 'http://tweb2015.cs.unibo.it:8080/data/update?user=ltw1540&pass=Xab7!=UUj';
     protected $sClient;
     protected $sClientModify;
 
@@ -111,21 +110,21 @@ WHERE{
      */
     public function updateDocumentAnnotation($queryParams)
     {
-        //TODO implementation of update
-        $defaults = array(
-            'graph' => 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540'
-        );
-
-        $defaults = array_merge($defaults, $queryParams);
-        return json_encode(array('message' => $defaults));
+        $annotation = new Sparql_Edit();
+        $graph = $annotation->buildAnnotation($queryParams)->getGraph();
+        $results = $this->sClientModify->insert($graph, 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540');
+        return json_encode(array('message' => $results->getMessage(), 'status' => $results->getStatus()));
     }
 
     /**
      *
      */
-    public function addDocumentAnnotation()
+    public function addDocumentAnnotation($queryParams)
     {
-
+        $annotation = new Sparql_Edit();
+        $graph = $annotation->buildAnnotation($queryParams)->getGraph();
+        $results = $this->sClientModify->insert($graph, 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540');
+        return json_encode(array('message' => $results));
     }
 
     /**
