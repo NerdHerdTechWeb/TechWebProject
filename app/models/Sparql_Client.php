@@ -184,27 +184,26 @@ WHERE{
 	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
 	{
 	
-	 ?annotation  rdf:type oa:Annotation.
-		OPTIONAL { ?annotation rsch:type ?watf }       
-		OPTIONAL { ?annotation oa:hasBody ?body }
-		OPTIONAL { ?body rdf:subject ?s }
-  		OPTIONAL {?body rdf:predicate ?p}
-  		OPTIONAL { ?body rdf:object ?o }
-		OPTIONAL { ?body rdfs:label ?body_l }
-		OPTIONAL { ?o    rdfs:label ?o_label}
-  		?annotation oa:hasTarget ?node.
-	    	?node rdf:type oa:SpecificResource ;
-            	      oa:hasSource ?source .
+	    ?annotation  rdf:type oa:Annotation.
+        OPTIONAL { ?annotation rsch:type ?watf }
+        OPTIONAL { ?annotation oa:hasBody ?body }
+        OPTIONAL { ?body rdf:subject ?s }
+        OPTIONAL { ?body rdf:predicate ?p }
+        OPTIONAL { ?body rdf:object ?o }
+        OPTIONAL { ?body rdfs:label ?body_l }
+        OPTIONAL { ?o    rdfs:label ?o_label}
+        ?annotation oa:hasTarget ?node.
+        ?node rdf:type oa:SpecificResource ;
+              oa:hasSource ?source .
   	
-  { FILTER ((?watf = 'hasPublicationYear' && ?o > xsd:date('$date'))  ||
-	 (?watf = 'hasAuthor' && regex(?o_label , '$author')) ||
-	  (?watf ='hasURL' && regex (str(?o) , LCASE('$url'))) ||
-	   (?watf ='hasTitle' && regex (LCASE(str(?o)) ,LCASE('$title'))) ||
-	    (?watf ='references' && regex (str(?o) , LCASE('$cities')))) }
-	  	}
+        { FILTER ((?watf = 'hasPublicationYear' && ?o > xsd:date('$date'))  ||
+	        (?watf = 'hasAuthor' && regex(?o_label , '$author')) ||
+	        (?watf ='hasURL' && regex (str(?o) , LCASE('$url'))) ||
+	        (?watf ='hasTitle' && regex (LCASE(str(?o)) ,LCASE('$title'))) ||
+	        (?watf ='references' && regex (str(?o) , LCASE('$cities'))))
+	    }
 	}
-  	
-  	
+}
 LIMIT 100";
 
         $this->results = $this->sClient->query($query);

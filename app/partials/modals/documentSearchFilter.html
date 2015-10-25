@@ -18,13 +18,13 @@
                 <div class="col-md-6">
                     <label>Publication date</label>
                     <div class="input-group">
-                        <input type="text" name="publicatinDate" class="form-control"
+                        <input type="text" name="publicationDate" class="form-control"
                                tooltip="Search by publication date"
                                tooltip-placement="top"
-                               placeholder="gg/mm/aaaa"
+                               placeholder="gg-mm-aaaa"
                                tooltip-trigger="mouseenter"
                                datepicker-popup="{{format}}"
-                               ng-model="dt"
+                               ng-model="filters.date"
                                is-open="status.opened"
                                min-date="minDate"
                                max-date="maxDate"

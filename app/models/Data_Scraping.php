@@ -162,7 +162,7 @@ class Data_Scraping
             try {
                 $res = file_get_contents($val);
             } catch (Exception $e) {
-                return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
+                return json_encode(array(array('message' => $e->getMessage(), 'class' => 'warning')));
             }
 
             $body = $res;

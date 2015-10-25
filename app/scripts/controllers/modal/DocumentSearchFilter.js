@@ -6,14 +6,35 @@
         .module('semanticNotations')
         .controller('DocumentSearchFilter', documentSearchFilter);
 
-    function documentSearchFilter($window, $resource, $scope, $modalInstance, $log, filters, documents) {
+    function documentSearchFilter($window,
+                                  $filter,
+                                  $resource,
+                                  $scope,
+                                  $modalInstance,
+                                  $log,
+                                  Notification,
+                                  filters,
+                                  documents) {
 
         $scope.filters = {};
         $scope.documentSearchResult = [];
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+        };
+
+        $scope.minDate = new Date(2000, 5, 22);
+
+        $scope.formats = ['dd-MM-yyyy', 'yyyy/MM/dd', 'dd/MM/yyyy', 'dd.MM.yyyy', 'shortDate'];
+        $scope.format = $scope.formats[0];
+
+        $scope.status = {
+            opened: false
+        };
 
         $scope.searchFilter = function () {
             var filters = $scope.filters;
-            var date = $scope.dt;
+            var date = $filter('date')(new Date($scope.filters.date), $scope.format)
             var merged = angular.extend(filters,{"date":date});
             
             $scope.isDisabled = true;
@@ -27,9 +48,12 @@
                 }
             });
             return Search.documents($.param(merged)).$promise.then(function(results) {
+                if(results[0].class){
+                    Notification.warning('No results matching your search');
+                }else{
+                    $scope.$emit('documentFiltered', results);
+                }
                 $modalInstance.close();
-                $scope.$emit('documentFiltered', results);
-                return results;
             }, function(error) {
                 // Check for errors
                 $log.error(error);
@@ -41,8 +65,9 @@
         };
 
         $scope.today = function() {
-            $scope.dt = new Date();
+            $scope.dt = $filter('date')(new Date(), $scope.format);
         };
+
         $scope.today();
 
         $scope.clear = function () {
@@ -54,26 +79,10 @@
             return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
         };
 
-        $scope.toggleMin = function() {
-            $scope.minDate = $scope.minDate ? null : new Date();
-        };
-        $scope.toggleMin();
         $scope.maxDate = new Date(2020, 5, 22);
 
         $scope.open = function($event) {
             $scope.status.opened = true;
-        };
-
-        $scope.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1
-        };
-
-        $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd/MM/yyyy', 'dd.MM.yyyy', 'shortDate'];
-        $scope.format = $scope.formats[2];
-
-        $scope.status = {
-            opened: false
         };
 
         var tomorrow = new Date();
