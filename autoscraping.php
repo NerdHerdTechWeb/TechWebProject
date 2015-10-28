@@ -37,6 +37,12 @@ foreach ($rows as $r) {
 	$newPaper['date'] = trim($xpath->query("//p[1]/text()",$r)->item(0)->nodeValue);
 	$newPaper['title'] = trim($xpath->query("//h3[2]/text()",$r)->item(0)->nodeValue);
 	
+	$authors = trim($xpath->query("//p[2]/text()",$r);
+	
+	foreach($authors as $key => $author){
+		$newPaper['author'][] = $author->nodeValue;
+	}
+	
 	$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(1)->nodeValue);
 	$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(3)->nodeValue);
 	$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(6)->nodeValue);
