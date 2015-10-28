@@ -1,5 +1,8 @@
 <?php 
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 /***
 *
 * NOTE: install Guzzle or use a different HTTP client
@@ -37,20 +40,22 @@ foreach ($rows as $r) {
 	$newPaper['date'] = trim($xpath->query("//p[1]/text()",$r)->item(0)->nodeValue);
 	$newPaper['title'] = trim($xpath->query("//h3[2]/text()",$r)->item(0)->nodeValue);
 	
-	$authors = trim($xpath->query("//p[2]/text()",$r);
+	$authors = $xpath->query("//p[2]/text()",$r);
 	
 	foreach($authors as $key => $author){
-		$newPaper['author'][] = $author->nodeValue;
+	    $module = $key % 3;
+	    if($module === 0)
+		    $newPaper['author'][] = trim($xpath->query("//p[2]/text()",$r)->item($key)->nodeValue);;
 	}
 	
-	$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(1)->nodeValue);
-	$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(3)->nodeValue);
-	$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(6)->nodeValue);
+	#$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(1)->nodeValue);
+	#$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(3)->nodeValue);
+	#$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(6)->nodeValue);
 	
-	$newPaper['doi'] = trim($xpath->query("//p[2]/text()",$r)->item(9)->nodeValue);
+	#$newPaper['doi'] = trim($xpath->query("//p[2]/text()",$r)->item(9)->nodeValue);
 	
-	$newPaper['references'] = trim($xpath->query("//p[57]",$r)->item(0)->nodeValue);
-	$newPaper['references'] = trim($xpath->query("//p[58]",$r)->item(0)->nodeValue);
+	$newPaper['references'][] = trim($xpath->query("//p[57]",$r)->item(0)->nodeValue);
+	$newPaper['references'][] = trim($xpath->query("//p[58]",$r)->item(0)->nodeValue);
 	
 	$newPaper['comment'] =  trim($xpath->query("//p/b/text()",$r)->item(0)->nodeValue);
 	
