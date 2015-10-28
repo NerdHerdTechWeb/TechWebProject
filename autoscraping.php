@@ -54,8 +54,10 @@ foreach ($rows as $r) {
 	
 	#$newPaper['doi'] = trim($xpath->query("//p[2]/text()",$r)->item(9)->nodeValue);
 	
-	$newPaper['references'][] = trim($xpath->query("//p[57]",$r)->item(0)->nodeValue);
-	$newPaper['references'][] = trim($xpath->query("//p[58]",$r)->item(0)->nodeValue);
+	$references = $xpath->query("//p/a[@name]/text()",$r);
+	foreach($references as $key => $reference){
+	    $newPaper['references'][] = $xpath->query("//p/a[@name]",$r)->item($key)->parentNode->nodeValue;
+	}
 	
 	$newPaper['comment'] =  trim($xpath->query("//p/b/text()",$r)->item(0)->nodeValue);
 	
@@ -72,6 +74,3 @@ foreach ($rows as $r) {
 	}
 	
 print_r($papersList);
-
-
-?>
