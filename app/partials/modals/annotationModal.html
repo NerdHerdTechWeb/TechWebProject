@@ -1,9 +1,10 @@
 <div ng-if="!switchLoginView">
     <div class="modal-header">
+        <button class="btn btn-warning pull-right" ng-click="cancel()">Close</button>
         <h3 class="modal-title">Annotator editor</h3>
         <small ng-if="!logInStatus" style="color: red;">If you want edit this annotations you must logged in</small>
     </div>
-    
+
     <div class="modal-body fragmentEditor">
         <form class="form-horizontal" novalidate>
             <div class="row">
@@ -149,8 +150,10 @@
                 </div>
             </div>
             <div class="modal-footer" ng-if="logInStatus">
-                <button type="submit" class="btn btn-primary" ng-click="submit()">Save</button>
-                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary" ng-click="submit('save')">Save</button>
+                <button type="submit" class="btn btn-info" ng-click="submit('cht')">Change target</button>
+                <button type="submit" class="btn btn-primary" ng-click="submit('update')">Update</button>
+                <button type="submit" class="btn btn-danger" ng-click="submit('delete')">Remove</button>
             </div>
             <div class="modal-footer" ng-if="!logInStatus">
                 <button class="btn btn-info" ng-click="login()">Login</button>

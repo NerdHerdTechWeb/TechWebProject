@@ -143,8 +143,8 @@
          * @param compile$
          */
         function hilightFragment (annotations, scope$, compile$){
+            var equals = [];
             for(var key in annotations){
-                var equals = false;
                 if(annotations[key].watf != ''){
                     var r = document.createRange();
                     if(annotations[key].start !== ''){
@@ -160,15 +160,16 @@
                                 if(annotations[key].startoffset == annotations[kk].startoffset){
                                     if(annotations[key].endoffset == annotations[kk].endoffset)
                                         if(annotations[key].start == annotations[kk].start){
-
+                                            equals = {'init':key, 'final':kk};
                                         }
                                 }
                                 kk--;
                             }
                         }
-
-                        if(!equals)
-                            render_fragment(lc,annotations[key].startoffset,annotations[key].endoffset, annotations[key].start, annotations[key],scope$);
+                        /**
+                         * Render fragment
+                         */
+                        render_fragment(lc,annotations[key].startoffset,annotations[key].endoffset, annotations[key].start, annotations[key],scope$, equals);
                     }
                 }
             }
@@ -184,7 +185,7 @@
          * @param scope$
          * @returns {Range|TextRange}
          */
-        function render_fragment(node, start, end, xpath, annotation, scope$) {
+        function render_fragment(node, start, end, xpath, annotation, scope$, equals) {
             var range = document.createRange();
             if(!node) return;
             //if(start >400) return;
@@ -230,9 +231,9 @@
                 if (node.nextSibling != null && node.nextSibling.nodeType == 8)
                     node = node.nextSibling;
                 if (node.nextSibling == null) {
-                    render_fragment(node.parentNode.nextSibling, 0, (end - node.length), xpath, annotation, scope$);
+                    render_fragment(node.parentNode.nextSibling, 0, (end - node.length), xpath, annotation, scope$, equals);
                 } else {
-                    render_fragment(node.nextSibling, 0, (end - node.length), xpath, annotation, scope$);
+                    render_fragment(node.nextSibling, 0, (end - node.length), xpath, annotation, scope$, equals);
                 }
             } else {
                 range.setEnd(node, end);
@@ -246,9 +247,10 @@
             span.setAttribute('data-annotation-id', end);
             span.setAttribute('data-date', annotation.date);
             span.setAttribute('data-author', annotation.author);
-           // span.setAttribute('data-fragment', range.toString());
+            span.setAttribute('data-fragment-in-document', range.toString());
             span.setAttribute('data-fragment', annotation.o_label || annotation.o);
             span.setAttribute('data-type', annotationColor);
+            span.setAttribute('data-equals', "{'init':"+equals.init+", 'final':"+equals.final+"}");
             span.setAttribute('ng-click', 'showNotationModal($event)');
             span.setAttribute('class', 'annotation ' + annotationColor);
             range.surroundContents(span);
