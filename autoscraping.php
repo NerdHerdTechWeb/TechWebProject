@@ -45,7 +45,7 @@ foreach ($rows as $r) {
 	foreach($authors as $key => $author){
 	    $module = $key % 3;
 	    if($module === 0)
-		    $newPaper['author'][] = trim($xpath->query("//p[2]/text()",$r)->item($key)->nodeValue);;
+		    $newPaper['author'][] = trim($xpath->query("//p[2]/text()",$r)->item($key)->nodeValue);
 	}
 	
 	#$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(1)->nodeValue);
