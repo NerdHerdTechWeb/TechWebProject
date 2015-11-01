@@ -15,7 +15,7 @@
         .directive('createLocalPathFromRemote', CreateLocalPathFromRemote)
         .directive('createFragmentSpan', CreateFragmentSpan)
 
-    function documentsManager(documents, fragment, $scope, $timeout, $window, $modal, $compile, $log) {
+    function documentsManager(documents, annotationManager, fragment, $scope, $timeout, $window, $modal, $compile, $log) {
 
         // vm is our capture variable
         var vm = this;
@@ -50,6 +50,11 @@
         });
 
         $scope.showNotationModal = function(event){
+            /**
+             * Increment paginator counter
+             */
+            annotationManager.setModalsPaginatorCount();
+
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: '/app/partials/modals/annotationModal.html',

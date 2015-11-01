@@ -94,6 +94,7 @@
 
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
+            annotationManager.decrementModalsPaginatorCount();
         };
 
         $scope.selectDocumentAType = function (type) {

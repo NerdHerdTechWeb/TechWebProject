@@ -3,15 +3,19 @@
   "version": "1.0.0",
   "homepage": "https://github.com/NerdHerdTechWeb/TechWebProject",
   "authors": [
-    "NerdHerd"
+    "Edoardo Cloriti",
+    "Federico Sarti",
+    "Mattia Valli",
+    "Riccardo Masetti"
   ],
-  "description": "Semantic Notation",
+  "description": "Semantic Notation Manager",
   "moduleType": [
     "amd"
   ],
   "keywords": [
-    "notaions",
-    "semantic"
+    "annotaions",
+    "semantic web",
+    "sparql"
   ],
   "license": "MIT",
   "ignore": [
@@ -23,7 +27,7 @@
   ],
   "dependencies": {
     "angular-resource": "~1.4.0",
-    "angular-bootstrap": "~0.13.0",
+    "angular-bootstrap": "latest",
     "angular-route": "~1.4.0",
     "moment": "~2.10.3",
     "jquery": "~2.1.4",

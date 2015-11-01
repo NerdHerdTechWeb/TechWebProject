@@ -19,6 +19,8 @@
 
         var unsavedAnnotations = [];
         var lastAnnotationsUpdated = {};
+        var modalsCount = 0;
+
         var Annotation = $resource('//' + $window.location.host + '/api/annotations/update', {},
             {
                 update: {
@@ -48,7 +50,7 @@
          * @returns {*}
          */
         function create(params) {
-            if(!user.logInStatus()){
+            if (!user.logInStatus()) {
                 Notification.error('You are not logged in');
                 return;
             }
@@ -69,7 +71,7 @@
          * @returns {*}
          */
         function update(params) {
-            if(!user.logInStatus()){
+            if (!user.logInStatus()) {
                 Notification.error('You are not logged in');
                 return;
             }
@@ -88,7 +90,7 @@
          * Delete existing annotation
          */
         function destroy(params) {
-            if(!user.logInStatus()){
+            if (!user.logInStatus()) {
                 Notification.error('You are not logged in');
                 return;
             }
@@ -126,12 +128,47 @@
             return lastAnnotationsUpdated;
         }
 
+        /**
+         * Paginator count getter
+         * @returns {number}
+         */
+        function getModalsPaginatorCount() {
+            return modalsCount;
+        }
+
+        /**
+         * Pagination count setter
+         * @param setter int
+         */
+        function setModalsPaginatorCount(setter) {
+            if(typeof setter === 'undefined')
+                modalsCount += 1;
+            else
+                modalsCount = parseInt(setter);
+        }
+
+        /**
+         * Pagination count setter
+         * @param setter int
+         */
+        function decrementModalsPaginatorCount(setter) {
+            if(typeof setter === 'undefined')
+                modalsCount -= 1;
+            else
+                modalsCount = parseInt(setter);
+        }
+
+
+
         return {
             create: create,
             update: update,
             destroy: destroy,
             search: search,
-            lastUpdated: lastUpdated
+            lastUpdated: lastUpdated,
+            getModalsPaginatorCount: getModalsPaginatorCount,
+            setModalsPaginatorCount: setModalsPaginatorCount,
+            decrementModalsPaginatorCount: decrementModalsPaginatorCount,
         }
     }
 

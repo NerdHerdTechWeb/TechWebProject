@@ -105,8 +105,8 @@
 </div>
 
 <!-- Modals manager utils -->
-<div ng-controller="PaginationModals" style="position:fixed;bottom:0; left:50%;">
-    <div class="col-xs-6 col-sm-6 col-md-6 col-xs-offset-3 col-sm-offset-3 col-md-offset-3">
+<div ng-controller="ModalsPaginator" style="position:fixed; bottom:0; left:0; right: 0; z-index: 10000;" class="row">
+    <div ng-show="showPaginator" style="margin: 0 auto; max-width: 341px;">
         <uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true"></uib-pagination>
     </div>
 </div>
@@ -121,8 +121,7 @@
 <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../../bower_components/angular/angular.js"></script>
-<!-- <script type="text/javascript" src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script> -->
-<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+<script type="text/javascript" src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-resource/angular-resource.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-route/angular-route.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-toggle-switch/angular-toggle-switch.js"></script>
@@ -136,7 +135,7 @@
 
 <!-- Application Scripts -->
 <script type="text/javascript" src="../app/scripts/app.js"></script>
-<script type="text/javascript" src="../app/scripts/controllers/PaginationModals.js"></script>
+<script type="text/javascript" src="../app/scripts/controllers/ModalsPaginator.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/NavBar.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/SearchSearchBar.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/DocumentsManager.js"></script>
