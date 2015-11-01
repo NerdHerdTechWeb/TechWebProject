@@ -111,6 +111,25 @@
     </div>
 </div>
 
+<!-- APP pre loader -->
+<div ng-init="ready=false" ng-if="ready" style="position: absolute; left: 0; bottom: 0; right: 0; top: 0; background-color: #f2f2f2; z-index: 10000;">
+    <!-- Preloade css3 animation -->
+    <div class="sk-circle doc-preloader-show">
+        <div class="sk-circle1 sk-child"></div>
+        <div class="sk-circle2 sk-child"></div>
+        <div class="sk-circle3 sk-child"></div>
+        <div class="sk-circle4 sk-child"></div>
+        <div class="sk-circle5 sk-child"></div>
+        <div class="sk-circle6 sk-child"></div>
+        <div class="sk-circle7 sk-child"></div>
+        <div class="sk-circle8 sk-child"></div>
+        <div class="sk-circle9 sk-child"></div>
+        <div class="sk-circle10 sk-child"></div>
+        <div class="sk-circle11 sk-child"></div>
+        <div class="sk-circle12 sk-child"></div>
+    </div>
+</div>
+
 </body>
 
 <!-- UTILS -->
