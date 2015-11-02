@@ -1,7 +1,7 @@
 <!-- index.html -->
 
 <!doctype html>
-<html>
+<html xmlns:ng="http://angularjs.org">
 <head>
     <title>Semantic Annotator :: Read & Edit</title>
     <link rel="icon" href="../app/src/nerdherd.ico" />
