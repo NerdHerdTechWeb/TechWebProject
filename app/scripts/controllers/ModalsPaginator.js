@@ -19,7 +19,7 @@
         };
 
         $scope.pageChanged = function () {
-            $log.log('Page changed to: ' + $scope.currentPage);
+            $log.log('Page changed to: ' + $scope.bigCurrentPage);
         };
 
         $scope.$watch(
@@ -32,11 +32,12 @@
                     $scope.bigTotalItems = newVal * 10;
                     $log.info('Show pagination');
                 }
-                if(newVal === 0){
+                if (newVal === 0) {
                     $scope.showPaginator = false;
                     $scope.bigTotalItems = newVal * 10;
                     $log.info('Hide pagination');
                 }
-            });
+            }
+        );
     }
 })();

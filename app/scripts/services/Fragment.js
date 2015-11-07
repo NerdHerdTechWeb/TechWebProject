@@ -169,7 +169,12 @@
                         /**
                          * Render fragment
                          */
-                        render_fragment(lc,annotations[key].startoffset,annotations[key].endoffset, annotations[key].start, annotations[key],scope$, equals);
+                        render_fragment(lc,
+                            annotations[key].startoffset,
+                            annotations[key].endoffset,
+                            annotations[key].start,
+                            annotations[key],
+                            scope$, equals);
                     }
                 }
             }
@@ -192,7 +197,7 @@
             if(xpath === dlibRootPath ) return;
             while (node.nodeType != 3)
                 if(node.firstChild) node = node.firstChild;
-                else return
+                else return;
             while (node.length < start) {
                 start -= node.length;
                 end -= node.length;

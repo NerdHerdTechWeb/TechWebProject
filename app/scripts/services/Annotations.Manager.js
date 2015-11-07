@@ -141,7 +141,7 @@
          * @param setter int
          */
         function setModalsPaginatorCount(setter) {
-            if(typeof setter === 'undefined')
+            if (typeof setter === 'undefined')
                 modalsCount += 1;
             else
                 modalsCount = parseInt(setter);
@@ -152,13 +152,22 @@
          * @param setter int
          */
         function decrementModalsPaginatorCount(setter) {
-            if(typeof setter === 'undefined')
+            if (typeof setter === 'undefined')
                 modalsCount -= 1;
             else
                 modalsCount = parseInt(setter);
         }
 
-
+        /**
+         * When an annotaion modal is opened it requires and identifier
+         * for facilitate the recognition
+         */
+        function setModalIdentifier() {
+            jQuery('div[class="modal"]').each(function(i,el){
+               jQuery(el).data('pagination-index',i);
+               jQuery(el).css('z-index',0);
+            });
+        }
 
         return {
             create: create,
@@ -169,6 +178,7 @@
             getModalsPaginatorCount: getModalsPaginatorCount,
             setModalsPaginatorCount: setModalsPaginatorCount,
             decrementModalsPaginatorCount: decrementModalsPaginatorCount,
+            setModalIdentifier: setModalIdentifier,
         }
     }
 

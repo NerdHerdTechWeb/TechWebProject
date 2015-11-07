@@ -74,8 +74,8 @@
                     templateUrl: init_conf.partialsView + 'annotator.html'
                 }).
                 otherwise({
-                    redirectTo: '/homeproject',
-                    templateUrl: init_conf.partialsView + 'index.html'
+                    redirectTo: '/annotator',
+                    templateUrl: init_conf.partialsView + 'annotator.html'
                 });
         }]);
 

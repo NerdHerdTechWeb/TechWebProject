@@ -57,7 +57,7 @@ class Sparql_Client
     public function getAnnotationsByDocument($queryParams = array())
     {
         $defaults = array(
-            'graph' => 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525',
+            'graph' => 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1520',
             'source' => '',
             'author_fullname' => '',
             'author_email' => ''
@@ -82,7 +82,7 @@ WHERE{
 		OPTIONAL { ?author foaf:name <{$defaults['author_fullname']}> }
 		OPTIONAL { ?author schema:email <{$defaults['author_email']}>}
 		OPTIONAL { ?annotation rdfs:label ?label }
-		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation rsch:type ?wtf }
 		OPTIONAL { ?annotation oa:hasBody ?body }
 		OPTIONAL { ?body rdf:subject ?s }
 		OPTIONAL { ?body rdf:predicate ?p }
@@ -138,6 +138,15 @@ WHERE{
         $i = 0;
         foreach ($this->results as $row => $val) {
             foreach($val as $k => $v){
+
+                if(strcasecmp('start',$k) == 0){
+                    $newText = preg_replace('[\d]','[$0]',$v);
+                    $xpath = preg_replace('(_)','/',$newText);
+                    $v = $xpath;
+                    $isBody = preg_match('(body)',$xpath);
+                    if($isBody === 0)
+                        $v = '/html/body/'.$v;
+                }
                 $rows[$i][$k] = (string)$v;
             }
             $i++;
@@ -181,7 +190,7 @@ WHERE{
         $query = "
 SELECT ?source
 WHERE{
-	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525>
+	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1520>
 	{
 	
 	    ?annotation  rdf:type oa:Annotation.

@@ -66,6 +66,10 @@
                     }
                 }
             });
+
+            modalInstance.opened.then(function(results){
+                $log.info(results);
+            });
         }
 
         $scope.getMainDocument = function (link, from, data, event$) {
@@ -102,7 +106,7 @@
         $scope.loadAnnotations = function (source) {
             return fragment.loadAnnotations({
                 source: source,
-                graph: 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1525'
+                graph: 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1520'
             }).then(function(results){
                 jQuery('tr').unwrap('tbody');
                 jQuery('#navTabsContainer img:not(.img-replaced)').each(function (i, el) {

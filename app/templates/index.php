@@ -75,8 +75,8 @@
                     ><span class="glyphicon glyphicon-log-out"></span></button>
             </form>
             <ul class="nav navbar-nav navbar-right textShadow">
-                <li><a href="#/homeproject">Home</a></li>
                 <li><a href="#/annotator">Annotator</a></li>
+                <li><a href="#/about">About</a></li>
                 <!-- <li><toggle-switch ng-model="annotator.status" knob-label="Editor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f"><toggle-switch></li> -->
             </ul>
         </div>
@@ -107,7 +107,8 @@
 <!-- Modals manager utils -->
 <div ng-controller="ModalsPaginator" style="position:fixed; bottom:0; left:0; right: 0; z-index: 10000;" class="row">
     <div ng-show="showPaginator" style="margin: 0 auto; max-width: 341px;">
-        <uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true"></uib-pagination>
+        <uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" ng-change="pageChanged()"
+                        max-size="maxSize" class="pagination-sm" boundary-links="true"></uib-pagination>
     </div>
 </div>
 

@@ -4,16 +4,10 @@
 
     angular
         .module('semanticNotations')
-        .controller('AnnotationsModal', annotationsModal);
+        .controller('AnnotationsModal', annotationsModal)
 
-    function annotationsModal($scope,
-                              $modalInstance,
-                              $log,
-                              fragmentText,
-                              user,
-                              annotationManager,
-                              Notification,
-                              documents) {
+    function annotationsModal($scope, $modalInstance, $log, fragmentText,
+                              user, annotationManager, Notification, documents) {
 
         var ct = jQuery(fragmentText.currentTarget);
         var dataset = fragmentText.currentTarget.dataset;
@@ -77,16 +71,16 @@
             //TODO save triple notation
             var form = {};
             var userData = user.userData();
-            angular.extend(form,$scope.fragmentAType);
-            angular.extend(form,$scope.documentAType);
-            angular.extend(form,dataset);
-            angular.extend(form,{
+            angular.extend(form, $scope.fragmentAType);
+            angular.extend(form, $scope.documentAType);
+            angular.extend(form, dataset);
+            angular.extend(form, {
                 "docSource": documents.getCurrentDocumentSource(),
                 "email": userData.email,
                 "username": userData.username
             });
             Notification.info('Waiting please');
-            annotationManager.update(form).then(function(results){
+            annotationManager.update(form).then(function (results) {
                 $log.info(results);
                 $modalInstance.close();
             });
@@ -130,5 +124,8 @@
         $scope.$on('logInEvent', function (event, args) {
             $scope.logInStatus = user.logInStatus();
         });
+
+        annotationManager.setModalIdentifier();
     }
+
 })();
