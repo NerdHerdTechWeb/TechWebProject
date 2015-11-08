@@ -57,7 +57,7 @@ class Sparql_Client
     public function getAnnotationsByDocument($queryParams = array())
     {
         $defaults = array(
-            'graph' => 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1520',
+            'graph' => 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1542',
             'source' => '',
             'author_fullname' => '',
             'author_email' => ''
