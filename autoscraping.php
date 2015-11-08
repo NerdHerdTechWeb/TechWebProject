@@ -60,6 +60,7 @@ foreach ($rows as $r) {
 	}
 	
 	$newPaper['comment'] =  trim($xpath->query("//p/b/text()",$r)->item(0)->nodeValue);
+	$newPaper['url'] = $res->getEffectiveUrl();
 	
 //		/html/body/form/table[3]/tbody/tr/td/table[5]/tbody/tr/td/table[1]/tbody/tr/td[2]/table[2]/tbody/tr/td[2]/p/b
 
