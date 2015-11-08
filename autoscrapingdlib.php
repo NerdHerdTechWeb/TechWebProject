@@ -30,10 +30,6 @@ foreach ($rows as $r) {
 	
 	$newPaper = array();
 	
-//	
-
-//  /html/body/form/table[3]/tbody/tr/td/table[5]/tbody/tr/td/table[1]/tbody/tr/td[2]/h3[2]
-//  /html/body/form/table[3]/tbody/tr/td/table[5]/tbody/tr/td/table[1]/tbody/tr/td[2]/p[2]
 
 	// echo $r->nodeValue . "\n";
 	// WARNING: error if the XPath expression returns NULL
@@ -48,11 +44,7 @@ foreach ($rows as $r) {
 		    $newPaper['author'][] = trim($xpath->query("//p[2]/text()",$r)->item($key)->nodeValue);
 	}
 	
-	#$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(1)->nodeValue);
-	#$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(3)->nodeValue);
-	#$newPaper['author'] = trim($xpath->query("//p[2]/text()",$r)->item(6)->nodeValue);
-	
-	#$newPaper['doi'] = trim($xpath->query("//p[2]/text()",$r)->item(9)->nodeValue);
+
 	
 	$references = $xpath->query("//p/a[@name]/text()",$r);
 	foreach($references as $key => $reference){
@@ -62,14 +54,7 @@ foreach ($rows as $r) {
 	$newPaper['comment'] =  trim($xpath->query("//p/b/text()",$r)->item(0)->nodeValue);
 	$newPaper['url'] = $res->getEffectiveUrl();
 	
-//		/html/body/form/table[3]/tbody/tr/td/table[5]/tbody/tr/td/table[1]/tbody/tr/td[2]/table[2]/tbody/tr/td[2]/p/b
 
-//	/html/body/form/table[3]/tbody/tr/td/table[5]/tbody/tr/td/table[1]/tbody/tr/td[2]/p[58]/a[1]
-
-
-/*	$newPaper['authors'] = trim($xpath->query("td[2]/strong/text()",$r)->item(0)->nodeValue);
-	$newPaper['title'] = trim($xpath->query("td[3]/text()",$r)->item(0)->nodeValue);
-	$newPaper['year'] = trim($xpath->query("td[4]/text()",$r)->item(0)->nodeValue);*/
 		
 	$papersList[] = $newPaper;
 	}
