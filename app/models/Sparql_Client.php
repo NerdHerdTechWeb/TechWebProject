@@ -72,7 +72,7 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX schema: <http://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
-SELECT ?watf ?author ?author_fullname ?author_email ?date ?label ?body ?s ?p ?o ?body_l ?o_label ?start ?startoffset ?endoffset
+SELECT ?wtf ?author ?author_fullname ?author_email ?date ?label ?body ?s ?p ?o ?body_l ?o_label ?start ?startoffset ?endoffset
 WHERE{
 	GRAPH <{$defaults['graph']}>
 	{
