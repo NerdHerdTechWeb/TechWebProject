@@ -106,7 +106,7 @@
         $scope.loadAnnotations = function (source) {
             return fragment.loadAnnotations({
                 source: source,
-                graph: 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1520'
+                graph: 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1542'
             }).then(function(results){
                 jQuery('tr').unwrap('tbody');
                 jQuery('#navTabsContainer img:not(.img-replaced)').each(function (i, el) {
