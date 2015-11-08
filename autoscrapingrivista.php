@@ -32,7 +32,7 @@ foreach ($rows as $r) {
 		$newPaper['references'] = $xpath->query("//*[@id='articleCitations']",$r)->item(0)->nodeValue;
 		$newPaper['doi'] = $xpath->query("//*[@id='pub-id::doi']",$r)->item(0)->nodeValue;
 		$newPaper['url'] = $res->getEffectiveUrl();
-		$newPaper['references'] = $xpath->query("//*[@id='articleCitations']",$r)->item(0)->nodeValue;
+		
 
 		
 	$papersList[] = $newPaper;
