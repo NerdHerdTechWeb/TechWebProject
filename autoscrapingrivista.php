@@ -1,5 +1,7 @@
 <?php 
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 /***
 *
 * NOTE: install Guzzle or use a different HTTP client
@@ -29,12 +31,13 @@ foreach ($rows as $r) {
 	
 		$newPaper['title'] = $xpath->query("//*[@id='articleTitle']",$r)->item(0)->nodeValue;
 		$newPaper['author'] = $xpath->query("//*[@id='authorString']",$r)->item(0)->nodeValue;
-		$newPaper['references'] = $xpath->query("//*[@id='articleCitations']",$r)->item(0)->nodeValue;
+		foreach($xpath->query("//*[@id='articleCitations']//p",$r) as $key => $val){
+		    $newPaper['references'][] = $xpath->query("//*[@id='articleCitations']//p",$r)->item($key)->nodeValue;
+		}
 		$newPaper['doi'] = $xpath->query("//*[@id='pub-id::doi']",$r)->item(0)->nodeValue;
-		$newPaper['url'] = $res->getEffectiveUrl();
-		
-
+		$newPaper['url'] = 'http://rivista-statistica.unibo.it/article/view/4594';
 		
 	$papersList[] = $newPaper;
 	}
 	
+print_r($papersList);
