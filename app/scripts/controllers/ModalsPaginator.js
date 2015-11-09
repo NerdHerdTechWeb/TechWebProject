@@ -6,7 +6,7 @@
         .module('semanticNotations')
         .controller('ModalsPaginator', modalsPaginator);
 
-    function modalsPaginator($scope, $modal, $log, annotationManager, $window) {
+    function modalsPaginator($scope, $rootScope, $modal, $log, annotationManager, $window) {
 
         $scope.showPaginator = false;
 
@@ -18,8 +18,12 @@
             $scope.currentPage = pageNo;
         };
 
+        /**
+         * Trigger event of page changing
+         * The listener is into DocumentManager controller
+         */
         $scope.pageChanged = function () {
-            $log.log('Page changed to: ' + $scope.bigCurrentPage);
+            $rootScope.$broadcast('change-modal-page', {"pageIndex": $scope.bigCurrentPage});
         };
 
         $scope.$watch(

@@ -14,8 +14,10 @@
         .directive('createLocalPath', CreateLocalPath)
         .directive('createLocalPathFromRemote', CreateLocalPathFromRemote)
         .directive('createFragmentSpan', CreateFragmentSpan)
+        .directive('switchIndex', switchIndex)
 
-    function documentsManager(documents, annotationManager, fragment, $scope, $timeout, $window, $modal, $compile, $log) {
+    function documentsManager(documents, annotationManager, fragment, $scope, $rootScope,
+                                $timeout, $window, $modal, $compile, $log) {
 
         // vm is our capture variable
         var vm = this;
@@ -48,7 +50,11 @@
             }
             $scope.documentEntries = tempRes;
         });
+        
 
+        /**
+         * Show annotation modal(s) 
+         */
         $scope.showNotationModal = function(event){
             /**
              * Increment paginator counter
@@ -67,8 +73,11 @@
                 }
             });
 
-            modalInstance.opened.then(function(results){
-                $log.info(results);
+            /**
+             * Manages modals annotation index/pagination 
+             */
+            modalInstance.rendered.then(function(){
+                $rootScope.$broadcast('modal-index-switch');
             });
         }
 
@@ -171,6 +180,37 @@
             link: function (scope, element, attrs) {
                 scope.$watch(element.html(), function(){
                     console.log(element);
+                });
+            }
+        }
+    }
+    
+    /**
+     * Listen on switch index event on madal  
+     */
+    function switchIndex(){
+        return {
+            restrict: 'AC',
+            link: function (scope, element, attrs) {
+                scope.$on('modal-index-switch', function(event, args){
+                    $('div.modal').each(function(i,el){
+                        $(el).addClass('zIndex_'+(i+1)); 
+                    });
+                });
+                scope.$on('change-modal-page', function(event, args){
+                    var index = args.pageIndex;
+                    var previewsIndex = $(document).data('previews-z-index');
+                    /**
+                     * If prev Index exists the app 
+                     * resets the original index onto the original element
+                     */
+                    if(previewsIndex)
+                        $('div.zIndex_'+previewsIndex.index).css('z-index',previewsIndex.val);
+                        
+                    $(document).data('previews-z-index',{"index":index,"val":$('div.zIndex_'+index).css('z-index')});
+                    
+                    //TODO makes z-index dynamic
+                    $('div.zIndex_'+index).css('z-index', 1500);
                 });
             }
         }

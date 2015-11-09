@@ -24,7 +24,7 @@
         var xpath_conf = {{ rootXpath|json_encode()|raw }};
     </script>
 </head>
-<body ng-app="semanticNotations" ng-controller="DocumentsManager as vm">
+<body ng-app="semanticNotations" ng-controller="DocumentsManager as vm" switch-index>
 
 <nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavBar">
     <div class="container-fluid">
