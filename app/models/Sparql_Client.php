@@ -140,7 +140,8 @@ WHERE{
             foreach($val as $k => $v){
 
                 if(strcasecmp('start',$k) == 0){
-                    $newText = preg_replace('[\d]','[$0]',$v);
+                    $newText = preg_replace('(tbody1_)','',$v);
+                    $newText = preg_replace('[\d]','[$0]',$newText);
                     $xpath = preg_replace('(_)','/',$newText);
                     $v = $xpath;
                     $isBody = preg_match('(body)',$xpath);
@@ -190,7 +191,7 @@ WHERE{
         $query = "
 SELECT ?source
 WHERE{
-	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1520>
+	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1542>
 	{
 	
 	    ?annotation  rdf:type oa:Annotation.

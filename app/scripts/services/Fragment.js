@@ -244,7 +244,7 @@
                 range.setEnd(node, end);
             }
 
-            var annotationColor = typeof annotation !== 'undefined' ? annotation.watf : 'genericAnnotation';
+            var annotationColor = typeof annotation !== 'undefined' ? annotation.wtf : 'genericAnnotation';
             var span = document.createElement('span');
             span.setAttribute('data-xpath', xpath);
             span.setAttribute('data-start', start);
