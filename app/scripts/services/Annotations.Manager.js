@@ -41,6 +41,11 @@
                     method: 'POST',
                     url: '//' + $window.location.host + '/api/annotations/search',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                },
+                scraping: {
+                    method: 'POST',
+                    url: '//' + $window.location.host + '/api/scraping/document',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 }
             });
 
@@ -118,6 +123,20 @@
                 $log.error(error);
             });
         }
+        
+        /**
+         * Document auto scraping
+         */
+        function scraping(params) {
+            return Annotation.scraping(jQuery.param(params)).$promise.then(function (results) {
+                Notification.success('Sraping completed');
+                return results;
+            }, function (error) {
+                // Check for errors
+                Notification.error('Something goes wrong!');
+                $log.error(error);
+            });
+        }
 
         /**
          * Returns last modified annotation
@@ -174,11 +193,12 @@
             update: update,
             destroy: destroy,
             search: search,
+            scraping: scraping,
             lastUpdated: lastUpdated,
             getModalsPaginatorCount: getModalsPaginatorCount,
             setModalsPaginatorCount: setModalsPaginatorCount,
             decrementModalsPaginatorCount: decrementModalsPaginatorCount,
-            setModalIdentifier: setModalIdentifier,
+            setModalIdentifier: setModalIdentifier
         }
     }
 

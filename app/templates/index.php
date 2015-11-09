@@ -37,7 +37,7 @@
                 <span class="icon-bar"></span>
             </button>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2" ng-controller="SearchSearchBar as vm">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2" ng-controller="SearchSearchBar">
 
             <form id="navForm" class="navbar-form navbar-left" role="search" novalidate>
                 <button show-menu type="button" class="btn btn-default navbar-btn"
@@ -46,7 +46,7 @@
                         tooltip-trigger="mouseenter"
                     ><span class="glyphicon glyphicon-menu-hamburger"></span></button>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" ng-model="search.searchCriteria">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="search">
                 </div>
                 <button type="submit" class="btn btn-default">Search by url</button>
                 <button type="button" class="btn btn-default navbar-btn"
@@ -59,7 +59,7 @@
                         tooltip="Manage unsaved annotation"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
-                        ng-click="showModalFilter()"
+                        ng-click="showUnSavedAnnotations()"
                     ><span class="glyphicon glyphicon-inbox"></span></button>
                 <button ng-if="logStatus === false" type="button" class="btn btn-primary navbar-btn"
                         tooltip="Login if you want edit annotations"
@@ -166,6 +166,7 @@
 <script type="text/javascript" src="../app/scripts/controllers/modal/AnnotationsModal.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/DocumentSearchFilter.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/UserLoginModal.js"></script>
+<script type="text/javascript" src="../app/scripts/controllers/modal/UnsavedAnnotationsManagerModal.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Search.SearchBar.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Widget.DocumentsList.js"></script>
 <script type="text/javascript" src="../app/scripts/services/Widget.Meta.js"></script>

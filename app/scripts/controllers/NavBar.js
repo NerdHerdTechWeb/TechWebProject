@@ -38,6 +38,16 @@
             });
         }
         
+         $scope.showUnSavedAnnotations = function (){
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: '/app/partials/modals/unsavedAnnotationModal.html',
+                controller: 'UnsavedAnnotationsManagerModal',
+                scope: $scope,
+                size: 'lg'
+            });
+        }
+        
         $scope.login = function(){
             var modalInstance = $modal.open({
                 animation: true,

@@ -6,20 +6,15 @@
         .module('semanticNotations')
         .controller('SearchSearchBar', searchSearchBar);
 
-    function searchSearchBar(scraping, $scope, $window) {
-
-        // vm is our capture variable
-        var vm = this;
+    function searchSearchBar(annotationManager, $scope, $window, $log) {
 
         $scope.search = {};
-
-        vm.scrapedDataEntries = [];
-
-        scraping.getScrapedData().then(function(results) {
-            vm.scrapedDataEntries = results;
-            console.log(vm.scrapedDataEntries);
-        }, function(error) { // Check for errors
-            console.log(error);
+        
+        $scope.$watch('search',function(val){
+            if(val !== '')
+                annotationManager.scraping(val).$promise.then(function(results){
+                    $log.info(results);
+                });
         });
     }
 })();

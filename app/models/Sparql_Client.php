@@ -18,7 +18,7 @@ class Sparql_Client
     protected $sClientModify;
 
     public $results = false;
-
+    
     /**
      * Set name space
      */
@@ -195,7 +195,7 @@ WHERE{
 	{
 	
 	    ?annotation  rdf:type oa:Annotation.
-        OPTIONAL { ?annotation rsch:type ?watf }
+        OPTIONAL { ?annotation rsch:type ?wtf }
         OPTIONAL { ?annotation oa:hasBody ?body }
         OPTIONAL { ?body rdf:subject ?s }
         OPTIONAL { ?body rdf:predicate ?p }
@@ -207,10 +207,10 @@ WHERE{
               oa:hasSource ?source .
   	
         { FILTER ((?watf = 'hasPublicationYear' && ?o > xsd:date('$date'))  ||
-	        (?watf = 'hasAuthor' && regex(?o_label , '$author')) ||
-	        (?watf ='hasURL' && regex (str(?o) , LCASE('$url'))) ||
-	        (?watf ='hasTitle' && regex (LCASE(str(?o)) ,LCASE('$title'))) ||
-	        (?watf ='references' && regex (str(?o) , LCASE('$cities'))))
+	        (?wtf = 'hasAuthor' && regex(?o_label , '$author')) ||
+	        (?wtf ='hasURL' && regex (str(?o) , LCASE('$url'))) ||
+	        (?wtf ='hasTitle' && regex (LCASE(str(?o)) ,LCASE('$title'))) ||
+	        (?wtf ='references' && regex (str(?o) , LCASE('$cities'))))
 	    }
 	}
 }

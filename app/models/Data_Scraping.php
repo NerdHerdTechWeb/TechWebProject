@@ -49,6 +49,8 @@ class Data_Scraping
      * @var string
      */
     static $dLibRootXPATH = '/html/body/form/table[3]/tr/td/table[5]/tr/td/';
+    
+    public $results;
 
     /**
      * Testing purpose method
@@ -209,7 +211,6 @@ class Data_Scraping
             return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
         }
 
-        #$body = $res->getBody();
         $body = $res;
 
         $doc->loadHTML($body);
@@ -227,6 +228,122 @@ class Data_Scraping
 
         return json_encode($papersList);
 
+    }
+    
+    /**
+     * Scraping dispatcher
+     */
+    public function autoScraping($document)
+    {
+        return $this->dlibAutoScraping($document);
+    }
+    
+    /**
+     * 
+     * 
+     */
+    protected function dlibAutoScraping($document)
+    {
+        $doc = new DOMDocument();
+        
+        try {
+            $res = file_get_contents($document);
+        } catch (Exception $e) {
+            return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
+        }
+        
+        $body = $res;
+        $doc->loadHTML($body);
+        $xpath = new DOMXpath($doc);
+        $rows = $xpath->query("/html/body/form/table[3]");
+        $papersList = array();
+        
+        foreach ($rows as $r) {
+	
+        	$newPaper = array();
+        
+        	// echo $r->nodeValue . "\n";
+        	// WARNING: error if the XPath expression returns NULL
+        	$newPaper['date'] = trim($xpath->query("//p[1]/text()",$r)->item(0)->nodeValue);
+        	$newPaper['title'] = trim($xpath->query("//h3[2]/text()",$r)->item(0)->nodeValue);
+        	
+        	$authors = $xpath->query("//p[2]/text()",$r);
+        	
+        	foreach($authors as $key => $author){
+        	    $module = $key % 3;
+        	    if($module === 0)
+        		    $newPaper['author'][] = trim($xpath->query("//p[2]/text()",$r)->item($key)->nodeValue);
+        	}
+        	
+        	$references = $xpath->query("//p/a[@name]/text()",$r);
+        	foreach($references as $key => $reference){
+        	    $newPaper['references'][] = $xpath->query("//p/a[@name]",$r)->item($key)->parentNode->nodeValue;
+        	}
+        	
+        	$newPaper['comment'] =  trim($xpath->query("//p/b/text()",$r)->item(0)->nodeValue);
+        	$newPaper['url'] = $document;
+        		
+        	$papersList[] = $newPaper;
+        }
+        
+        $this->results = $papersList;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * 
+     */
+    protected function rstatAutoScraping($document)
+    {
+        $doc = new DOMDocument();
+        
+        try {
+            $res = file_get_contents($document);
+        } catch (Exception $e) {
+            return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
+        }
+        
+        $body = $res;
+        $doc->loadHTML($body);
+        $xpath = new DOMXpath($doc);
+        $rows = $xpath->query("/html/body/form/table[3]");
+        $papersList = array();
+        
+        $doc->loadHTML($body);
+        $xpath = new DOMXpath($doc);
+        $rows = $xpath->query("/html/body/div");
+        $papersList = array();
+
+        foreach ($rows as $r) {
+        	
+        	$newPaper = array();
+        	
+        		$newPaper['title'] = $xpath->query("//*[@id='articleTitle']",$r)->item(0)->nodeValue;
+        		$newPaper['author'] = $xpath->query("//*[@id='authorString']",$r)->item(0)->nodeValue;
+        		foreach($xpath->query("//*[@id='articleCitations']//p",$r) as $key => $val){
+        		    $newPaper['references'][] = $xpath->query("//*[@id='articleCitations']//p",$r)->item($key)->nodeValue;
+        		}
+        		$newPaper['doi'] = $xpath->query("//*[@id='pub-id::doi']",$r)->item(0)->nodeValue;
+        		$newPaper['url'] = $document;
+        		
+        	$papersList[] = $newPaper;
+        }
+        
+        $this->results = $papersList;
+        return $this;
+    }
+    
+    /**
+     * 
+     * Returns auto scraping list as json
+     * Returns json object instead that an array of json objects
+     * 
+     */
+    public function getAutoScrapingJson(){
+        
+        return json_encode($this->results);
     }
 
     /**

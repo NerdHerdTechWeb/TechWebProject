@@ -155,6 +155,20 @@ $app->group('/api', function () use ($app) {
 
             echo Data_Scraping::getDocument($link, $from);
         })->via('GET', 'POST');
+        
+        
+        $app->map('/document', function () use ($app) {
+
+            $params = $app->request()->params();
+            $client = new Data_Scraping();
+            /**
+             * JSON content type or anything else
+             */
+            $app->response->headers->set('Content-Type', 'application/json');
+
+            echo $client->autoScraping($params)->getAutoScrapingJson();
+        })->via('GET', 'POST');
+        
     });
 });
 

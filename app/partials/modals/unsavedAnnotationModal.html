@@ -1,0 +1,49 @@
+<div ng-if="!switchLoginView">
+    <div class="modal-header">
+        <button class="btn btn-warning pull-right" ng-click="cancel()">Close</button>
+        <h3 class="modal-title">Annotator editor</h3>
+        <small ng-if="!logInStatus" style="color: red;">If you want edit this annotations you must logged in</small>
+    </div>
+
+    <div class="modal-body">
+        <form class="form-horizontal" novalidate>
+            <div class="row">
+                
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table st-table="rowCollection" class="table table-striped">
+                    	<thead>
+                    	<tr>
+                    		<th>Author</th>
+                    		<th>Date</th>
+                    		<th>Description</th>
+                    		<th>Modify</th>
+                    		<th>Delete</th>
+                    	</tr>
+                    	</thead>
+                    	<tbody>
+                    	<tr ng-repeat="row in rowCollection">
+                    		<td>{{row.firstName | uppercase}}</td>
+                    		<td>{{row.lastName}}</td>
+                    		<td>{{row.birthDate | date}}</td>
+                    		<td>
+                    			<button type="button" ng-click="edit($event)" class="btn btn-sm btn-info">
+                    				<i class="glyphicon glyphicon-edit"></i>
+                    			</button>
+                    		<td>
+                    			<button type="button" ng-click="removeRow(row)" class="btn btn-sm btn-danger">
+                    				<i class="glyphicon glyphicon-remove-circle"></i>
+                    			</button>
+                    		</td>
+                    	</tr>
+                    	</tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div ng-if="switchLoginView">
+    <div ng-include src="'/app/partials/modals/userLoginModal.html'"></div>
+</div>
