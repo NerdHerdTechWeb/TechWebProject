@@ -45,7 +45,8 @@
                 scraping: {
                     method: 'POST',
                     url: '//' + $window.location.host + '/api/scraping/document',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    isArray: true
                 }
             });
 
@@ -128,7 +129,10 @@
          * Document auto scraping
          */
         function scraping(params) {
-            return Annotation.scraping(jQuery.param(params)).$promise.then(function (results) {
+            if(params === '')
+                return  Notification.warning('Empty search provided');
+            var d = {'url':params};
+            return Annotation.scraping(jQuery.param(d)).$promise.then(function (results) {
                 Notification.success('Sraping completed');
                 return results;
             }, function (error) {

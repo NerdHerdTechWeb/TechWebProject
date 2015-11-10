@@ -235,7 +235,8 @@ class Data_Scraping
      */
     public function autoScraping($document)
     {
-        return $this->dlibAutoScraping($document);
+        $this->dlibAutoScraping($document);
+        return $this;
     }
     
     /**
@@ -244,6 +245,7 @@ class Data_Scraping
      */
     protected function dlibAutoScraping($document)
     {
+        
         $doc = new DOMDocument();
         
         try {
@@ -342,7 +344,6 @@ class Data_Scraping
      * 
      */
     public function getAutoScrapingJson(){
-        
         return json_encode($this->results);
     }
 

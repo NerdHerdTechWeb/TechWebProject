@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search" ng-model="search">
                 </div>
-                <button type="submit" class="btn btn-default">Search by url</button>
+                <button type="submit" class="btn btn-default" ng-click="doSearch(search)"><span class="glyphicon glyphicon-search"></span></button>
                 <button type="button" class="btn btn-default navbar-btn"
                         tooltip="Advanced document search"
                         tooltip-placement="bottom"

@@ -166,7 +166,7 @@ $app->group('/api', function () use ($app) {
              */
             $app->response->headers->set('Content-Type', 'application/json');
 
-            echo $client->autoScraping($params)->getAutoScrapingJson();
+            echo $client->autoScraping($params['url'])->getAutoScrapingJson();
         })->via('GET', 'POST');
         
     });
