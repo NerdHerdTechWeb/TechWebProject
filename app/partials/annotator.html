@@ -8,102 +8,108 @@
                 </a>
             </h3>
 
-            <div class="sidebar-module panel panel-default" ng-controller="WidgetFilters">
-                <div class="panel-heading">Filters <a href><span class="pull-right glyphicon glyphicon-chevron-up"></span></a></div>
-                <div class="panel-body">
-                    <div class="list-group">
-                        <div class="list-group-item">
-                            <input bs-switch ng-model="filters.hasAuthor" type="checkbox"
-                                   switch-active="{{ isActive }}"
-                                   switch-on-text="Authors"
-                                   switch-off-text="Authors"
-                                   ng-value="'hasAuthors'">
-                        </div>
-                        <div class="list-group-item">
-                            <input bs-switch ng-model="filters.hasPublicationYear" type="checkbox"
-                                   switch-active="{{ isActive }}"
-                                   switch-on-text="Publication year"
-                                   switch-off-text="Publication year"
-                                   ng-value="hasPublicationYear">
-                        </div>
-                        <div class="list-group-item">
-                            <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasTitle" type="checkbox"
-                                   switch-on-text="Title"
-                                   switch-off-text="Title"
-                                   ng-value="'hasTitle'">
-                        </div>
-                        <div class="list-group-item">
-                            <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasDOI" type="checkbox"
-                                   switch-on-text="DOI"
-                                   switch-off-text="DOI"
-                                   ng-value="'hasDOI'">
-                        </div>
-                        <div class="list-group-item">
-                            <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasURL" type="checkbox"
-                                   switch-on-text="URL"
-                                   switch-off-text="URL"
-                                   ng-value="'hasURL'">
-                        </div>
-                        <div class="list-group-item">
-                            <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasComment" type="checkbox"
-                                   switch-on-text="Comments"
-                                   switch-off-text="Comments"
-                                   ng-value="'hasComments'">
-                        </div>
-                        <div class="list-group-item">
-                            <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasRethoric" type="checkbox"
-                                   switch-on-text="Rethorics"
-                                   switch-off-text="Rethorics"
-                                   ng-value="'hasRethorics'">
-                        </div>
-                        <div class="list-group-item">
-                            <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasCitations" type="checkbox"
-                                   switch-on-text="Citations"
-                                   switch-off-text="Citations"
-                                   ng-value="'hasCitations'">
-                        </div>
-                        <div class="list-group-item">
-                            <input class="list-group-item"
-                                   bs-switch ng-model="filters.references" type="checkbox"
-                                   switch-on-text="References"
-                                   switch-off-text="References"
-                                   ng-value="'references'">
+            <uib-accordion close-others="oneAtATime">
+                <uib-accordion-group is-open="status.open">
+                    <uib-accordion-heading>
+                        Filters <a href><span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span></a>
+                    </uib-accordion-heading>
+                    <!--Sidebar content-->
+                    <div ng-controller="WidgetFilters">
+                            <div class="list-group">
+                                <div class="list-group-item">
+                                    <input bs-switch ng-model="filters.hasAuthor" type="checkbox"
+                                           switch-active="{{ isActive }}"
+                                           switch-on-text="Authors"
+                                           switch-off-text="Authors"
+                                           ng-value="'hasAuthors'">
+                                </div>
+                                <div class="list-group-item">
+                                    <input bs-switch ng-model="filters.hasPublicationYear" type="checkbox"
+                                           switch-active="{{ isActive }}"
+                                           switch-on-text="Publication year"
+                                           switch-off-text="Publication year"
+                                           ng-value="hasPublicationYear">
+                                </div>
+                                <div class="list-group-item">
+                                    <input class="list-group-item"
+                                           bs-switch ng-model="filters.hasTitle" type="checkbox"
+                                           switch-on-text="Title"
+                                           switch-off-text="Title"
+                                           ng-value="'hasTitle'">
+                                </div>
+                                <div class="list-group-item">
+                                    <input class="list-group-item"
+                                           bs-switch ng-model="filters.hasDOI" type="checkbox"
+                                           switch-on-text="DOI"
+                                           switch-off-text="DOI"
+                                           ng-value="'hasDOI'">
+                                </div>
+                                <div class="list-group-item">
+                                    <input class="list-group-item"
+                                           bs-switch ng-model="filters.hasURL" type="checkbox"
+                                           switch-on-text="URL"
+                                           switch-off-text="URL"
+                                           ng-value="'hasURL'">
+                                </div>
+                                <div class="list-group-item">
+                                    <input class="list-group-item"
+                                           bs-switch ng-model="filters.hasComment" type="checkbox"
+                                           switch-on-text="Comments"
+                                           switch-off-text="Comments"
+                                           ng-value="'hasComments'">
+                                </div>
+                                <div class="list-group-item">
+                                    <input class="list-group-item"
+                                           bs-switch ng-model="filters.hasRethoric" type="checkbox"
+                                           switch-on-text="Rethorics"
+                                           switch-off-text="Rethorics"
+                                           ng-value="'hasRethorics'">
+                                </div>
+                                <div class="list-group-item">
+                                    <input class="list-group-item"
+                                           bs-switch ng-model="filters.hasCitations" type="checkbox"
+                                           switch-on-text="Citations"
+                                           switch-off-text="Citations"
+                                           ng-value="'hasCitations'">
+                                </div>
+                                <div class="list-group-item">
+                                    <input class="list-group-item"
+                                           bs-switch ng-model="filters.references" type="checkbox"
+                                           switch-on-text="References"
+                                           switch-off-text="References"
+                                           ng-value="'references'">
+                                </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </uib-accordion-group>
 
-            <!--Sidebar content-->
-            <div class="sidebar-module panel panel-default">
-                <div class="panel-heading">Documents <a href><span class="pull-right glyphicon glyphicon-chevron-up"></span></a></div>
-                <div class="panel-body">
-                    <div class="list-group">
-                        <a id="document_{{$index}}" class="list-group-item"
-                           ng-repeat="documents in documentEntries"
-                           href
-                           ng-click="getMainDocument(documents.link,documents.from,documents,$event)">
-                            {{documents.label}}
-                        </a>
-                    </div>
-                </div>
-            </div>
+                <uib-accordion-group is-open="status.isFirstOpen">
+                    <uib-accordion-heading>
+                        Documents <a href><span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></span></a>
+                    </uib-accordion-heading>
+                    <!--Sidebar content-->
+                        <div class="list-group">
+                            <a id="document_{{$index}}" class="list-group-item"
+                               ng-repeat="documents in documentEntries"
+                               href
+                               ng-click="getMainDocument(documents.link,documents.from,documents,$event)">
+                                {{documents.label}}
+                            </a>
+                        </div>
+                </uib-accordion-group>
 
-            <div class="sidebar-module panel panel-default" ng-controller="WidgetMeta as vm">
-                <div class="panel-heading">Meta <a href><span class="pull-right glyphicon glyphicon-chevron-up"></span></a></div>
-                <div class="panel-body">
-                    <div class="list-group">
-                        <a class="list-group-item" ng-repeat="meta in vm.metaEntries" href ng-click="open()">{{meta.comment}}</a>
-                    </div>
-                </div>
-            </div>
-
+                <uib-accordion-group is-open="status.metaOpen">
+                    <uib-accordion-heading>
+                        Meta <a href><span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.metaOpen, 'glyphicon-chevron-right': !status.metaOpen}"></span></a>
+                    </uib-accordion-heading>
+                    <!--Sidebar content-->
+                        <div class="list-group" ng-controller="WidgetMeta as vm">
+                            <a class="list-group-item" ng-repeat="meta in vm.metaEntries" href ng-click="open()">{{meta.comment}}</a>
+                        </div>
+                </uib-accordion-group>
+            </uib-accordion>
         </div>
+        
         <div class="row">
             <div id="navTabsContainer"
                  class="col-md-11 col-md-offset-1 col-xs-11 col-xs-offset-1 col-lg-11 col-lg-offset-1" create-local-path

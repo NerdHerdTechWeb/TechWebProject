@@ -24,6 +24,11 @@
         $scope.documentsLoaded = [];
         $scope.skCircle = jQuery('.sk-circle');
         $scope.fragmentText = '';
+        
+        $scope.status = {
+            isFirstOpen: true,
+            isFirstDisabled: false
+        };
 
         $scope.documentEntries = [];
 
