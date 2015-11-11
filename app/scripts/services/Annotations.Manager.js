@@ -20,6 +20,7 @@
         var unsavedAnnotations = [];
         var lastAnnotationsUpdated = {};
         var modalsCount = 0;
+        var scrapingStorage = {};
 
         var Annotation = $resource('//' + $window.location.host + '/api/annotations/update', {},
             {
@@ -134,12 +135,20 @@
             var d = {'url':params};
             return Annotation.scraping(jQuery.param(d)).$promise.then(function (results) {
                 Notification.success('Sraping completed');
+                scrapingStorage = results[0].toJSON();
                 return results;
             }, function (error) {
                 // Check for errors
                 Notification.error('Something goes wrong!');
                 $log.error(error);
             });
+        }
+        
+        /**
+         * getter
+         */
+        function getScrapedContent(){
+            return  scrapingStorage;
         }
 
         /**
@@ -202,7 +211,8 @@
             getModalsPaginatorCount: getModalsPaginatorCount,
             setModalsPaginatorCount: setModalsPaginatorCount,
             decrementModalsPaginatorCount: decrementModalsPaginatorCount,
-            setModalIdentifier: setModalIdentifier
+            setModalIdentifier: setModalIdentifier,
+            getScrapedContent: getScrapedContent
         }
     }
 

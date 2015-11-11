@@ -12,33 +12,152 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <table st-table="rowCollection" class="table table-striped">
-                    	<thead>
-                    	<tr>
-                    		<th>Author</th>
-                    		<th>Date</th>
-                    		<th>Description</th>
-                    		<th>Modify</th>
-                    		<th>Delete</th>
-                    	</tr>
-                    	</thead>
-                    	<tbody>
-                    	<tr ng-repeat="row in rowCollection">
-                    		<td>{{row.firstName | uppercase}}</td>
-                    		<td>{{row.lastName}}</td>
-                    		<td>{{row.birthDate | date}}</td>
-                    		<td>
-                    			<button type="button" ng-click="edit($event)" class="btn btn-sm btn-info">
-                    				<i class="glyphicon glyphicon-edit"></i>
-                    			</button>
-                    		<td>
-                    			<button type="button" ng-click="removeRow(row)" class="btn btn-sm btn-danger">
-                    				<i class="glyphicon glyphicon-remove-circle"></i>
-                    			</button>
-                    		</td>
-                    	</tr>
-                    	</tbody>
-                    </table>
+                <uib-tabset justified="true">
+                    <uib-tab heading="Author">
+                        <table st-table="rowCollection" class="table table-striped">
+                        	<thead>
+                            	<tr>
+                            		<th>Author</th>
+                            		<th>Modify</th>
+                            		<th>Delete</th>
+                            	</tr>
+                        	</thead>
+                        	<tr ng-repeat="row in rowCollection.author">
+                        		<td>{{row}}</td>
+                        		<td>
+                        			<button type="button" ng-click="edit($event)" class="btn btn-sm btn-info">
+                        				<i class="glyphicon glyphicon-edit"></i>
+                        			</button>
+                        		</td>
+                        		<td>
+                        			<button type="button" ng-click="removeRow(row)" class="btn btn-sm btn-danger">
+                        				<i class="glyphicon glyphicon-remove-circle"></i>
+                        			</button>
+                        		</td>
+                        	</tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab heading="Comment">
+                        <table st-table="rowCollection" class="table table-striped">
+                        	<thead>
+                            	<tr>
+                            		<th>Comment</th>
+                            		<th>Modify</th>
+                            		<th>Delete</th>
+                            	</tr>
+                        	</thead>
+                        	<tr>
+                        		<td>{{rowCollection.comment}}</td>
+                        		<td>
+                        			<button type="button" ng-click="edit($event)" class="btn btn-sm btn-info">
+                        				<i class="glyphicon glyphicon-edit"></i>
+                        			</button>
+                        		</td>
+                        		<td>
+                        			<button type="button" ng-click="removeRow(row)" class="btn btn-sm btn-danger">
+                        				<i class="glyphicon glyphicon-remove-circle"></i>
+                        			</button>
+                        		</td>
+                        	</tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab heading="Date">
+                        <table st-table="rowCollection" class="table table-striped">
+                        	<thead>
+                            	<tr>
+                            		<th>Date</th>
+                            		<th>Modify</th>
+                            		<th>Delete</th>
+                            	</tr>
+                        	</thead>
+                        	<tr>
+                        		<td>{{rowCollection.date | date}}</td>
+                        		<td>
+                        			<button type="button" ng-click="edit($event)" class="btn btn-sm btn-info">
+                        				<i class="glyphicon glyphicon-edit"></i>
+                        			</button>
+                        		</td>
+                        		<td>
+                        			<button type="button" ng-click="removeRow(row)" class="btn btn-sm btn-danger">
+                        				<i class="glyphicon glyphicon-remove-circle"></i>
+                        			</button>
+                        		</td>
+                        	</tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab heading="References">
+                        <table st-table="rowCollection" class="table table-striped">
+                        	<thead>
+                            	<tr>
+                            		<th>References</th>
+                            		<th>Modify</th>
+                            		<th>Delete</th>
+                            	</tr>
+                        	</thead>
+                        	<tr ng-repeat="row in rowCollection.references">
+                        		<td>{{row}}</td>
+                        		<td>
+                        			<button type="button" ng-click="edit($event)" class="btn btn-sm btn-info">
+                        				<i class="glyphicon glyphicon-edit"></i>
+                        			</button>
+                        		</td>
+                        		<td>
+                        			<button type="button" ng-click="removeRow(row)" class="btn btn-sm btn-danger">
+                        				<i class="glyphicon glyphicon-remove-circle"></i>
+                        			</button>
+                        		</td>
+                        	</tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab heading="Title">
+                        <table st-table="rowCollection" class="table table-striped">
+                        	<thead>
+                            	<tr>
+                            		<th>Title</th>
+                            		<th>Modify</th>
+                            		<th>Delete</th>
+                            	</tr>
+                        	</thead>
+                        	<tr>
+                        		<td>{{rowCollection.title}}</td>
+                        		<td>
+                        			<button type="button" ng-click="edit($event)" class="btn btn-sm btn-info">
+                        				<i class="glyphicon glyphicon-edit"></i>
+                        			</button>
+                        		</td>
+                        		<td>
+                        			<button type="button" ng-click="removeRow(row)" class="btn btn-sm btn-danger">
+                        				<i class="glyphicon glyphicon-remove-circle"></i>
+                        			</button>
+                        		</td>
+                        	</tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab heading="URL">
+                        <table st-table="rowCollection" class="table table-striped">
+                        	<thead>
+                            	<tr>
+                            		<th>URL</th>
+                            		<th>Modify</th>
+                            		<th>Delete</th>
+                            	</tr>
+                        	</thead>
+                        	<tr>
+                        		<td>{{rowCollection.url}}</td>
+                        		<td>
+                        			<button type="button" ng-click="edit($event)" class="btn btn-sm btn-info">
+                        				<i class="glyphicon glyphicon-edit"></i>
+                        			</button>
+                        		</td>
+                        		<td>
+                        			<button type="button" ng-click="removeRow(row)" class="btn btn-sm btn-danger">
+                        				<i class="glyphicon glyphicon-remove-circle"></i>
+                        			</button>
+                        		</td>
+                        	</tr>
+                        </table>
+                    </uib-tab>
+                </uib-tabset>
                 </div>
             </div>
         </form>
