@@ -112,7 +112,7 @@ WHERE{
     {
         $annotation = new Sparql_Edit();
         $graph = $annotation->buildAnnotation($queryParams)->getGraph();
-        $results = $this->sClientModify->update($graph, 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540');
+        $results = $this->sClientModify->insert($graph, 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540');
         return json_encode(array('message' => $results->getMessage(), 'status' => $results->getStatus()));
     }
 
