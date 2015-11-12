@@ -33,6 +33,7 @@ foreach ($rows as $r) {
 
 	// echo $r->nodeValue . "\n";
 	// WARNING: error if the XPath expression returns NULL
+	print_r($xpath->query("//p[1]/text()",$r)->item(0));
 	$newPaper['date'] = trim($xpath->query("//p[1]/text()",$r)->item(0)->nodeValue);
 	$newPaper['title'] = trim($xpath->query("//h3[2]/text()",$r)->item(0)->nodeValue);
 	
@@ -59,4 +60,4 @@ foreach ($rows as $r) {
 	$papersList[] = $newPaper;
 	}
 	
-print_r($papersList);
+#print_r($papersList);
