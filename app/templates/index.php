@@ -136,6 +136,10 @@
 <!-- UTILS -->
 <script type="text/javascript" src="../app/scripts/utils/utils.js"></script>
 <script type="text/javascript" src="../../bower_components/tinymce/tinymce.js"></script>
+<script type="text/javascript" src="../../bower_components/rangy/rangy-core.min.js"></script>
+<script type="text/javascript" src="../../bower_components/rangy/rangy-classapplier.min.js"></script>
+<script type="text/javascript" src="../../bower_components/rangy/rangy-textrange.min.js"></script>
+<script type="text/javascript" src="../../bower_components/rangy/rangy-highlighter.min.js"></script>
 
 <!-- Application Dependencies -->
 <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
