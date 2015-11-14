@@ -6,23 +6,47 @@
         .module('semanticNotations')
         .factory('meta', meta);
 
-    function meta($resource) {
+    function meta($resource, $log, $window) {
 
         // ngResource call to our static data
-        var Meta = $resource('api/scraping/rdf/1');
+        var Meta = $resource('//' + $window.location.host + '/api/scraping/graphlist', {},
+            {
+                graphlist: {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    isArray: true
+                },
+                readygraph: {
+                    method: 'POST',
+                    url: '//' + $window.location.host + '/api/scraping/readygraph',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    isArray: true
+                }
+            });
 
-        function getMeta() {
+        function getReadyGraph() {
             // $promise.then allows us to intercept the results
             // which we will use later
-            return Meta.query().$promise.then(function(results) {
+            return Meta.readygraph().$promise.then(function(results) {
                 return results;
             }, function(error) { // Check for errors
-                console.log(error);
+                $log.error(error);
+            });
+        }
+        
+        function getAvailableGraph() {
+            // $promise.then allows us to intercept the results
+            // which we will use later
+            return Meta.graphlist().$promise.then(function(results) {
+                return results;
+            }, function(error) { // Check for errors
+                $log.error(error);
             });
         }
 
         return {
-            getMeta: getMeta
+            getReadyGraph: getReadyGraph,
+            getAvailableGraph: getAvailableGraph
         }
     }
 

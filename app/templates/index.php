@@ -165,7 +165,6 @@
 <script type="text/javascript" src="../app/scripts/controllers/DocumentsManager.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/WidgetMeta.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/WidgetFilters.js"></script>
-<script type="text/javascript" src="../app/scripts/controllers/modal/WidgetMetaModal.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/FragmentModal.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/AnnotationsModal.js"></script>
 <script type="text/javascript" src="../app/scripts/controllers/modal/DocumentSearchFilter.js"></script>

@@ -45,8 +45,6 @@ foreach ($rows as $r) {
 		    $newPaper['author'][] = trim($xpath->query("//p[2]/text()",$r)->item($key)->nodeValue);
 	}
 	
-
-	
 	$references = $xpath->query("//p/a[@name]/text()",$r);
 	foreach($references as $key => $reference){
 	    $newPaper['references'][] = $xpath->query("//p/a[@name]",$r)->item($key)->parentNode->nodeValue;

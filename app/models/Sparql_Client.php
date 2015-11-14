@@ -253,7 +253,22 @@ LIMIT 100";
     public function getGraphList()
     {
         // Lista di tutti i grafi per uno sepcifico endpoint
-        return $this->sClient->listNamedGraphs();
+        $this->results = $this->sClient->listNamedGraphs();
+        return $this;
+    }
+    
+     /**
+     * Get all graph from endpoint
+     * @return array
+     */
+    public function getGraphListJson()
+    {
+        $collection = array();
+        // Lista di tutti i grafi per uno sepcifico endpoint
+        foreach ($this->results as $key => $value) {
+            $collection[] = $value->getUri();
+        }
+        return json_encode($collection);
     }
 
     /**

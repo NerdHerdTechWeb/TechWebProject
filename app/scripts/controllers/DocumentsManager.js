@@ -86,12 +86,12 @@
             });
         }
 
-        $scope.getMainDocument = function (link, from, data, event$) {
+        $scope.getMainDocument = function (link, from, data, event$, graph) {
             $scope.skCircle.removeClass('doc-preloader-hide').addClass('doc-preloader-show');
             documents.getDocument(link, from).then(
                 function (results) {
                     vm.documentEntry = results;
-                    $scope.addItem(data, results);
+                    $scope.addItem(data, results, graph);
                     $scope.skCircle.removeClass('doc-preloader-show').addClass('doc-preloader-hide');
                 }, function (error) { // Check for errors
                     console.log(error);
@@ -99,9 +99,10 @@
             );
         }
 
-        $scope.addItem = function (data, results) {
+        $scope.addItem = function (data, results, graph) {
             var resource = results[0];
             var newItemNo = $scope.documentsLoaded.length + 1;
+            $scope.graph = graph;
             $scope.documentsLoaded = [];
             $scope.documentData = data;
             $scope.documentsLoaded.push({
@@ -114,13 +115,18 @@
         }
 
         $scope.$watch('documentsLoaded',function(){
-            typeof $scope.documentData !== 'undefined' ? $scope.loadAnnotations($scope.documentData.link) : '';
+            typeof $scope.documentData !== 'undefined' ? $scope.loadAnnotations($scope.documentData.link, $scope.graph) : '';
+            $rootScope.$broadcast('loadMeta',$scope.documentData);
         });
         
-        $scope.loadAnnotations = function (source) {
+        $scope.$on('getMainDocument', function(event, args){
+            $scope.getMainDocument(args.link, args.from, args.data, args.event, args.graph);
+        });
+        
+        $scope.loadAnnotations = function (source, graph) {
             return fragment.loadAnnotations({
                 source: source,
-                graph: 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1542'
+                graph: graph ||'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1542'
             }).then(function(results){
                 jQuery('tr').unwrap('tbody');
                 jQuery('#navTabsContainer img:not(.img-replaced)').each(function (i, el) {

@@ -50,45 +50,45 @@ class Data_Scraping
      */
     static $dLibRootXPATH = '/html/body/form/table[3]/tr/td/table[5]/tr/td/';
     
+    /**
+     *
+     * @var string
+     */
     public $results;
 
-    /**
-     * Testing purpose method
-     * @return string | json
-     */
-    public static function getData()
-    {
-        return '[
-                      {
-                "id":1,
-                        "user_id":1,
-                        "user_firstname":"Federico",
-                        "user_lastname":"Sarti",
-                        "start_time":"2015-02-21T18:56:48Z",
-                        "end_time":"2015-02-21T20:33:10Z",
-                        "comment": "Initial project setup."
-                      },
-            {
-                "id":2,
-                        "user_id":1,
-                        "user_firstname":"Edoardo",
-                        "user_lastname":"Cloriti",
-                        "start_time":"2015-02-27T10:22:42Z",
-                        "end_time":"2015-02-27T14:08:10Z",
-                        "comment": "Review of project requirements and notes for getting started."
-                      },
-            {
-                "id":3,
-                        "user_id":1,
-                        "user_firstname":"Riccardo",
-                        "user_lastname":"Masetti",
-                        "start_time":"2015-03-03T09:55:32Z",
-                        "end_time":"2015-03-03T12:07:09Z",
-                        "comment": "Front-end and backend setup."
-                      }
-            ]';
-    }
 
+    /**
+     * Return active graph to manage (solo consegnati)
+     * @return string
+     */
+    public static function readyGraphGroupScraping()
+    {
+        
+        try {
+            $res = file_get_contents('http://vitali.web.cs.unibo.it/TechWeb15/GrafiGruppi');
+        } catch (Exception $e) {
+            return json_encode(array(array('message' => $e->getMessage(), 'class' => 'warning')));
+        }
+
+        $body = $res;
+        
+        $doc = new DOMDocument();
+        
+        $doc->loadHTML($body);
+        
+        $xpath = new DOMXpath($doc);
+        
+        $rows = $xpath->query('//*[@class="twikiTopic"]/a');
+        
+        $papersList = array();
+        foreach ($rows as $r) {
+            $papersList[] = $xpath->query('//*[@class="twikiTopic"]/a/text()', $r)->item(1)->nodeValue;
+        }
+
+        return json_encode(array_unique($papersList));
+
+    }
+    
     /**
      * Static method that implements Guzzle, DOMDocument & DOMXpath
      * Parsing xhtml document from DLIB site then
@@ -155,6 +155,47 @@ class Data_Scraping
      * @return string
      */
     public static function dLibScrapingUrlCollection($collection = array())
+    {
+        //TODO check empty collection
+        $doc = new DOMDocument();
+
+        foreach ($collection as $key => $val) {
+
+            try {
+                $res = file_get_contents($val);
+            } catch (Exception $e) {
+                return json_encode(array(array('message' => $e->getMessage(), 'class' => 'warning')));
+            }
+
+            $body = $res;
+
+            $doc->loadHTML($body);
+
+            $xpath = new DOMXpath($doc);
+
+            $title = $xpath->query('//html//body//form//table[3]//tr//td//table[5]//tr//td//table[1]//tr[1]//td[2]//h3[2]')->item(0)->nodeValue;
+
+            $newPaper = array();
+
+            $newPaper['label'] = trim($title);
+            $newPaper['link'] = $val;
+            $newPaper['imagepath'] = preg_replace('([^\/]+$)', '', $newPaper['link']);
+            $newPaper['from'] = 'dlib';
+
+            $papersList[] = $newPaper;
+
+        }
+
+        return json_encode($papersList);
+
+    }
+    
+     /**
+     * Create the left menu object documents list from a collection of uri
+     * @param array $collection collection of rstat documents uri
+     * @return string
+     */
+    public static function rivistaStatisticaScrapingUrlCollection($collection = array())
     {
         //TODO check empty collection
         $doc = new DOMDocument();
@@ -389,7 +430,7 @@ class Data_Scraping
                 return self::getDlibDocument($xpath, $citationsCollection, $body);
                 break;
             default:
-                return self::getRstatDocument($xpath, $citationsCollection, $body);
+                return self::getDlibDocument($xpath, $citationsCollection, $body);
                 break;
         }
 

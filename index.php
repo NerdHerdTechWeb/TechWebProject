@@ -97,20 +97,28 @@ $app->group('/api', function () use ($app) {
     $app->group('/scraping', function () use ($app) {
 
         /**
-         * Generic RDF query
+         * Get all graph availables and return in json
          */
-        $app->map('/rdf/:query', function ($query) use ($app) {
+        $app->map('/graphlist', function () use ($app) {
 
-            /**
-             * JSON content type or anything else
-             */
             $app->response->headers->set('Content-Type', 'application/json');
 
-            /**
-             * We can passing a query param
-             * from the controller to the scraping method
-             */
-            echo Data_Scraping::getData();
+            $sparqlClient = new Sparql_Client();
+            echo $sparqlClient->getGraphList()->getGraphListJson();
+            
+        })->via('GET', 'POST');
+        
+        /**
+         * 
+         * Get ready graph (consegnati)
+         * 
+         */
+        $app->map('/readygraph', function () use ($app) {
+          
+            $app->response->headers->set('Content-Type', 'application/json');
+
+            echo Data_Scraping::readyGraphGroupScraping();
+            
         })->via('GET', 'POST');
 
         /**
@@ -148,9 +156,7 @@ $app->group('/api', function () use ($app) {
 
             $link = $app->request()->params('link');
             $from = $app->request()->params('from');
-            /**
-             * JSON content type or anything else
-             */
+            
             $app->response->headers->set('Content-Type', 'application/json');
 
             echo Data_Scraping::getDocument($link, $from);
@@ -161,9 +167,7 @@ $app->group('/api', function () use ($app) {
 
             $params = $app->request()->params();
             $client = new Data_Scraping();
-            /**
-             * JSON content type or anything else
-             */
+            
             $app->response->headers->set('Content-Type', 'application/json');
 
             echo $client->autoScraping($params['url'])->getAutoScrapingJson();

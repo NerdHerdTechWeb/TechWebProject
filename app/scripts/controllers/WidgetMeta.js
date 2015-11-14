@@ -6,40 +6,56 @@
         .module('semanticNotations')
         .controller('WidgetMeta', widgetMeta);
 
-    function widgetMeta(meta, $scope, $modal, $log, $window) {
-
-        // vm is our capture variable
-        var vm = this;
-
-        vm.metaEntries = [];
-
-        meta.getMeta().then(function(results) {
-            vm.metaEntries = results;
-            console.log(vm.metaEntries);
-        }, function(error) { // Check for errors
-            console.log(error);
+    function widgetMeta(meta, $scope, $modal, $log, Notification, $rootScope) {
+        
+        var pattern = /ltw[\d]+/;
+        var search = [];
+        $scope.graphList = [];
+        $scope.readyGraph = [];
+        $scope.graph = [];
+        $scope.documentData = {};
+        
+        $scope.$on('loadMeta',function(event,data){
+              $scope.documentData = {
+                'label': data.label,
+                'link': data.link,
+                'imagepath': data.imagepath,
+                'from': data.from,
+                'group': 'TheScraper'
+            }
+            meta.getAvailableGraph().then(function(results){
+                Notification.warning('Loading meta data...');
+                $scope.graphList = results;
+                
+                meta.getReadyGraph().then(function(results){
+                    Notification.success('Metadata available');
+                    var log = [];
+                    search = [];
+                    angular.forEach(results, function(value, key) {
+                        var partial = String(value).match(pattern)
+                        search.push(partial[0])
+                    });
+                    $scope.readyGraph = results;
+                });
+            });
         });
-
-        $scope.items = ['item1', 'item2', 'item3'];
-        $scope.open = function (size) {
-
-            var modalInstance = $modal.open({
-                animation: true,
-                templateUrl: '/app/partials/modals/widgetMetaModal.html',
-                controller: 'WidgetMetaModal',
-                size: size,
-                resolve: {
-                    items: function () {
-                        return $scope.items;
+        
+        $scope.$watch('readyGraph', function(newVal, oldVal){
+            var log = [];
+            $scope.graph = [];
+            angular.forEach(search, function(value, key) {
+                angular.forEach($scope.graphList, function(v, k){
+                    var pat = new RegExp(search[0]);
+                    var matching = String(v).match(pat);
+                    if(matching){
+                        $scope.graph.push(v)
                     }
-                }
-            });
-
-            modalInstance.result.then(function (selectedItem) {
-                $scope.selected = selectedItem;
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
-        };
+                });
+            }, log);
+        });
+        
+        $scope.getDocument = function(link, from, data, event$, graph){
+            $rootScope.$broadcast('getMainDocument',{'link':link, 'from':from, 'data':data, 'event':event$, 'graph':graph});
+        }
     }
 })();
