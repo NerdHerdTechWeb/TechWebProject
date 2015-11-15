@@ -39,6 +39,64 @@
     }]);
 }(window.angular));
 
+
+(function (angular) {
+    'use strict';
+
+    var module = angular.module('angular-create-text-fragment', ['ui-notification']);
+
+    module.directive('createTextFragment', ['$compile', '$log', '$filter', 'Notification', 'fragment', function ($compile, $log, $filter, Notification, fragment) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                
+                function getFirstRange() {
+                    var sel = rangy.getSelection();
+                    return sel.rangeCount ? sel.getRangeAt(0) : null;
+                }
+                
+                function surroundRange() {
+                    var range = getFirstRange();
+                    if (range) {
+                        var start = range.startOffset;
+                        var end = range.endOffset;
+                        var localPath = fragment.createLocalXPATH(range.commonAncestorContainer.parentNode);
+                        var remotePath = fragment.createRemoteXPATH(localPath);
+                        var xpath = remotePath;
+                        var text = rangy.getSelection().toString();
+                        $log.info(remotePath);
+                        
+                        var span = document.createElement("span");
+                        span.setAttribute('data-xpath', xpath);
+                        span.setAttribute('data-start', start);
+                        span.setAttribute('data-end', end);
+                        span.setAttribute('data-annotation-id', end);
+                        span.setAttribute('data-date', $filter('date')(Date.now(), 'yyyy-MM-dd'));
+                        span.setAttribute('data-author', 'riccardo.masetti4@studio.unibo.it');
+                        span.setAttribute('data-fragment-in-document', text);
+                        //span.setAttribute('data-fragment', annotation.o_label || annotation.o);
+                        span.setAttribute('data-type', 'noType');
+                        span.setAttribute('ng-click', 'showNotationModal($event)');
+                        span.setAttribute('class', 'annotation noType');
+                        
+                        if (range.canSurroundContents(span)) {
+                            range.surroundContents(span);
+                            $compile(span)(scope);
+                        } else {
+                            Notification.warning("Unable to surround range because range partially selects a non-text node. See DOM4 spec for more information.");
+                        }
+                    }
+                }
+                
+                scope.$on('getSelection', function(event, args){
+                    surroundRange();
+                });
+            }
+        };
+    }]);
+}(window.angular));
+
+
 (function () {
 
     'use strict';
@@ -53,6 +111,7 @@
             'ui.tinymce',
             'ui.select2',
             'angular-bind-html-compile',
+            'angular-create-text-fragment',
             'ui-notification',
             'frapontillo.bootstrap-switch'
         ])

@@ -29,7 +29,6 @@
                 
                 meta.getReadyGraph().then(function(results){
                     Notification.success('Metadata available');
-                    var log = [];
                     search = [];
                     angular.forEach(results, function(value, key) {
                         var partial = String(value).match(pattern)
@@ -41,7 +40,6 @@
         });
         
         $scope.$watch('readyGraph', function(newVal, oldVal){
-            var log = [];
             $scope.graph = [];
             angular.forEach(search, function(value, key) {
                 angular.forEach($scope.graphList, function(v, k){
@@ -51,7 +49,7 @@
                         $scope.graph.push(v)
                     }
                 });
-            }, log);
+            });
         });
         
         $scope.getDocument = function(link, from, data, event$, graph){

@@ -126,7 +126,7 @@
         $scope.loadAnnotations = function (source, graph) {
             return fragment.loadAnnotations({
                 source: source,
-                graph: graph ||'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1542'
+                graph: graph || 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1542'
             }).then(function(results){
                 jQuery('tr').unwrap('tbody');
                 jQuery('#navTabsContainer img:not(.img-replaced)').each(function (i, el) {
@@ -145,7 +145,8 @@
         }
 
         $scope.showSelectedText = function (event$) {
-            $scope.fragmentText = fragment.createFragment(event$);
+            $rootScope.$broadcast('getSelection');
+            //$scope.fragmentText = fragment.createFragment(event$);
         }
 
         $scope.createLocalXPATH = function (element$) {
@@ -170,7 +171,7 @@
                     function (event) {
                         var localPath = scope.createLocalXPATH(event.target);
                         var remotePath = scope.createRemotePath(localPath);
-                        console.log(remotePath);
+                        console.log(localPath);
                     });
             }
         }
