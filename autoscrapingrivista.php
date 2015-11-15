@@ -31,11 +31,18 @@ foreach ($rows as $r) {
 	
 		$newPaper['title'] = $xpath->query("//*[@id='articleTitle']",$r)->item(0)->nodeValue;
 		$newPaper['author'] = $xpath->query("//*[@id='authorString']",$r)->item(0)->nodeValue;
+		$newPaper['author'] = str_replace("and",",",$newPaper['author']);
+		
+		foreach ($newPaper['author'] as $key=>$el)
+			if (strpos($el,",")){
+				$temp =explode(",",$el);
+		 		array_splice($newPaper['author'],$key,1,$temp);
+			}
 		foreach($xpath->query("//*[@id='articleCitations']//p",$r) as $key => $val){
 		    $newPaper['references'][] = $xpath->query("//*[@id='articleCitations']//p",$r)->item($key)->nodeValue;
 		}
 		$newPaper['doi'] = $xpath->query("//*[@id='pub-id::doi']",$r)->item(0)->nodeValue;
-		$newPaper['url'] = 'http://rivista-statistica.unibo.it/article/view/4594';
+		$newPaper['url'] = $res->getEffectiveUrl();
 		
 	$papersList[] = $newPaper;
 	}
