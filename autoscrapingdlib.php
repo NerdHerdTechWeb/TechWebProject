@@ -44,6 +44,18 @@ foreach ($rows as $r) {
 	    if($module === 0)
 		    $newPaper['author'][] = trim($xpath->query("//p[2]/text()",$r)->item($key)->nodeValue);
 	}
+	$newPaper['author'] = str_replace("and",",",$newPaper['author']);
+	foreach ($newPaper['author'] as $key=>$el)
+			
+		if (strpos($el,",")){
+			$temp =explode(",",$el);
+			array_splice($newPaper['author'],$key,1,$temp);
+		}	
+	 else if (preg_match("/doi/i", $el)) {
+	    		$newPaper['doi'] = $el;
+			array_splice($newPaper['author'], array_pop(array_keys($newPaper['author'])),1);	
+				
+		}
 	
 	$references = $xpath->query("//p/a[@name]/text()",$r);
 	foreach($references as $key => $reference){
