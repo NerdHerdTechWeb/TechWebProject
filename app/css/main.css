@@ -449,6 +449,7 @@ footer {
     font-size: 16px;
 }
 
+/* Fragment span colors collection */
 .hasComment{background-color: #295aff !important;}
 .hasAuthor{background-color: #23ff1c !important;}
 .hasPublicationYear{background-color: #fe0eff !important;}
@@ -458,6 +459,7 @@ footer {
 .hasDOI{background-color: #ff9f95 !important;}
 .hasURL{background-color: #a3b5c7 !important;}
 .denotesRhetoric{background-color: #801655 !important;}
+.noType{background-color: #ffff1a !important; color: red; font-weight: bold;box-shadow: 1px 1px 2px #333;}
 
 .annotation{
     cursor: pointer;

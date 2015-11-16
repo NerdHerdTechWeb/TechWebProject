@@ -45,7 +45,7 @@
 
     var module = angular.module('angular-create-text-fragment', ['ui-notification']);
 
-    module.directive('createTextFragment', ['$compile', '$log', '$filter', 'Notification', 'fragment', function ($compile, $log, $filter, Notification, fragment) {
+    module.directive('createTextFragment', ['$compile', '$log', '$filter', 'Notification', 'fragment', 'user', function ($compile, $log, $filter, Notification, fragment, user) {
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
@@ -58,13 +58,15 @@
                 function surroundRange() {
                     var range = getFirstRange();
                     if (range) {
+                        if(rangy.getSelection().toString().length <= 0)
+                            return;
                         var start = range.startOffset;
                         var end = range.endOffset;
                         var localPath = fragment.createLocalXPATH(range.commonAncestorContainer.parentNode);
                         var remotePath = fragment.createRemoteXPATH(localPath);
                         var xpath = remotePath;
                         var text = rangy.getSelection().toString();
-                        $log.info(remotePath);
+                        
                         
                         var span = document.createElement("span");
                         span.setAttribute('data-xpath', xpath);
@@ -72,10 +74,16 @@
                         span.setAttribute('data-end', end);
                         span.setAttribute('data-annotation-id', end);
                         span.setAttribute('data-date', $filter('date')(Date.now(), 'yyyy-MM-dd'));
-                        span.setAttribute('data-author', 'riccardo.masetti4@studio.unibo.it');
+                        span.setAttribute('data-author', user.userData().email);
                         span.setAttribute('data-fragment-in-document', text);
-                        //span.setAttribute('data-fragment', annotation.o_label || annotation.o);
+                        span.setAttribute('data-fragment', text);
                         span.setAttribute('data-type', 'noType');
+                        
+                        span.setAttribute('tooltip', 'Fragment not saved yet. Click to edit. "ctrl + click" to deletes it');
+                        span.setAttribute('tooltip-placement', 'top');
+                        span.setAttribute('tooltip-trigger', 'mouseenter');
+                        span.setAttribute('id', 'snap_'+Date.now());
+                       
                         span.setAttribute('ng-click', 'showNotationModal($event)');
                         span.setAttribute('class', 'annotation noType');
                         

@@ -79,7 +79,9 @@
                 "email": userData.email,
                 "username": userData.username
             });
+            
             Notification.info('Waiting please');
+            
             annotationManager.update(form).then(function (results) {
                 $log.info(results);
                 $modalInstance.close();
