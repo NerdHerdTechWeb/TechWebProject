@@ -45,8 +45,9 @@
                 angular.forEach($scope.graphList, function(v, k){
                     var pat = new RegExp(search[0]);
                     var matching = String(v).match(pat);
-                    if(matching){
-                        $scope.graph.push(v)
+                    var matching2 = String(v).match(/ltw1540/);
+                    if(matching || matching2){
+                        $scope.graph.push(v);
                     }
                 });
             });

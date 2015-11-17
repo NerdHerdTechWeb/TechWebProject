@@ -40,12 +40,28 @@
 }(window.angular));
 
 
-(function (angular) {
+(function () {
+
     'use strict';
 
-    var module = angular.module('angular-create-text-fragment', ['ui-notification']);
-
-    module.directive('createTextFragment', ['$compile', '$log', '$filter', 'Notification', 'fragment', 'user', function ($compile, $log, $filter, Notification, fragment, user) {
+    var semanticNotations = angular
+        .module('semanticNotations', [
+            'ngResource',
+            'ngRoute',
+            'ngCookies',
+            'ui.bootstrap',
+            'toggle-switch',
+            'ui.tinymce',
+            'ui.select2',
+            'angular-bind-html-compile',
+            'ui-notification',
+            'frapontillo.bootstrap-switch'
+        ])
+        .directive('lateralMenu', LateralMenu)
+        .directive('showMenu', showMenu)
+        .directive('showFilters', showFilters)
+        .directive('filtersSelection', filtersSelection)
+        .directive('createTextFragment', ['$compile', '$log', '$filter', 'Notification', 'fragment', 'user', function ($compile, $log, $filter, Notification, fragment, user) {
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
@@ -101,32 +117,7 @@
                 });
             }
         };
-    }]);
-}(window.angular));
-
-
-(function () {
-
-    'use strict';
-
-    var semanticNotations = angular
-        .module('semanticNotations', [
-            'ngResource',
-            'ngRoute',
-            'ngCookies',
-            'ui.bootstrap',
-            'toggle-switch',
-            'ui.tinymce',
-            'ui.select2',
-            'angular-bind-html-compile',
-            'angular-create-text-fragment',
-            'ui-notification',
-            'frapontillo.bootstrap-switch'
-        ])
-        .directive('lateralMenu', LateralMenu)
-        .directive('showMenu', showMenu)
-        .directive('showFilters', showFilters)
-        .directive('filtersSelection', filtersSelection)
+    }])
 
     semanticNotations.config(['$routeProvider',
         function ($routeProvider) {

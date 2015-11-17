@@ -37,16 +37,16 @@
                                 </div><!-- /btn-group -->
                                 <input ng-switch-when="hasAuthor"
                                        ng-model="documentAType.author"
-                                       tooltip="Typein a valid author name"
+                                       tooltip="Type in a custom description"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
                                        placeholder="Type in a valid author name" type="text" class="form-control" aria-label="...">
                                 <input ng-switch-when="hasDOI"
                                        ng-model="documentAType.doi"
-                                       tooltip="Typein a valid doi"
+                                       tooltip="Type in a custom description"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
-                                       placeholder="Type in a valid DOI"
+                                       placeholder="Type in a custom description"
                                        type="text" class="form-control" aria-label="...">
                                 <input ng-switch-when="hasPublicationYear"
                                        ng-model="documentAType.publicationYear"
@@ -57,34 +57,34 @@
                                        type="date" class="form-control" aria-label="...">
                                 <input ng-switch-when="hasTitle"
                                        ng-model="documentAType.title"
-                                       tooltip="Typein a title"
+                                       tooltip="Type in a custom description"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
-                                       placeholder="Typein a title"
+                                       placeholder="Type in a custom description"
                                        type="text" class="form-control" aria-label="...">
                                 <input ng-switch-when="hasURL"
                                        ng-model="documentAType.url"
-                                       tooltip="Typein a valid url"
+                                       tooltip="Type in a custom description"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
-                                       placeholder="Typein a valid url"
+                                       placeholder="Type in a custom description"
                                        type="url" name="url" class="form-control" aria-label="...">
                                 <div ng-show="form.$submitted || form.$touched">
                                     <span class="text-danger" ng-show="form.url.$error.url">This is not a valid url.</span>
                                 </div>
                                 <input ng-switch-when="references"
                                        ng-model="documentAType.references"
-                                       tooltip="Typein a reference for the document"
+                                       tooltip="Type in a custom description"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
-                                       placeholder="Typein a reference for the document"
+                                       placeholder="Type in a custom description"
                                        type="text" class="form-control" aria-label="...">
                                 <input ng-switch-default
                                        ng-model="documentAType.author"
-                                       tooltip="Typein a valid author name"
+                                       tooltip="Type in a custom description"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
-                                       placeholder="Type in a valid author name" type="text" class="form-control" aria-label="...">
+                                       placeholder="Type in a custom description" type="text" class="form-control" aria-label="...">
                             </div><!-- /input-group -->
                         </div><!-- /.col-lg-6 -->
                         <!-- Fragment annotation -->
@@ -103,31 +103,31 @@
                                 </div>
                                 <input ng-switch-when="hasCitation"
                                        ng-model="fragmentAType.citation"
-                                       tooltip="Typein a citation for the fragment"
+                                       tooltip="Type in a custom description"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
-                                       placeholder="Typein a citation for the fragment"
+                                       placeholder="Type in a custom description"
                                        type="text" class="form-control" aria-label="...">
                                 <input ng-switch-when="hasComment"
                                        ng-model="fragmentAType.comment"
-                                       tooltip="Typein a comment for the fragment"
+                                       tooltip="Type in a comment for the fragment"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
-                                       placeholder="Typein a comment for the fragment"
+                                       placeholder="Type in a comment for the fragment"
                                        type="text" class="form-control" aria-label="...">
                                 <input ng-switch-when="hasRethoric"
                                        ng-model="fragmentAType.rethoric.selected"
-                                       tooltip="Typein a citation for the fragment"
+                                       tooltip="Type in a custom description"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
-                                       placeholder="Typein a citation for the fragment"
+                                       placeholder="Type in a custom description"
                                        type="text" class="form-control" aria-label="...">
                                 <input ng-switch-default
                                        ng-model="fragmentAType.citation"
-                                       tooltip="Typein a citation for the fragment"
+                                       tooltip="Type in a custom description"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
-                                       placeholder="Typein a citation for the fragment"
+                                       placeholder="Type in a custom description"
                                        type="text" class="form-control" aria-label="...">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default dropdown-toggle" 
@@ -152,7 +152,7 @@
             <div class="modal-footer" ng-if="logInStatus">
                 <button type="submit" class="btn btn-primary" ng-click="submit('save')">Save</button>
                 <button type="submit" class="btn btn-info" ng-click="submit('cht')">Change target</button>
-                <button type="submit" class="btn btn-primary" ng-click="submit('update')">Update</button>
+                <!-- <button type="submit" class="btn btn-primary" ng-click="submit('update')">Update</button> -->
                 <button type="submit" class="btn btn-danger" ng-click="submit('delete')">Remove</button>
             </div>
             <div class="modal-footer" ng-if="!logInStatus">

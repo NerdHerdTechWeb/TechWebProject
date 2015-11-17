@@ -17,6 +17,9 @@
 
         $scope.logInStatus = user.logInStatus();
         $scope.switchLoginView = false;
+        
+        /* Last selected document annotation or fragment type */
+        $scope.currentNonLiteralType = '';
 
         $scope.documentProperties = {
             hasAuthor: 'Author',
@@ -80,11 +83,19 @@
                 "username": userData.username
             });
             
+            if(form.type === 'noType'){
+                form.type = $scope.currentNonLiteralType;
+                if($scope.currentNonLiteralType === '')
+                    return Notification.error('Choose an annotation type, please');
+            }
+            
             Notification.info('Waiting please');
             
             annotationManager.update(form).then(function (results) {
                 $log.info(results);
                 $modalInstance.close();
+                /* Empty the memory */
+                $scope.currentNonLiteralType = '';
             });
         };
 
@@ -96,16 +107,19 @@
         $scope.selectDocumentAType = function (type) {
             $scope.dat = type;
             $scope.annotationTypeLiteral = $scope.documentProperties[type];
+            $scope.currentNonLiteralType = type;
         }
 
         $scope.selectFragmentAType = function (type) {
             $scope.fat = type;
             $scope.annotationFragmentTypeLiteral = $scope.fragmentProperties[type];
+            $scope.currentNonLiteralType = type;
         }
 
         $scope.selectFragmentRethoric = function (type) {
             $scope.rethoricType = type;
             $scope.rethoricTypeLiteral = $scope.fragmentAType.rethoric[type];
+            $scope.currentNonLiteralType = type;
         }
 
         $scope.login = function () {

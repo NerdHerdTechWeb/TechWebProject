@@ -16,6 +16,7 @@
         function login(userForm) {
             loginStatus = true;
             $cookies.put('logsession','1');
+            $cookies.put('userEmail',userForm.email);
             credentials.email = userForm.email;
             credentials.password = userForm.password;
             Notification.success('You are now logged in');
@@ -35,7 +36,8 @@
         }
         
         function userData (){
-            return credentials;
+            var credentialObj = {"email":$cookies.get('userEmail')}
+            return credentialObj;
         }
 
         return {
