@@ -113,8 +113,8 @@ class Sparql_Edit
         $this->graph1->add($sel, EasyRdf_Namespace::expand('rdf:value'), EasyRdf_Literal::create($this->annotation["target"]["id"], null, 'xs:normalizedString'));
         $this->graph1->add($sel, EasyRdf_Namespace::expand('rdf:value'), EasyRdf_Literal::create($this->annotation["target"]["start"], null, 'xs:normalizedString'));
 
-        $this->graph1->addLiteral($sel, EasyRdf_Namespace::expand('oa:endoffset'), $this->annotation["target"]["endoffset"]);
-        $this->graph1->addLiteral($sel, EasyRdf_Namespace::expand('oa:startoffset'), $this->annotation["target"]["startoffset"]);
+        $this->graph1->addLiteral($sel, EasyRdf_Namespace::expand('oa:end'), $this->annotation["target"]["endoffset"]);
+        $this->graph1->addLiteral($sel, EasyRdf_Namespace::expand('oa:start'), $this->annotation["target"]["startoffset"]);
         $this->graph1->addResource($target, EasyRdf_Namespace::expand('oa:hasSource'), $this->annotation["target"]["source"]);
 
         //NOME

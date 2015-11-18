@@ -57,7 +57,7 @@ class Sparql_Client
     public function getAnnotationsByDocument($queryParams = array())
     {
         $defaults = array(
-            'graph' => 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1542',
+            'graph' => 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540',
             'source' => '',
             'author_fullname' => '',
             'author_email' => ''
@@ -66,12 +66,6 @@ class Sparql_Client
         $defaults = array_merge($defaults, $queryParams);
 
         $query = "
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX oa: <http://www.w3.org/ns/oa#>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX schema: <http://schema.org/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX rsch: <http://vitali.web.cs.unibo.it/raschietto/>
 SELECT ?wtf ?author ?author_fullname ?author_email ?date ?label ?body ?s ?p ?o ?body_l ?o_label ?start ?startoffset ?endoffset
 WHERE{
 	GRAPH <{$defaults['graph']}>
@@ -141,7 +135,7 @@ WHERE{
 
                 if(strcasecmp('start',$k) == 0){
                     $newText = preg_replace('(tbody1_)','',$v);
-                    $newText = preg_replace('[\d]','[$0]',$newText);
+                    $newText = preg_replace('[\d]','$0',$newText);
                     $xpath = preg_replace('(_)','/',$newText);
                     $v = $xpath;
                     $isBody = preg_match('(body)',$xpath);
@@ -191,7 +185,7 @@ WHERE{
         $query = "
 SELECT ?source
 WHERE{
-	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1542>
+	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540>
 	{
 	
 	    ?annotation  rdf:type oa:Annotation.

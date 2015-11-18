@@ -156,7 +156,7 @@
                         span.setAttribute('tooltip', 'Fragment not saved yet. Click or right-click on it to edit');
                         span.setAttribute('tooltip-placement', 'top');
                         span.setAttribute('tooltip-trigger', 'mouseenter');
-                        span.setAttribute('id', 'snap_'+Date.now());
+                        span.setAttribute('id', 'snap_' + Date.now());
                        
                         span.setAttribute('ng-click', 'showNotationModal($event)');
                         span.setAttribute('class', 'annotation noType');

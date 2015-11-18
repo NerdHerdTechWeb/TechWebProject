@@ -25,13 +25,12 @@
             hasAuthor: 'Author',
             hasDOI: 'DOI',
             hasPublicationYear: 'Publication Year',
-            references: 'Reference',
             hasTitle: 'Title',
             hasURL: 'URL'
         };
 
         $scope.fragmentProperties = {
-            hasCitation: 'Citation',
+            references: 'Reference',
             hasComment: 'Comment',
             hasRethoric: 'Rethoric'
         };
@@ -42,7 +41,7 @@
         $scope.documentAType.author = $scope.documentAType.type == 'hasAuthor' ? ct.data('fragment') : '';
         $scope.documentAType.doi = $scope.documentAType.type == 'hasDOI' ? ct.data('fragment') : '';
         $scope.documentAType.publicationYear = $scope.documentAType.type == 'hasPublicationYear' ? ct.data('fragment') : '';
-        $scope.documentAType.references = $scope.documentAType.type == 'references' ? ct.data('fragment') : '';
+        //$scope.documentAType.references = $scope.documentAType.type == 'references' ? ct.data('fragment') : '';
         $scope.documentAType.title = $scope.documentAType.type == 'hasTitle' ? ct.data('fragment') : '';
         $scope.documentAType.url = $scope.documentAType.type == 'URL' ? ct.data('fragment') : '';
 
@@ -57,11 +56,11 @@
             'results': 'Results'
         };
         $scope.fragmentAType.type = ct.data('type');
-        $scope.fragmentAType.citation = $scope.fragmentAType.type == 'hasCitation' ? ct.data('fragment') : '';
+        $scope.fragmentAType.citation = $scope.fragmentAType.type == 'references' ? ct.data('fragment') : '';
         $scope.fragmentAType.comment = $scope.fragmentAType.type == 'hasComment' ? ct.data('fragment') : '';
 
         $scope.annotationTypeLiteral = $scope.documentProperties[$scope.documentAType.type] || 'Author'
-        $scope.annotationFragmentTypeLiteral = $scope.fragmentProperties[$scope.fragmentAType.type] || 'Citation';
+        $scope.annotationFragmentTypeLiteral = $scope.fragmentProperties[$scope.fragmentAType.type] || 'References';
         //TODO check rethoric type
         $scope.rethoricTypeLiteral = 'Abstract';
 
