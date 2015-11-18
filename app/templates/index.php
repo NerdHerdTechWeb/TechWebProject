@@ -145,6 +145,7 @@
 <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../../bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="../../bower_components/ng-context-menu/dist/ng-context-menu.min.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-resource/angular-resource.js"></script>
 <script type="text/javascript" src="../../bower_components/angular-route/angular-route.js"></script>

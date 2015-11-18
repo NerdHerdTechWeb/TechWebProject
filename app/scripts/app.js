@@ -1,3 +1,60 @@
+
+(function ($, window) {
+
+    $.fn.contextMenu = function (settings) {
+
+        return this.each(function () {
+
+            // Open context menu
+            $(this).on("contextmenu", function (e) {
+                // return native menu if pressing control
+                if (e.ctrlKey) return;
+                
+                //open menu
+                var $menu = $(settings.menuSelector)
+                    .data("invokedOn", $(e.target))
+                    .show()
+                    .css({
+                        position: "fixed",
+                        "z-index": "10000",
+                        left: getMenuPosition(e.clientX, 'width', 'scrollLeft'),
+                        top: getMenuPosition(e.clientY, 'height', 'scrollTop')
+                    })
+                    .off('click')
+                    .on('click', 'a', function (e) {
+                        $menu.hide();
+                
+                        var $invokedOn = $menu.data("invokedOn");
+                        var $selectedMenu = $(e.target);
+                        
+                        settings.menuSelected.call(this, $invokedOn, $selectedMenu);
+                    });
+                
+                return false;
+            });
+
+            //make sure menu closes on any click
+            $(document).click(function () {
+                $(settings.menuSelector).hide();
+            });
+        });
+        
+        function getMenuPosition(mouse, direction, scrollDir) {
+            var win = $(window)[direction](),
+                scroll = $(window)[scrollDir](),
+                menu = $(settings.menuSelector)[direction](),
+                position = mouse + scroll;
+                        
+            // opening menu would pass the side of the page
+            if (mouse + menu > win && menu < mouse) 
+                position -= menu;
+            
+            return position;
+        }    
+
+    };
+})(jQuery, window);
+
 /**
  * Bootstrapping frontend application
  * Setting up main route provider
@@ -55,7 +112,8 @@
             'ui.select2',
             'angular-bind-html-compile',
             'ui-notification',
-            'frapontillo.bootstrap-switch'
+            'frapontillo.bootstrap-switch',
+            'ng-context-menu'
         ])
         .directive('lateralMenu', LateralMenu)
         .directive('showMenu', showMenu)
@@ -95,13 +153,15 @@
                         span.setAttribute('data-fragment', text);
                         span.setAttribute('data-type', 'noType');
                         
-                        span.setAttribute('tooltip', 'Fragment not saved yet. Click to edit. "ctrl + click" to deletes it');
+                        span.setAttribute('tooltip', 'Fragment not saved yet. Click or right-click on it to edit');
                         span.setAttribute('tooltip-placement', 'top');
                         span.setAttribute('tooltip-trigger', 'mouseenter');
                         span.setAttribute('id', 'snap_'+Date.now());
                        
                         span.setAttribute('ng-click', 'showNotationModal($event)');
                         span.setAttribute('class', 'annotation noType');
+                        
+                        span.setAttribute('create-context-menu','');
                         
                         if (range.canSurroundContents(span)) {
                             range.surroundContents(span);
@@ -117,6 +177,35 @@
                 });
             }
         };
+    }])
+    
+    .directive('createContextMenu', ['$compile', '$log', '$filter', 'Notification', 'fragment', 'user', function ($compile, $log, $filter, Notification, fragment, user) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                jQuery(element).contextMenu({
+                    menuSelector: "#contextMenu",
+                    menuSelected: function (invokedOn, selectedMenu) {
+                        var data = selectedMenu.data();
+                        switch (data.action) {
+                            case 'remove':
+                                invokedOn.contents().unwrap();
+                                break;
+                            case 'edit':
+                                invokedOn.trigger('click');
+                                break;
+                            case 'close':
+                                //close
+                                break;
+                            
+                            default:
+                                // close
+                        }
+                    }
+                });
+            }
+            
+        }
     }])
 
     semanticNotations.config(['$routeProvider',

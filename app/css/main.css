@@ -465,6 +465,10 @@ footer {
     cursor: pointer;
 }
 
+#contextMenu a.alert.alert-warning{
+    margin-bottom: 0 !important;
+}
+
 
 /*<!-- lateral menu -->*/
 body{
@@ -522,7 +526,7 @@ body{
 #site-wrapper {
     position: relative;
     /*overflow: hidden;*/
-    overflow-x: hidden;
+    /*overflow-x: hidden*/;
     width: 100%;
 
     height: 5000px; /* Temp: Simulates a tall page. */

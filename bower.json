@@ -38,6 +38,7 @@
     "ui-select": "latest",
     "angular-ui-notification": "~0.0.14",
     "angular-cookie": "~4.0.9",
-    "angular-cookies": "~1.4.6"
+    "angular-cookies": "~1.4.6",
+    "ng-context-menu": "~1.0.2"
   }
 }
