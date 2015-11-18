@@ -135,7 +135,8 @@ WHERE{
 
                 if(strcasecmp('start',$k) == 0){
                     $newText = preg_replace('(tbody1_)','',$v);
-                    $newText = preg_replace('[\d]','$0',$newText);
+                    if(empty(preg_match('/\[\d\]/',$newText)))
+                        $newText = preg_replace('[\d]','[$0]',$newText);
                     $xpath = preg_replace('(_)','/',$newText);
                     $v = $xpath;
                     $isBody = preg_match('(body)',$xpath);
