@@ -146,7 +146,7 @@ $statement = $graph1->newBNodeId();
 //$statement = EasyRdf_Namespace::expand('rdf:Statement');
 
 
-$label = $annotation["body"]["label"];
+//$label = $annotation["body"]["label"]; --->ELIMINATO DA QUI
 
 $p = $predicates[$annotation["type"]];
 
@@ -158,7 +158,10 @@ if ($annotation["type"] == "hasAuthor") { /// QUI DIOBONO
 
     $graph1->addResource($o, EasyRdf_Namespace::expand('rdf:type'), EasyRdf_Namespace::expand('foaf:Person'));
 
-    $autore = trim($annotation["body"]["o_label"]);
+    //      $annotation["body"]["o_label"]= $annotation["body"]["object"];
+	//		$annotation["body"]["label"]= $annotation["body"]["object"]." è un autore del documento";
+
+   //    $autore = trim($annotation["body"]["o_label"]); da trasformare in ['object']
 
     $firstname = preg_replace('/\W.*/', '', $autore);
     $name = str_replace($firstname, $autore[0], $autore);
@@ -176,17 +179,20 @@ if ($annotation["type"] == "hasAuthor") { /// QUI DIOBONO
 if ($annotation["type"] == "hasPublicationYear") {
 
     $s = $expression;
+//    $annotation["body"]["label"]= "La data di pubblicazione è ".$annotation["body"]["object"];
     $o = EasyRdf_Literal::create($annotation["body"]["object"], null, 'xsd:date');
 }
 
 if ($annotation["type"] == "hasTitle" || $annotation["type"] == "hasDOI") {
 
     $s = $expression;
+ //  $annotation["body"]["label"]= "Titolo o doi dell'documento:  ".$annotation["body"]["object"];
     $o = EasyRdf_Literal::create($annotation["body"]["object"], null, 'xsd:string');
 }
 if ($annotation["type"] == "hasURL") {
 
     $s = $expression;
+ //   $annotation["body"]["label"]= "Un URL del documento è ".$annotation["body"]["object"];
     $o = EasyRdf_Literal::create($annotation["body"]["object"], null, 'xsd:anyURL');
 
 }
@@ -199,6 +205,7 @@ if ($annotation["type"] == "hasComment") {
     $temp = str_replace("[", "", $temp);
     $temp = str_replace("]", "", $temp);
 
+ //  $annotation["body"]["label"]= "Un Commento: ".$annotation["body"]["object"];
     $s = $annotation["target"]["source"] . "#" . $temp . "-" . $annotation["target"]["start"] . "-" . $annotation["target"]["end"] . "_ver1";
 
 
@@ -214,9 +221,13 @@ if ($annotation["type"] == "denotesRhetoric") {
 
     $o = $graph1->newBNode();
 
+  //  $annotation["body"]["o_label"] = $annotation["body"]["object"];
+//    $annotation["body"]["label"]= "Il frammento denota: ".$annotation["body"]["object"];   
+   
+   
     $graph1->addResource($o, EasyRdf_Namespace::expand('rdf:type'), EasyRdf_Namespace::expand('skos:Concept'));
     $graph1->add($o, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($annotation["body"]["o_label"], null, 'xsd:string'));
-    $annotation["body"]["o_id"] = $retorica[$annotation["body"]["o_label"]];
+ //   $annotation["body"]["o_id"] = $retorica[$annotation["body"]["o_label"]]; ->da trasformare in ['object']
     $graph1->addResource($o, EasyRdf_Namespace::expand('rdf:subject'), $annotation["body"]["o_id"]);
 
 }
@@ -224,21 +235,20 @@ if ($annotation["type"] == "denotesRhetoric") {
 if ($annotation["type"] == "references") {
 
     $s = $expression;
-
+// $annotation["body"]["label"]= "Un riferimento del documento è: ".$annotation["body"]["object"];
     $o = $work . "_" . "cited" . "_" . urlencode($annotation["body"]["label"]) . "ver_1";
     //$graph1->add($o,EasyRdf_Namespace::expand('rdfs:label'),EasyRdf_Literal::create($annotation["body"]["label"],null,'xsd:string'));
 
 
 }
-
-
+// $label = $annotation["body"]["label"]; aggiunta qui
 $graph1->addResource($anno, EasyRdf_Namespace::expand('oa:hasBody'), $statement);
 $graph1->addResource($statement, 'rdf:type', EasyRdf_Namespace::expand('rdf:Statement'));
 $graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:subject'), $s);
 $graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:spredicate'), $p);
-if ($annotation["type"] != "references")
-    $graph1->add($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
-else
+//if ($annotation["type"] != "references") RIMOSSO
+ //   $graph1->add($statement, EasyRdf_Namespace::expand('rdf:object'), $o);RIMOSSO
+//else RIMOSSO
     $graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
 $graph1->add($statement, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($label, null, 'xs:String'));
 
