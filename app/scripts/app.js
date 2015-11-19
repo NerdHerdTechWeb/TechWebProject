@@ -134,8 +134,8 @@
                     if (range) {
                         if(rangy.getSelection().toString().length <= 0)
                             return;
-                        var start = range.startOffset;
-                        var end = range.endOffset;
+                        var start = range.endContainer.parentNode.textContent.indexOf(rangy.getSelection().toString())
+                        var end = start + (range.endOffset);
                         var localPath = fragment.createLocalXPATH(range.commonAncestorContainer.parentNode);
                         var remotePath = fragment.createRemoteXPATH(localPath);
                         var xpath = remotePath;
