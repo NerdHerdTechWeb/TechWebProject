@@ -76,7 +76,8 @@ foreach ($rows as $r) {
 		$newPaper['doi']['xpath'] = $xpath->query("//*[@id='pub-id::doi']",$r)->item(0)->getNodePath();
 		$newPaper['doi']['start'] = "0";
 		$newPaper['doi']['end'] =strlen($xpath->query("//*[@id='pub-id::doi']",$r)->item(0)->nodeValue);
-		$finale[] =$newPaper['doi'];
+		
+				$finale[] =$newPaper['doi'];
 	
 	//	$newPaper['url'] = $res->getEffectiveUrl();*------$DOCUMENT
 		
