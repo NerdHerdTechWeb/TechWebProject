@@ -1,6 +1,5 @@
 <?php
 require '/vendor/autoload.php';
-//require_once "EasyRdfUtils.php";
 require_once "HttpClient.php";
 EasyRdf_Namespace::set('prism', 'http://prismstandard.org/namespaces/basic/2.0/');
 EasyRdf_Namespace::set('schema', 'http://schema.org/');
@@ -23,8 +22,7 @@ EasyRdf_Namespace::set('sro', 'http://salt.semanticauthoring.org/ontologies/sro#
 EasyRdf_Namespace::set('deo', 'http://purl.org/spar/deo/');
 EasyRdf_Namespace::set('cito', 'http://purl.org/spar/cito/');
 
-//$sparql = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/update?user=ltw1540&pass=jMLP£23a');
-//$sparql = new EasyRdf_Sparql_Client(' http://ltw1540:jMLP£23a@tweb2015.cs.unibo.it:8080/data/update/');
+
 $sparql = new EasyRdf_Sparql_Client('http://localhost:3030/ds/update');
 
 
@@ -75,10 +73,6 @@ $annotation = array(
     ),
 );
 
-//PARSING ANNOTAZIONE
-
-//$annotation["target"]["source"]='http://www.dlib.org/dlib/september14/jettka/09jettka';
-//$item= 'http://www.dlib.org/dlib/september14/jettka/09jettka.html';//DEVE ESSERE PASSATO si può prendere dalla source 
 
 $item = $annotation["target"]["source"];
 $work = str_replace('.html', '', $item);
@@ -86,13 +80,6 @@ $expression = str_replace('.html', '', $item);
 $expression = $expression . "_ver1";
 
 $annotation["provenance"]["author"]['id'] = "mailto:" . $annotation["provenance"]["author"]["email"];
-
-/*
-echo $item;
-echo $work;
-echo $expression ;
-echo "SONO QUI!"; exit;	*/
-
 
 $graph1 = new EasyRdf_Graph();
 
@@ -137,14 +124,11 @@ $graph1->addResource($target, EasyRdf_Namespace::expand('oa:hasSource'), $annota
 $graph1->add($auth, EasyRdf_Namespace::expand('foaf:name'), EasyRdf_Literal::create($annotation["provenance"]["author"]["name"], null, 'xs:string'));
 $graph1->add($auth, EasyRdf_Namespace::expand('schema:email'), EasyRdf_Literal::create($annotation["provenance"]["author"]["email"], null, 'xs:normalizedString'));
 
-// $result = $sparql->insert($graph2, 'http://vitali.web.cs.unibo.it/raschietto/graph/ltwbod');
 
 //BODY
 $statement = $graph1->newBNodeId();
 
-
-//$statement = EasyRdf_Namespace::expand('rdf:Statement');
-
+//AGGIORNAMENTO DA QUI
 
 //$label = $annotation["body"]["label"]; --->ELIMINATO DA QUI
 
