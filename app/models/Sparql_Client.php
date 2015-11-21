@@ -135,7 +135,8 @@ WHERE{
 
                 if(strcasecmp('start',$k) == 0){
                     $newText = preg_replace('(tbody1_)','',$v);
-                    if(empty(preg_match('/\[\d\]/',$newText)))
+                    $areSquareBrackets = empty(preg_match('/\[\d\]/',$newText));
+                    if($areSquareBrackets)
                         $newText = preg_replace('[\d]','[$0]',$newText);
                     $xpath = preg_replace('(_)','/',$newText);
                     $v = $xpath;
