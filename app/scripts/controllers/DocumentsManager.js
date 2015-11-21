@@ -115,7 +115,7 @@
         }
 
         $scope.$watch('documentsLoaded',function(){
-            typeof $scope.documentData !== 'undefined' ? $scope.loadAnnotations($scope.documentData.link, $scope.graph) : '';
+            typeof $scope.documentData !== 'undefined' ? $scope.loadAnnotations($scope.documentData.link, $scope.graph, $scope.documentData.from) : '';
             $rootScope.$broadcast('loadMeta',$scope.documentData);
         });
         
@@ -123,7 +123,7 @@
             $scope.getMainDocument(args.link, args.from, args.data, args.event, args.graph);
         });
         
-        $scope.loadAnnotations = function (source, graph) {
+        $scope.loadAnnotations = function (source, graph, from) {
             return fragment.loadAnnotations({
                 source: source,
                 graph: graph || 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1542'
@@ -138,7 +138,7 @@
                 var rLe = results.length;
                 for(var key in results){
                     if(key < rLe)
-                        results[key].localPath = fragment.createLocalPathFromRemote(results[key].start);
+                        results[key].localPath = fragment.createLocalPathFromRemote(results[key].start, from);
                 }
                 fragment.hilightFragment(results, $scope, $compile);
             });

@@ -17,8 +17,7 @@
     function fragment($modal, $http, $resource, $compile) {
 
         var dlibRootPath = '/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]';
-        var statistRoothPath = '/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]';
-
+        var statistRoothPath = '/html/body/div[1]/div[2]/div[2]';
 
         /**
          *
@@ -111,13 +110,23 @@
          * @param localRootPath
          * @returns {string}
          */
-        function createLocalPathFromRemote (remotePath, localRootPath){
+        function createLocalPathFromRemote (remotePath, from){
             var str = remotePath;
             //TODO check if dLib or not
             var splitting = str.split('/');
-            var needle = splitting.splice(10);
-            var joined = needle.join('/');
-            var local = xpath_conf.dLibLocal + joined;
+            var needle,
+                joined,
+                local;
+            if(from === 'dlib'){
+                needle = splitting.splice(10);
+                joined = needle.join('/');
+                local = xpath_conf.dLibLocal + joined;
+            }
+            if(from === 'rstat'){
+                needle = splitting.splice(7);
+                joined = needle.join('/');
+                local = xpath_conf.rivistaStatLocal + joined;
+            }
             return local;
         }
 

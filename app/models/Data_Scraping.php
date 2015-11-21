@@ -88,14 +88,15 @@ class Data_Scraping
         return json_encode(array_unique($papersList));
 
     }
-    
+
     /**
      * Static method that implements Guzzle, DOMDocument & DOMXpath
      * Parsing xhtml document from DLIB site then
      * returns a json representation of parsed data
+     * @param boolean $isArray
      * @return string|json
      */
-    public static function dLibScraping()
+    public static function dLibScraping($isArray)
     {
         $mappings = array(
             array(
@@ -146,7 +147,10 @@ class Data_Scraping
             }
         }
 
-        return json_encode($papersList);
+        if(!$isArray)
+            return json_encode($papersList);
+        else
+            return $papersList;
     }
 
     /**
@@ -235,17 +239,14 @@ class Data_Scraping
      * Static method that implements Guzzle, DOMDocument & DOMXpath
      * Parsing xhtml document from rivista-statistica.unibo.it site then
      * returns a json representation of parsed data
+     * @param boolean $isArray
      * @return string|json
      */
-    public static function rivistaStatisticaScraping()
+    public static function rivistaStatisticaScraping($isArray)
     {
         $papersList = array();
-        #$client = new Client();
         $doc = new DOMDocument();
 
-        /**
-         * Try catching pattern
-         */
         try {
             $res = file_get_contents(self::$rivistaStatisticaUri);
         } catch (ClientException $e) {
@@ -258,17 +259,41 @@ class Data_Scraping
 
         $xpath = new DOMXpath($doc);
 
-        $rows = $xpath->query('//table[@class="tocArticle"]//td[@class="tocTitle"]/a');
+        $rows = $xpath->query('//*[@class="tocArticle"]//*[@class="tocTitle"]/a');
 
         foreach ($rows as $row) {
             $link = $xpath->query('@href', $row)->item(0)->nodeValue;
             $label = $xpath->query('text()', $row)->item(0)->nodeValue;
 
-            $papersList[] = array('label' => $label, 'link' => $link, 'from' => 'rstat');
+            $newPaper['label'] = trim($label);
+            $newPaper['link'] = $link;
+            $newPaper['imagepath'] = preg_replace('([^\/]+$)', '', $newPaper['link']);
+            $newPaper['from'] = 'rstat';
+
+            $papersList[] = $newPaper;
         }
 
-        return json_encode($papersList);
+        if(!$isArray)
+            return json_encode($papersList);
+        else
+            return $papersList;
 
+    }
+
+    /**
+     * Create a unique array from all provenance
+     * @return string
+     */
+    public static function getAllDocuments(){
+        try{
+            $dlib = self::dLibScraping(true);
+            $rstat = self::rivistaStatisticaScraping(true);
+            $merge = array_merge($dlib,$rstat);
+        }catch (Exception $e){
+            return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
+        }
+
+        return json_encode($merge);
     }
     
     /**
@@ -401,9 +426,7 @@ class Data_Scraping
         $link = !empty($link) ? $link : 'http://rivista-statistica.unibo.it/article/view/4594';
         $from = !empty($from) ? $from : 'dlib';
 
-        #$client = new Client();
         $doc = new DOMDocument();
-        $citationsCollection = array();
 
         /**
          * Try catching pattern
@@ -414,7 +437,6 @@ class Data_Scraping
             return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
         }
 
-        #$body = $res->getBody();
         $body = $res;
 
         $doc->loadHTML($body);
@@ -424,13 +446,13 @@ class Data_Scraping
         //TODO
         switch ($from) {
             case 'rstat':
-                return self::getRstatDocument($xpath, $citationsCollection, $body);
+                return self::getRstatDocument($xpath, $body);
                 break;
             case 'dlib';
-                return self::getDlibDocument($xpath, $citationsCollection, $body);
+                return self::getDlibDocument($xpath, $body);
                 break;
             default:
-                return self::getDlibDocument($xpath, $citationsCollection, $body);
+                return self::getDlibDocument($xpath, $body);
                 break;
         }
 
@@ -440,24 +462,22 @@ class Data_Scraping
      * Serialize single RStat article to JSON
      * The single article of Rivista statica needs custom xpath query
      * @param \DOMXPath $xpath
-     * @param $citationsCollection
      * @param $body
+     * @internal param $citationsCollection
      * @return string|json
      */
-    protected static function getRstatDocument(DOMXPath $xpath, $citationsCollection, $body)
+    protected static function getRstatDocument(DOMXPath $xpath, $body)
     {
         $doc = new DOMDocument();
         $doc->loadHTML($body);
-        $elements = $doc->getElementsByTagName('table')->item(9);
-        $childs = $elements->childNodes;
+        $childs = $doc->getElementById('content')->childNodes;
         $content = '';
-        foreach ($childs as $element) {
-            #echo $element->getNodePath()."\n";
-            $content = $doc->saveHTML($element) . "\n";
+        foreach($childs as $elem){
+            $content .= $doc->saveHTML($elem);
         }
 
         $papersList = array(
-            'articleContent' => $content,
+            'articleContent' => '<div id="content">'.$content.'</div>',
         );
         return json_encode(array($papersList));
     }
@@ -466,11 +486,11 @@ class Data_Scraping
      * Serialize single DLib Magazine article to JSON
      * The single article of DLib Magazine needs custom xpath query
      * @param \DOMXPath $xpath
-     * @param $citationsCollection
      * @param $body
+     * @internal param $citationsCollection
      * @return string|json
      */
-    protected static function getDlibDocument(DOMXPath $xpath, $citationsCollection, $body)
+    protected static function getDlibDocument(DOMXPath $xpath, $body)
     {
         $doc = new DOMDocument();
         $doc->loadHTML($body);

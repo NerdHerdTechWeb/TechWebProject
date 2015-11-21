@@ -124,6 +124,19 @@ $app->group('/api', function () use ($app) {
         /**
          * dLib Scraping
          */
+        $app->map('/all', function () use ($app) {
+
+            /**
+             * JSON content type or anything else
+             */
+            $app->response->headers->set('Content-Type', 'application/json');
+
+            echo Data_Scraping::getAllDocuments();
+        })->via('GET', 'POST');
+
+        /**
+         * dLib Scraping
+         */
         $app->map('/dlib', function () use ($app) {
 
             /**

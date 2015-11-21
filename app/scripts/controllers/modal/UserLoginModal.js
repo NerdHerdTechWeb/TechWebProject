@@ -6,7 +6,7 @@
         .module('semanticNotations')
         .controller('UserLoginModal', userLoginModal);
 
-    function userLoginModal($scope, $modalInstance, $log, user) {
+    function userLoginModal($scope, $modalInstance, user) {
 
         $scope.doLogin = function () {
             var isValidForm = $scope.form.$valid;

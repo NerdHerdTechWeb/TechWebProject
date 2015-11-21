@@ -63,7 +63,8 @@ class Sparql_Edit
             "provenance" => array(
                 "author" => array(
                     "id" => null,
-                    "name" => "Fabio",
+                    #"name" => "Fabio",
+                    "name" => $queryParams['username'],
                     "email" => $queryParams['email'],
                 ),
                 "time" => date_format($date, 'Y-m-d'),
@@ -201,7 +202,6 @@ class Sparql_Edit
             $this->graph1->add($o, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($this->annotation["body"]["o_label"], null, 'xsd:string'));
             $this->annotation["body"]["o_id"] = $this->retorica[$this->annotation["body"]["o_label"]];
             $this->graph1->addResource($o, EasyRdf_Namespace::expand('rdf:subject'), $this->annotation["body"]["o_id"]);
-
         }
 
         if ($this->annotation["type"] == "references") {
@@ -209,8 +209,6 @@ class Sparql_Edit
             $s = $expression;
 
             $o = $work . "_" . "cited" . "_" . urlencode($this->annotation["body"]["label"]) . "ver_1";
-            //$this->graph1->add($o,EasyRdf_Namespace::expand('rdfs:label'),EasyRdf_Literal::create($this->annotation["body"]["label"],null,'xsd:string'));
-
 
         }
 

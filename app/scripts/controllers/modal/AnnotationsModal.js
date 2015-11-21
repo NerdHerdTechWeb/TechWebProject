@@ -79,7 +79,7 @@
             angular.extend(form, {
                 "docSource": documents.getCurrentDocumentSource(),
                 "email": userData.email,
-                "username": userData.username
+                "username": userData.name
             });
             
             if(form.type === 'noType'){
