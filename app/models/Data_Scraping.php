@@ -600,7 +600,7 @@ class Data_Scraping
     }
 
     /**
-     * Serialize single RStat article to JSON
+     * Serialize single Rstat article to JSON
      * The single article of Rivista statica needs custom xpath query
      * @param $xpath
      * @param $citationsCollection
