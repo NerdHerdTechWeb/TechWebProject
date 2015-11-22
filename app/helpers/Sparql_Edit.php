@@ -41,6 +41,8 @@ class Sparql_Edit
     {
 
         $date = date_create('NOW');
+        $formatD = date_format($date, 'Y-m-d H:i:s');
+        $dt = new DateTime($formatD);
 
         $this->annotation = array(
             "type" => $queryParams['type'],
@@ -67,7 +69,7 @@ class Sparql_Edit
                     "name" => $queryParams['username'],
                     "email" => $queryParams['email'],
                 ),
-                "time" => date_format($date, 'Y-m-d'),
+                "time" => $dt->format(DateTime::ISO8601),
             ),
         );
 
