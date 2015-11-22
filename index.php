@@ -180,10 +180,21 @@ $app->group('/api', function () use ($app) {
 
             $params = $app->request()->params();
             $client = new Data_Scraping();
-            
+
+            $urlScheme = parse_url($params['url']);
+            $domain = $urlScheme['host'];
+            $match = 'generic';
+
+            if(preg_match('(dlib.)',$domain)){
+                $match = 'dlib';
+            }
+            if(preg_match('(rivista-statistica.)',$domain)){
+                $match = 'rstat';
+            }
+
             $app->response->headers->set('Content-Type', 'application/json');
 
-            echo $client->autoScraping($params['url'])->getAutoScrapingJson();
+            echo $client->autoScraping($params['url'],$match)->getAutoScrapingJson();
         })->via('GET', 'POST');
         
     });

@@ -49,7 +49,7 @@ class Data_Scraping
      * @var string
      */
     static $dLibRootXPATH = '/html/body/form/table[3]/tr/td/table[5]/tr/td/';
-    
+
     /**
      *
      * @var string
@@ -63,7 +63,7 @@ class Data_Scraping
      */
     public static function readyGraphGroupScraping()
     {
-        
+
         try {
             $res = file_get_contents('http://vitali.web.cs.unibo.it/TechWeb15/GrafiGruppi');
         } catch (Exception $e) {
@@ -71,15 +71,15 @@ class Data_Scraping
         }
 
         $body = $res;
-        
+
         $doc = new DOMDocument();
-        
+
         $doc->loadHTML($body);
-        
+
         $xpath = new DOMXpath($doc);
-        
+
         $rows = $xpath->query('//*[@class="twikiTopic"]/a');
-        
+
         $papersList = array();
         foreach ($rows as $r) {
             $papersList[] = $xpath->query('//*[@class="twikiTopic"]/a/text()', $r)->item(1)->nodeValue;
@@ -96,7 +96,7 @@ class Data_Scraping
      * @param boolean $isArray
      * @return string|json
      */
-    public static function dLibScraping($isArray)
+    public static function dLibScraping($isArray = false)
     {
         $mappings = array(
             array(
@@ -147,7 +147,7 @@ class Data_Scraping
             }
         }
 
-        if(!$isArray)
+        if (!$isArray)
             return json_encode($papersList);
         else
             return $papersList;
@@ -193,8 +193,8 @@ class Data_Scraping
         return json_encode($papersList);
 
     }
-    
-     /**
+
+    /**
      * Create the left menu object documents list from a collection of uri
      * @param array $collection collection of rstat documents uri
      * @return string
@@ -242,7 +242,7 @@ class Data_Scraping
      * @param boolean $isArray
      * @return string|json
      */
-    public static function rivistaStatisticaScraping($isArray)
+    public static function rivistaStatisticaScraping($isArray = false)
     {
         $papersList = array();
         $doc = new DOMDocument();
@@ -273,7 +273,7 @@ class Data_Scraping
             $papersList[] = $newPaper;
         }
 
-        if(!$isArray)
+        if (!$isArray)
             return json_encode($papersList);
         else
             return $papersList;
@@ -284,132 +284,223 @@ class Data_Scraping
      * Create a unique array from all provenance
      * @return string
      */
-    public static function getAllDocuments(){
-        try{
+    public static function getAllDocuments()
+    {
+        try {
             $dlib = self::dLibScraping(true);
             $rstat = self::rivistaStatisticaScraping(true);
-            $merge = array_merge($dlib,$rstat);
-        }catch (Exception $e){
+            $merge = array_merge($dlib, $rstat);
+        } catch (Exception $e) {
             return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
         }
 
         return json_encode($merge);
     }
-    
+
     /**
      * Scraping dispatcher
      */
-    public function autoScraping($document)
+    public function autoScraping($document, $match = 'generic')
     {
-        $this->dlibAutoScraping($document);
+        if (strcasecmp($match, 'dlib') === 0) {
+            $this->dlibAutoScraping($document);
+        }
+        if (strcasecmp($match, 'rstat') === 0) {
+            $this->rstatAutoScraping($document);
+        }
+        if (strcasecmp($match, 'generic') === 0) {
+            //TODO generic scraping
+        }
+
         return $this;
     }
-    
+
     /**
-     * 
-     * 
+     *
+     *
      */
     protected function dlibAutoScraping($document)
     {
-        
+
         $doc = new DOMDocument();
-        
+
         try {
             $res = file_get_contents($document);
         } catch (Exception $e) {
             return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
         }
-        
+
         $body = $res;
         $doc->loadHTML($body);
         $xpath = new DOMXpath($doc);
         $rows = $xpath->query("/html/body/form/table[3]");
         $papersList = array();
-        
+
         foreach ($rows as $r) {
-	
-        	$newPaper = array();
-        
-        	// echo $r->nodeValue . "\n";
-        	// WARNING: error if the XPath expression returns NULL
-        	$newPaper['date'] = trim($xpath->query("//p[1]/text()",$r)->item(0)->nodeValue);
-        	$newPaper['title'] = trim($xpath->query("//h3[2]/text()",$r)->item(0)->nodeValue);
-        	
-        	$authors = $xpath->query("//p[2]/text()",$r);
-        	
-        	foreach($authors as $key => $author){
-        	    $module = $key % 3;
-        	    if($module === 0)
-        		    $newPaper['author'][] = trim($xpath->query("//p[2]/text()",$r)->item($key)->nodeValue);
-        	}
-        	
-        	$references = $xpath->query("//p/a[@name]/text()",$r);
-        	foreach($references as $key => $reference){
-        	    $newPaper['references'][] = $xpath->query("//p/a[@name]",$r)->item($key)->parentNode->nodeValue;
-        	}
-        	
-        	$newPaper['comment'] =  trim($xpath->query("//p/b/text()",$r)->item(0)->nodeValue);
-        	$newPaper['url'] = $document;
-        		
-        	$papersList[] = $newPaper;
+
+            $newPaper = array();
+
+            preg_match('/\d+/', trim($xpath->query("//p[1]/text()", $r)->item(0)->nodeValue), $match);
+
+            $newPaper['date']['date'] = $match[0];
+            $newPaper['date']['xpath'] = $xpath->query("//p[1]", $r)->item(0)->getNodePath();
+            $newPaper['date']['start'] = $xpath->query("//p[1]/text()", $r)->item(0)->length - 4;
+            $newPaper['date']['end'] = $xpath->query("//p[1]/text()", $r)->item(0)->length;
+
+            $final['date'] = $newPaper['date'];
+
+            $newPaper['title']['title'] = trim($xpath->query("//h3[2]/text()", $r)->item(0)->nodeValue);
+            $newPaper['title']['xpath'] = $xpath->query("//h3[2]", $r)->item(0)->getNodePath();
+            $newPaper['title']['start'] = "0";
+            $newPaper['title']['end'] = $xpath->query("//h3[2]/text()", $r)->item(0)->length;
+
+            $final['title'] = $newPaper['title'];
+
+
+            $authors = $xpath->query("//p[2]/text()", $r);
+            $oldPaper = $xpath->query("//p[2]", $r)->item(0)->nodeValue;
+
+
+            foreach ($authors as $key => $author) {
+                $module = $key % 3;
+                if ($module === 0)
+                    $newPaper['author'][] = trim($xpath->query("//p[2]/text()", $r)->item($key)->nodeValue);
+
+
+            }
+            $newPaper['author'] = str_replace("and", ",", $newPaper['author']);
+            foreach ($newPaper['author'] as $key => $el) {
+
+                if (strpos($el, ",")) {
+                    $temp = explode(",", $el);
+                    array_splice($newPaper['author'], $key, 1, $temp);
+                }
+            }
+            $lastElement = end($newPaper['author']);
+
+            foreach ($newPaper['author'] as $key => $el) {
+
+                if ($el != $lastElement) {
+                    $base['author']['author'] = $newPaper['author'][$key];
+                    $base['author']['xpath'] = $xpath->query("//p[2]", $r)->item(0)->getNodePath();
+                    $base['author']['start'] = stripos($oldPaper, $newPaper['author'][$key]);
+                    $base['author']['end'] = $base['author']['start'] + strlen($newPaper['author'][$key]);
+
+                    $final['author'][] = $base['author'];
+                } else {
+                    $basedoi['doi']['doi'] = $newPaper['author'][$key];
+                    $basedoi['doi']['xpath'] = $xpath->query("//p[2]", $r)->item(0)->getNodePath();
+                    $basedoi['doi']['start'] = stripos($oldPaper, $newPaper['author'][$key]);
+                    $basedoi['doi']['end'] = $basedoi['doi']['start'] + strlen($newPaper['author'][$key]);
+
+                    $final['doi'] = $basedoi['doi'];
+                }
+
+            }
+
+            $references = $xpath->query("//p/a[@name]/text()", $r);
+            foreach ($references as $key => $reference) {
+                $newPaper['references']['reference'] = $xpath->query("//p/a[@name]", $r)->item($key)->parentNode->nodeValue;
+                $newPaper['references']['xpath'] = $xpath->query("//p/a[@name]", $r)->item($key)->parentNode->getNodePath();
+                $newPaper['references']['start'] = "0";
+                $newPaper['references']['end'] = strlen($newPaper['references']['reference']);
+
+                $final['references'][] = $newPaper['references'];
+            }
         }
-        
-        $this->results = $papersList;
-        
+
+        $this->results = $final;
+
         return $this;
     }
-    
+
     /**
-     * 
-     * 
+     *
+     *
      */
     protected function rstatAutoScraping($document)
     {
         $doc = new DOMDocument();
-        
+
         try {
             $res = file_get_contents($document);
         } catch (Exception $e) {
             return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
         }
-        
+
         $body = $res;
-        $doc->loadHTML($body);
-        $xpath = new DOMXpath($doc);
-        $rows = $xpath->query("/html/body/form/table[3]");
-        $papersList = array();
-        
+
         $doc->loadHTML($body);
         $xpath = new DOMXpath($doc);
         $rows = $xpath->query("/html/body/div");
-        $papersList = array();
 
         foreach ($rows as $r) {
-        	
-        	$newPaper = array();
-        	
-        		$newPaper['title'] = $xpath->query("//*[@id='articleTitle']",$r)->item(0)->nodeValue;
-        		$newPaper['author'] = $xpath->query("//*[@id='authorString']",$r)->item(0)->nodeValue;
-        		foreach($xpath->query("//*[@id='articleCitations']//p",$r) as $key => $val){
-        		    $newPaper['references'][] = $xpath->query("//*[@id='articleCitations']//p",$r)->item($key)->nodeValue;
-        		}
-        		$newPaper['doi'] = $xpath->query("//*[@id='pub-id::doi']",$r)->item(0)->nodeValue;
-        		$newPaper['url'] = $document;
-        		
-        	$papersList[] = $newPaper;
+
+            $newPaper = array();
+
+            $newPaper['title']['title'] = $xpath->query("//*[@id='articleTitle']", $r)->item(0)->nodeValue;
+            $newPaper['title']['xpath'] = $xpath->query("//*[@id='articleTitle']", $r)->item(0)->getNodePath();
+            $newPaper['title']['start'] = "0";
+            $newPaper['title']['end'] = strlen($xpath->query("//*[@id='articleTitle']", $r)->item(0)->nodeValue);
+
+            $finale['title'] = $newPaper['title'];
+
+            $newPaper['author'][] = $xpath->query("//*[@id='authorString']", $r)->item(0)->nodeValue;
+            $oldPaper = $xpath->query("//*[@id='authorString']", $r)->item(0)->nodeValue;
+            $newPaper['author'] = str_replace("and", ",", $newPaper['author']);
+
+            foreach ($newPaper['author'] as $key => $el)
+
+                if (strpos($el, ",")) {
+                    $temp = explode(",", $el);
+                    array_splice($newPaper['author'], $key, 1, $temp);
+                }
+
+            foreach ($newPaper['author'] as $key => $el) {
+
+                $basea['author']['author'] = $newPaper['author'][$key];
+                $basea['author']['xpath'] = $xpath->query("//*[@id='authorString']", $r)->item(0)->getNodePath();
+                $basea['author']['start'] = stripos($oldPaper, $newPaper['author'][$key]);
+                $basea['author']['end'] = $basea['author']['start'] + strlen($newPaper['author'][$key]);
+
+                $finale['author'][] = $basea['author'];
+            }
+
+            foreach ($xpath->query("//*[@id='articleCitations']//p", $r) as $key => $val) {
+
+                $newPaper['references'][] = $xpath->query("//*[@id='articleCitations']//p", $r)->item($key)->nodeValue;
+            }
+
+            foreach ($newPaper['references'] as $key => $reference) {
+
+                $baser['references']['reference'] = $xpath->query("//*[@id='articleCitations']//p", $r)->item($key)->nodeValue;
+                $baser['references']['xpath'] = $xpath->query("//*[@id='articleCitations']//p", $r)->item($key)->getNodePath();
+                $baser['references']['start'] = "0";
+                $baser['references']['end'] = strlen($baser['references']['reference']);
+
+                $finale['references'][] = $baser['references'];
+            }
+
+            $newPaper['doi']['doi'] = $xpath->query("//*[@id='pub-id::doi']", $r)->item(0)->nodeValue;
+            $newPaper['doi']['xpath'] = $xpath->query("//*[@id='pub-id::doi']", $r)->item(0)->getNodePath();
+            $newPaper['doi']['start'] = "0";
+            $newPaper['doi']['end'] = strlen($xpath->query("//*[@id='pub-id::doi']", $r)->item(0)->nodeValue);
+
+            $finale['doi'] = $newPaper['doi'];
         }
-        
-        $this->results = $papersList;
+
+        $this->results = $finale;
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * Returns auto scraping list as json
      * Returns json object instead that an array of json objects
-     * 
+     *
      */
-    public function getAutoScrapingJson(){
+    public function getAutoScrapingJson()
+    {
         return json_encode($this->results);
     }
 
@@ -472,12 +563,12 @@ class Data_Scraping
         $doc->loadHTML($body);
         $childs = $doc->getElementById('content')->childNodes;
         $content = '';
-        foreach($childs as $elem){
+        foreach ($childs as $elem) {
             $content .= $doc->saveHTML($elem);
         }
 
         $papersList = array(
-            'articleContent' => '<div id="content">'.$content.'</div>',
+            'articleContent' => '<div id="content">' . $content . '</div>',
         );
         return json_encode(array($papersList));
     }

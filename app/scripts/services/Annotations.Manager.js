@@ -17,7 +17,6 @@
      */
     function annotationManager($window, $resource, $log, Notification, user) {
 
-        var unsavedAnnotations = [];
         var lastAnnotationsUpdated = {};
         var modalsCount = 0;
         var scrapingStorage = {};
@@ -47,7 +46,7 @@
                     method: 'POST',
                     url: '//' + $window.location.host + '/api/scraping/document',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    isArray: true
+                    isArray: false
                 }
             });
 
@@ -135,7 +134,7 @@
             var d = {'url':params};
             return Annotation.scraping(jQuery.param(d)).$promise.then(function (results) {
                 Notification.success('Sraping completed');
-                scrapingStorage = results[0].toJSON();
+                scrapingStorage = results.toJSON();
                 return results;
             }, function (error) {
                 // Check for errors
