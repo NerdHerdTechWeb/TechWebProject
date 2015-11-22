@@ -69,7 +69,7 @@ class Sparql_Edit
                     "name" => $queryParams['username'],
                     "email" => $queryParams['email'],
                 ),
-                "time" => $dt->format(DateTime::ISO8601),
+                "time" => $dt->format(DateTime::ATOM),
             ),
         );
 
