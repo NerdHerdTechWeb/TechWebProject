@@ -38,7 +38,7 @@
             });
         }
         
-         $scope.showUnSavedAnnotations = function (){
+        $scope.showUnSavedAnnotations = function (){
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: '/app/partials/modals/unsavedAnnotationModal.html',

@@ -9,7 +9,10 @@
     function unsavedAnnotationsManagerModal($scope, $modalInstance, $log, annotationManager) {
 
         $scope.rowCollection = annotationManager.getScrapedContent();
-        $log.info($scope.rowCollection);
+        
+        $scope.createdAnnotation = annotationManager.getCreatedAnnotations();
+        
+        angular.extend($scope.rowCollection, $scope.createdAnnotation);
 
         $scope.removeRow = function removeRow(row, type) {
 

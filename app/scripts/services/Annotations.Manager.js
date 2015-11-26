@@ -20,6 +20,7 @@
         var lastAnnotationsUpdated = {};
         var modalsCount = 0;
         var scrapingStorage = {};
+        var annotationCreated = {};
 
         var Annotation = $resource('//' + $window.location.host + '/api/annotations/update', {},
             {
@@ -50,6 +51,26 @@
                 }
             });
 
+        /**
+         * Setter for created annotations
+         * 
+         */
+        function setCreatedAnnotations(annotation) {
+            var type = String([annotation.type]);
+            var customType = type.replace('has','').toLowerCase();
+            if(!annotationCreated[customType])
+                annotationCreated[customType] = new Array();
+            annotationCreated[customType].push(annotation);
+        }
+        
+        /**
+         * Getter for created annotations
+         * 
+         */
+        function getCreatedAnnotations() {
+            return annotationCreated;
+        }
+        
         /**
          * Create annotation on sparql
          * @param params
@@ -211,7 +232,9 @@
             setModalsPaginatorCount: setModalsPaginatorCount,
             decrementModalsPaginatorCount: decrementModalsPaginatorCount,
             setModalIdentifier: setModalIdentifier,
-            getScrapedContent: getScrapedContent
+            getScrapedContent: getScrapedContent,
+            setCreatedAnnotations: setCreatedAnnotations,
+            getCreatedAnnotations: getCreatedAnnotations
         }
     }
 

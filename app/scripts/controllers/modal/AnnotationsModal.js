@@ -68,9 +68,11 @@
         $scope.fat = $scope.fragmentAType.type;
         // TODO check rethoric type
         $scope.rethoricType = 'abstract';
-
-        $scope.submit = function () {
-            //TODO save triple notation
+        
+        /**
+         *  Helper function
+         */
+        function prepareData() {
             var form = {};
             var userData = user.userData();
             angular.extend(form, $scope.fragmentAType);
@@ -82,49 +84,99 @@
                 "username": userData.name
             });
             
-            if(form.type === 'noType'){
+            return form;
+        }
+
+        /**
+        * 
+        * 
+        */
+        $scope.submit = function () {
+            
+            //TODO save triple notation
+            var form = prepareData();
+            
+            Notification.info('Waiting please');
+            
+             if(form.type === 'noType'){
                 form.type = $scope.currentNonLiteralType;
                 if($scope.currentNonLiteralType === '')
                     return Notification.error('Choose an annotation type, please');
             }
             
-            Notification.info('Waiting please');
-            
             annotationManager.update(form).then(function (results) {
-                $log.info(results);
                 $modalInstance.close();
                 /* Empty the memory */
                 $scope.currentNonLiteralType = '';
             });
         };
+        
+        /**
+         * 
+         * 
+         */
+        $scope.saveItLater = function() {
+            var form = prepareData();
+             if(form.type === 'noType'){
+                form.type = $scope.currentNonLiteralType;
+                if($scope.currentNonLiteralType === '')
+                    return Notification.error('Choose an annotation type, please');
+            }
+            annotationManager.setCreatedAnnotations(form);
+            Notification.success('Annotation saved for later');
+        }
 
+        /**
+         * 
+         * 
+         */
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
             annotationManager.decrementModalsPaginatorCount();
         };
 
+        /**
+         * 
+         * 
+         */
         $scope.selectDocumentAType = function (type) {
             $scope.dat = type;
             $scope.annotationTypeLiteral = $scope.documentProperties[type];
             $scope.currentNonLiteralType = type;
         }
-
+        
+        /**
+         * 
+         * 
+         */
         $scope.selectFragmentAType = function (type) {
             $scope.fat = type;
             $scope.annotationFragmentTypeLiteral = $scope.fragmentProperties[type];
             $scope.currentNonLiteralType = type;
         }
-
+        
+        /**
+         * 
+         * 
+         */
         $scope.selectFragmentRethoric = function (type) {
             $scope.rethoricType = type;
             $scope.rethoricTypeLiteral = $scope.fragmentAType.rethoric[type];
             $scope.currentNonLiteralType = type;
         }
-
+        
+        /**
+         * 
+         * 
+         */
         $scope.login = function () {
             $scope.switchLoginView = true;
         }
-
+        
+        /**
+         * 
+         * 
+         */
         $scope.doLogin = function (form) {
             var isValidForm = form.$valid;
             if (isValidForm) {

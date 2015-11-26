@@ -119,7 +119,7 @@
         .directive('showMenu', showMenu)
         .directive('showFilters', showFilters)
         .directive('filtersSelection', filtersSelection)
-        .directive('createTextFragment', ['$compile', '$log', '$filter', 'Notification', 'fragment', 'user', function ($compile, $log, $filter, Notification, fragment, user) {
+        .directive('createTextFragment', ['$compile', '$rootScope', '$log', '$filter', 'Notification', 'fragment', 'user', 'annotationManager', function ($compile, $rootScope, $log, $filter, Notification, fragment, user, annotationManager) {
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
@@ -134,13 +134,13 @@
                     if (range) {
                         if(rangy.getSelection().toString().length <= 0)
                             return;
+                        
                         var start = range.endContainer.parentNode.textContent.indexOf(rangy.getSelection().toString())
                         var end = start + (range.endOffset);
                         var localPath = fragment.createLocalXPATH(range.commonAncestorContainer.parentNode);
                         var remotePath = fragment.createRemoteXPATH(localPath);
                         var xpath = remotePath;
                         var text = rangy.getSelection().toString();
-                        
                         
                         var span = document.createElement("span");
                         span.setAttribute('data-xpath', xpath);
@@ -163,9 +163,22 @@
                         
                         span.setAttribute('create-context-menu','');
                         
+                        var annotationsCollection = {
+                           start: start,
+                           end: end,
+                           localPath: localPath,
+                           remotePath: remotePath,
+                           xpath: xpath,
+                           text: text,
+                           date: $filter('date')(Date.now(), 'yyyy-MM-dd'),
+                           uathor: user.userData().email,
+                           snap: 'snap_' + Date.now()
+                          }
+                        
                         if (range.canSurroundContents(span)) {
                             range.surroundContents(span);
                             $compile(span)(scope);
+                            //annotationManager.setCreatedAnnotations(annotationsCollection);
                         } else {
                             Notification.warning("Unable to surround range because range partially selects a non-text node. See DOM4 spec for more information.");
                         }
