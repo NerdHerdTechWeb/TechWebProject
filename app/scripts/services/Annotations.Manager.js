@@ -72,6 +72,26 @@
         }
         
         /**
+         * 
+         * Removed by ID (snapID) for inline annotation
+         * Removed by daterTime on to sparql
+         * 
+         */
+        function removeInlineAnnotation(snapID, type, daeTime) {
+            var origType = type || false;
+            if(origType){
+                var customType = String(origType).replace('has','').toLowerCase();
+                angular.forEach(annotationCreated[customType], function(value, key, context){
+                     if(angular.equals(value.snapID,snapID))
+                        delete annotationCreated[customType][key];
+                });
+                
+                //TODO delete from sparql by date
+                this.destroy(daeTime);
+            }
+        }
+        
+        /**
          * Create annotation on sparql
          * @param params
          * @returns {*}
@@ -114,13 +134,16 @@
         }
 
         /**
-         * Delete existing annotation
+         * Delete existing annotation by date
          */
         function destroy(params) {
             if (!user.logInStatus()) {
                 Notification.error('You are not logged in');
                 return;
             }
+           
+            Notification.info('Removing annotation...');
+            
             return Annotation.destroy(jQuery.param(params)).$promise.then(function (results) {
                 Notification.success('Annotation removed correctly');
                 lastAnnotationsUpdated = results;
@@ -234,7 +257,8 @@
             setModalIdentifier: setModalIdentifier,
             getScrapedContent: getScrapedContent,
             setCreatedAnnotations: setCreatedAnnotations,
-            getCreatedAnnotations: getCreatedAnnotations
+            getCreatedAnnotations: getCreatedAnnotations,
+            removeInlineAnnotation: removeInlineAnnotation
         }
     }
 

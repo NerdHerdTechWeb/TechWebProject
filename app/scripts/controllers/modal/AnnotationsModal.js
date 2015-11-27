@@ -38,6 +38,7 @@
         $scope.documentAType = {};
         $scope.documentAType.type = ct.data('type');
         $scope.documentAType.subject = ct.data('fragment');
+        $scope.documentAType.snapID = ct.attr('id');
         $scope.documentAType.author = $scope.documentAType.type == 'hasAuthor' ? ct.data('fragment') : '';
         $scope.documentAType.doi = $scope.documentAType.type == 'hasDOI' ? ct.data('fragment') : '';
         $scope.documentAType.publicationYear = $scope.documentAType.type == 'hasPublicationYear' ? ct.data('fragment') : '';
@@ -56,6 +57,7 @@
             'results': 'Results'
         };
         $scope.fragmentAType.type = ct.data('type');
+        $scope.fragmentAType.snapID = ct.attr('id');
         $scope.fragmentAType.citation = $scope.fragmentAType.type == 'references' ? ct.data('fragment') : '';
         $scope.fragmentAType.comment = $scope.fragmentAType.type == 'hasComment' ? ct.data('fragment') : '';
 

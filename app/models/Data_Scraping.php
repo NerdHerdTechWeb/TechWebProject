@@ -347,14 +347,14 @@ class Data_Scraping
             $newPaper['date']['start'] = $xpath->query("//p[1]/text()", $r)->item(0)->length - 4;
             $newPaper['date']['end'] = $xpath->query("//p[1]/text()", $r)->item(0)->length;
 
-            $final['date'] = $newPaper['date'];
+            $final['date'][] = $newPaper['date'];
 
             $newPaper['title']['title'] = trim($xpath->query("//h3[2]/text()", $r)->item(0)->nodeValue);
             $newPaper['title']['xpath'] = $xpath->query("//h3[2]", $r)->item(0)->getNodePath();
             $newPaper['title']['start'] = "0";
             $newPaper['title']['end'] = $xpath->query("//h3[2]/text()", $r)->item(0)->length;
 
-            $final['title'] = $newPaper['title'];
+            $final['title'][] = $newPaper['title'];
 
 
             $authors = $xpath->query("//p[2]/text()", $r);
@@ -393,7 +393,7 @@ class Data_Scraping
                     $basedoi['doi']['start'] = stripos($oldPaper, $newPaper['author'][$key]);
                     $basedoi['doi']['end'] = $basedoi['doi']['start'] + strlen($newPaper['author'][$key]);
 
-                    $final['doi'] = $basedoi['doi'];
+                    $final['doi'][] = $basedoi['doi'];
                 }
 
             }
@@ -443,7 +443,7 @@ class Data_Scraping
             $newPaper['title']['start'] = "0";
             $newPaper['title']['end'] = strlen($xpath->query("//*[@id='articleTitle']", $r)->item(0)->nodeValue);
 
-            $finale['title'] = $newPaper['title'];
+            $finale['title'][] = $newPaper['title'];
 
             $newPaper['author'][] = $xpath->query("//*[@id='authorString']", $r)->item(0)->nodeValue;
             $oldPaper = $xpath->query("//*[@id='authorString']", $r)->item(0)->nodeValue;
@@ -486,7 +486,7 @@ class Data_Scraping
             $newPaper['doi']['start'] = "0";
             $newPaper['doi']['end'] = strlen($xpath->query("//*[@id='pub-id::doi']", $r)->item(0)->nodeValue);
 
-            $finale['doi'] = $newPaper['doi'];
+            $finale['doi'][] = $newPaper['doi'];
         }
 
         $this->results = $finale;

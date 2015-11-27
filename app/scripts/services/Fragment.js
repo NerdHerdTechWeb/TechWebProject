@@ -258,7 +258,7 @@
             span.setAttribute('data-xpath', xpath);
             span.setAttribute('data-start', start);
             span.setAttribute('data-end', end);
-            span.setAttribute('data-annotation-id', end);
+            //span.setAttribute('data-annotation-id', end);
             span.setAttribute('data-date', annotation.date);
             span.setAttribute('data-author', annotation.author);
             span.setAttribute('data-fragment-in-document', range.toString());
@@ -267,6 +267,14 @@
             span.setAttribute('data-equals', "{'init':"+equals.init+", 'final':"+equals.final+"}");
             span.setAttribute('ng-click', 'showNotationModal($event)');
             span.setAttribute('class', 'annotation ' + annotationColor);
+            
+            span.setAttribute('tooltip', 'Click or right-click on it to edit');
+            span.setAttribute('tooltip-placement', 'top');
+            span.setAttribute('tooltip-trigger', 'mouseenter');
+            span.setAttribute('id', 'snap_' + Date.now());
+            
+            span.setAttribute('create-context-menu','');
+            
             range.surroundContents(span);
             $compile(span)(scope$);
             return range;

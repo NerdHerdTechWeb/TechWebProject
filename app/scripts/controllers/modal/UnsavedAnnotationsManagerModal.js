@@ -1,3 +1,9 @@
+/**
+ * 
+ * 
+ * 
+ */
+
 (function () {
 
     'use strict';
@@ -8,11 +14,22 @@
 
     function unsavedAnnotationsManagerModal($scope, $modalInstance, $log, annotationManager) {
 
-        $scope.rowCollection = annotationManager.getScrapedContent();
+        /* 
+        * @deprecated 
+        */
+        //$scope.rowCollection = annotationManager.getScrapedContent();
         
-        $scope.createdAnnotation = annotationManager.getCreatedAnnotations();
+        /* 
+        * @deprecated 
+        */
+        //$scope.createdAnnotation = annotationManager.getCreatedAnnotations();
         
-        angular.extend($scope.rowCollection, $scope.createdAnnotation);
+        $scope.rowCollection = annotationManager.getCreatedAnnotations();
+        
+        /* 
+        * @deprecated 
+        */
+        //angular.extend($scope.rowCollection, $scope.createdAnnotation);
 
         $scope.removeRow = function removeRow(row, type) {
 
@@ -31,7 +48,7 @@
                     if (index !== -1) {
                         $scope.rowCollection.references.splice(index, 1);
                     }
-                    break
+                    break;
                 case 'author' :
                     var index = $scope.rowCollection.author.indexOf(row);
                     if (index !== -1) {

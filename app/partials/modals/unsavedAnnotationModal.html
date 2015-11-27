@@ -24,7 +24,7 @@
                                 </tr>
                                 </thead>
                                 <tr ng-repeat="row in rowCollection.author">
-                                    <td>{{row.author}}</td>
+                                    <td>{{row.fragment}}</td>
                                     <td>
                                         <button type="button" ng-click="edit(row, 'author')" class="btn btn-sm btn-info">
                                             <i class="glyphicon glyphicon-edit"></i>
@@ -54,7 +54,7 @@
                                 </tr>
                                 </thead>
                                 <tr ng-repeat="row in rowCollection.comment">
-                                    <td>{{row.comment}}</td>
+                                    <td>{{row.fragment}}</td>
                                     <td>
                                         <button type="button" ng-click="edit(row, 'comment')" class="btn btn-sm btn-info">
                                             <i class="glyphicon glyphicon-edit"></i>
@@ -73,7 +73,7 @@
                                 </tr>
                             </table>
                         </uib-tab>
-                        <uib-tab heading="Date">
+                        <uib-tab heading="Publication year">
                             <table st-table="rowCollection" class="table table-striped">
                                 <thead>
                                 <tr>
@@ -83,20 +83,20 @@
                                     <th>Delete</th>
                                 </tr>
                                 </thead>
-                                <tr>
-                                    <td>{{rowCollection.date.date}}</td>
+                                <tr ng-repeat="row in rowCollection.date">
+                                    <td>{{row.fragment}}</td>
                                     <td>
-                                        <button type="button" ng-click="edit(rowCollection.date, 'date')" class="btn btn-sm btn-info">
+                                        <button type="button" ng-click="edit(row.date, 'date')" class="btn btn-sm btn-info">
                                             <i class="glyphicon glyphicon-edit"></i>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" ng-click="save(rowCollection.date, 'date')" class="btn btn-sm btn-info">
+                                        <button type="button" ng-click="save(row.date, 'date')" class="btn btn-sm btn-info">
                                             <i class="glyphicon glyphicon-save"></i>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" ng-click="removeRow(rowCollection.date, 'date')" class="btn btn-sm btn-danger">
+                                        <button type="button" ng-click="removeRow(row.date, 'date')" class="btn btn-sm btn-danger">
                                             <i class="glyphicon glyphicon-remove-circle"></i>
                                         </button>
                                     </td>
@@ -114,7 +114,7 @@
                                 </tr>
                                 </thead>
                                 <tr ng-repeat="row in rowCollection.references">
-                                    <td>{{row.reference}}</td>
+                                    <td>{{row.fragment}}</td>
                                     <td>
                                         <button type="button" ng-click="edit(row, 'reference')" class="btn btn-sm btn-info">
                                             <i class="glyphicon glyphicon-edit"></i>
@@ -143,20 +143,20 @@
                                     <th>Delete</th>
                                 </tr>
                                 </thead>
-                                <tr>
-                                    <td>{{rowCollection.title.title}}</td>
+                                <tr ng-repeat="row in rowCollection.title">
+                                    <td>{{row.fragment}}</td>
                                     <td>
-                                        <button type="button" ng-click="edit(rowCollection.title, 'title')" class="btn btn-sm btn-info">
+                                        <button type="button" ng-click="edit(row.title, 'title')" class="btn btn-sm btn-info">
                                             <i class="glyphicon glyphicon-edit"></i>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" ng-click="save(rowCollection.title, 'title')" class="btn btn-sm btn-info">
+                                        <button type="button" ng-click="save(row.title, 'title')" class="btn btn-sm btn-info">
                                             <i class="glyphicon glyphicon-save"></i>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" ng-click="removeRow(rowCollection.title, 'title')" class="btn btn-sm btn-danger">
+                                        <button type="button" ng-click="removeRow(row.title, 'title')" class="btn btn-sm btn-danger">
                                             <i class="glyphicon glyphicon-remove-circle"></i>
                                         </button>
                                     </td>
@@ -174,7 +174,7 @@
                                 </tr>
                                 </thead>
                                 <tr ng-repeat="row in rowCollection.url">
-                                    <td>{{row.url}}</td>
+                                    <td>{{row.fragment}}</td>
                                     <td>
                                         <button type="button" ng-click="edit(row, 'url')" class="btn btn-sm btn-info">
                                             <i class="glyphicon glyphicon-edit"></i>
@@ -203,20 +203,20 @@
                                     <th>Delete</th>
                                 </tr>
                                 </thead>
-                                <tr>
-                                    <td>{{rowCollection.doi.doi}}</td>
+                                <tr ng-repeat="row in rowCollection.doi">
+                                    <td>{{row.fragment}}</td>
                                     <td>
-                                        <button type="button" ng-click="edit(rowCollection.doi, 'doi')" class="btn btn-sm btn-info">
+                                        <button type="button" ng-click="edit(row.doi, 'doi')" class="btn btn-sm btn-info">
                                             <i class="glyphicon glyphicon-edit"></i>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" ng-click="save(rowCollection.doi, 'doi')" class="btn btn-sm btn-info">
+                                        <button type="button" ng-click="save(row.doi, 'doi')" class="btn btn-sm btn-info">
                                             <i class="glyphicon glyphicon-save"></i>
                                         </button>
                                     </td>
                                     <td>
-                                        <button type="button" ng-click="removeRow(rowCollection.doi, 'doi')" class="btn btn-sm btn-danger">
+                                        <button type="button" ng-click="removeRow(row.doi, 'doi')" class="btn btn-sm btn-danger">
                                             <i class="glyphicon glyphicon-remove-circle"></i>
                                         </button>
                                     </td>

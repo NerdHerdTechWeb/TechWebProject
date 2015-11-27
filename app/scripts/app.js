@@ -192,7 +192,7 @@
         };
     }])
     
-    .directive('createContextMenu', ['$compile', '$log', '$filter', 'Notification', 'fragment', 'user', function ($compile, $log, $filter, Notification, fragment, user) {
+    .directive('createContextMenu', ['$compile', '$log', '$filter', 'Notification', 'fragment', 'user','annotationManager', function ($compile, $log, $filter, Notification, fragment, user, annotationManager) {
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
@@ -202,6 +202,7 @@
                         var data = selectedMenu.data();
                         switch (data.action) {
                             case 'remove':
+                                annotationManager.removeInlineAnnotation(invokedOn.attr('id'),invokedOn.data('type'));
                                 invokedOn.contents().unwrap();
                                 break;
                             case 'edit':
