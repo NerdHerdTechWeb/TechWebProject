@@ -101,14 +101,14 @@
 
             <uib-accordion-group is-open="status.metaOpen">
                 <uib-accordion-heading>
-                    Meta <a href><span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.metaOpen, 'glyphicon-chevron-right': !status.metaOpen}"></span></a>
+                    All available graph <a href><span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.metaOpen, 'glyphicon-chevron-right': !status.metaOpen}"></span></a>
                 </uib-accordion-heading>
                 <!--Sidebar content-->
                 <ul class="list-group" ng-controller="WidgetMeta">
-                    <li class="list-group-item" ng-repeat="g in graph track by $index">
-                        <span class="badge">{{documentData.group}}</span>
-                        <a href ng-click="getDocument(documentData.link, documentData.from, documentData, $event, g)">
-                            {{documentData.group}}
+                    <li class="list-group-item" ng-repeat="g in graph">
+                        <!-- <span class="badge">{{g.group | uppercase}}</span> -->
+                        <a href ng-click="getDocument(documentData.link, documentData.from, documentData, $event, g.graph)">
+                            {{g.group | uppercase}}
                         </a>
                     </li>
                 </ul>

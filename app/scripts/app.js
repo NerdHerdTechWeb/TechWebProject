@@ -202,7 +202,7 @@
                         var data = selectedMenu.data();
                         switch (data.action) {
                             case 'remove':
-                                annotationManager.removeInlineAnnotation(invokedOn.attr('id'),invokedOn.data('type'));
+                                annotationManager.removeInlineAnnotation(invokedOn.attr('id'),invokedOn.data('type'), {date:invokedOn.data('date')});
                                 invokedOn.contents().unwrap();
                                 break;
                             case 'edit':

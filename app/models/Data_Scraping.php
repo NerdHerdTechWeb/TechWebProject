@@ -60,6 +60,7 @@ class Data_Scraping
     /**
      * Return active graph to manage (solo consegnati)
      * @return string
+     * @deprecated
      */
     public static function readyGraphGroupScraping()
     {

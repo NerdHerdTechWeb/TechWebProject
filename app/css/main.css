@@ -656,7 +656,7 @@ body {
 
 #site-menu .panel-body {
     max-height: 300px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .ease {

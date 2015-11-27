@@ -24,6 +24,10 @@
                 }
             });
 
+        /**
+         * 
+         * @deprecated
+         */
         function getReadyGraph() {
             // $promise.then allows us to intercept the results
             // which we will use later
