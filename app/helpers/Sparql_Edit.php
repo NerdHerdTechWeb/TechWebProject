@@ -206,7 +206,7 @@ class Sparql_Edit
 
             $this->graph1->addResource($o, EasyRdf_Namespace::expand('rdf:type'), EasyRdf_Namespace::expand('skos:Concept'));
             $this->graph1->add($o, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($this->annotation["body"]["o_label"], null, 'xsd:string'));
-            $this->annotation["body"]["o_id"] = $this->retorica[$this->annotation["body"]["object]];
+            $this->annotation["body"]["o_id"] = $this->retorica[$this->annotation["body"]["object"];
             $this->graph1->addResource($o, EasyRdf_Namespace::expand('rdf:subject'), $this->annotation["body"]["o_id"]);
         }
 
