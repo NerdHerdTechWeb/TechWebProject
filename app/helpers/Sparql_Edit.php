@@ -40,9 +40,8 @@ class Sparql_Edit
     public function buildAnnotation($queryParams = array())
     {
 
-        $date = date_create('NOW');
-        $formatD = date_format($date, 'Y-m-d H:i:s');
-        $dt = new DateTime($formatD);
+        $date = new DateTime('NOW');
+        
 
         $this->annotation = array(
             "type" => $queryParams['type'],
@@ -69,7 +68,7 @@ class Sparql_Edit
                     "name" => $queryParams['username'],
                     "email" => $queryParams['email'],
                 ),
-                "time" => $dt->format(DateTime::ATOM),
+                "time" => $date->format('Y-m-d\TH:i'),
             ),
         );
 
@@ -129,11 +128,6 @@ class Sparql_Edit
         //BODY
         $statement = $this->graph1->newBNodeId();
 
-        //$statement = EasyRdf_Namespace::expand('rdf:Statement');
-
-
-        $label = $this->annotation["body"]["label"];
-
         $p = $this->predicates[$this->annotation["type"]];
 
 
@@ -144,7 +138,10 @@ class Sparql_Edit
 
             $this->graph1->addResource($o, EasyRdf_Namespace::expand('rdf:type'), EasyRdf_Namespace::expand('foaf:Person'));
 
-            $autore = trim($this->annotation["body"]["o_label"]);
+            $annotation["body"]["o_label"]= $annotation["body"]["object"];
+			$annotation["body"]["label"]= $annotation["body"]["object"]." è un autore del documento";
+            
+            $autore = trim($this->annotation["body"]["object"]);
 
             $firstname = preg_replace('/\W.*/', '', $autore);
             $name = str_replace($firstname, $autore[0], $autore);
@@ -162,17 +159,20 @@ class Sparql_Edit
         if ($this->annotation["type"] == "hasPublicationYear") {
 
             $s = $expression;
+            $annotation["body"]["label"]= "La data di pubblicazione è ".$annotation["body"]["object"];
             $o = EasyRdf_Literal::create($this->annotation["body"]["object"], null, 'xsd:date');
         }
 
         if ($this->annotation["type"] == "hasTitle" || $this->annotation["type"] == "hasDOI") {
 
             $s = $expression;
+            $annotation["body"]["label"]= "Il titolo del documento è ".$annotation["body"]["object"];
             $o = EasyRdf_Literal::create($this->annotation["body"]["object"], null, 'xsd:string');
         }
         if ($this->annotation["type"] == "hasURL") {
 
             $s = $expression;
+            $annotation["body"]["label"]= "Un URL del documento è ".$annotation["body"]["object"];
             $o = EasyRdf_Literal::create($this->annotation["body"]["object"], null, 'xsd:anyURL');
 
         }
@@ -185,6 +185,7 @@ class Sparql_Edit
             $temp = str_replace("[", "", $temp);
             $temp = str_replace("]", "", $temp);
 
+            $annotation["body"]["label"]= "Un Commento: ".$annotation["body"]["object"];
             $s = $this->annotation["target"]["source"] . "#" . $temp . "-" . $this->annotation["target"]["startoffset"] . "-" . $this->annotation["target"]["endoffset"] . "_ver1";
 
 
@@ -199,30 +200,31 @@ class Sparql_Edit
             $s = $this->annotation["target"]["source"] . "#" . $temp . "-" . $this->annotation["target"]["startoffset"] . "-" . $this->annotation["target"]["endoffset"] . "_ver1";
 
             $o = $this->graph1->newBNode();
+            
+            $annotation["body"]["o_label"] = $annotation["body"]["object"];
+            $annotation["body"]["label"]= "Il frammento denota: ".$annotation["body"]["object"];
 
             $this->graph1->addResource($o, EasyRdf_Namespace::expand('rdf:type'), EasyRdf_Namespace::expand('skos:Concept'));
             $this->graph1->add($o, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($this->annotation["body"]["o_label"], null, 'xsd:string'));
-            $this->annotation["body"]["o_id"] = $this->retorica[$this->annotation["body"]["o_label"]];
+            $this->annotation["body"]["o_id"] = $this->retorica[$this->annotation["body"]["object]];
             $this->graph1->addResource($o, EasyRdf_Namespace::expand('rdf:subject'), $this->annotation["body"]["o_id"]);
         }
 
         if ($this->annotation["type"] == "references") {
 
             $s = $expression;
-
-            $o = $work . "_" . "cited" . "_" . urlencode($this->annotation["body"]["label"]) . "ver_1";
+            $annotation["body"]["label"]= "Un riferimento del documento è: ".$annotation["body"]["object"];
+            $o = $work . "_" . "cited" . "_" . urlencode($this->annotation["body"]["object"]) . "ver_1";
 
         }
 
-
+        $label = $annotation["body"]["label"];
         $this->graph1->addResource($anno, EasyRdf_Namespace::expand('oa:hasBody'), $statement);
         $this->graph1->addResource($statement, 'rdf:type', EasyRdf_Namespace::expand('rdf:Statement'));
         $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:subject'), $s);
         $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:spredicate'), $p);
-        if ($this->annotation["type"] != "references")
-            $this->graph1->add($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
-        else
-            $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
+         $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
+        
         $this->graph1->add($statement, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($label, null, 'xs:String'));
 
         return $this;
