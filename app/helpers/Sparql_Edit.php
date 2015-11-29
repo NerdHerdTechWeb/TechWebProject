@@ -100,7 +100,7 @@ class Sparql_Edit
         $anno = $this->graph1->newBnode();
         $this->graph1->addResource($anno, 'rdf:type', EasyRdf_Namespace::expand('oa:Annotation'));
         $this->graph1->add($anno, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($this->annotation["label"], null, 'xs:string'));
-        $this->graph1->add($anno, EasyRdf_Namespace::expand('rsch:type'), EasyRdf_Literal::create($this->annotation["type"], null, 'xs:normalizedString'));
+        $this->graph1->add($anno, EasyRdf_Namespace::expand('rsch:type'), EasyRdf_Literal::create($this->annotation["type"], null, 'xs:string'));
         $this->graph1->add($anno, EasyRdf_Namespace::expand('oa:annotatedAt'), EasyRdf_Literal::create($this->annotation["provenance"]["time"], null, 'xs:dateTime'));
         $auth = $this->annotation["provenance"]["author"]['id'];
         $this->graph1->addResource($anno, EasyRdf_Namespace::expand('oa:annotatedBy'), $auth);
@@ -112,8 +112,8 @@ class Sparql_Edit
         $this->graph1->addResource($target, EasyRdf_Namespace::expand('rdf:type'), EasyRdf_Namespace::expand('oa:SpecificResource'));
         $this->graph1->addResource($target, EasyRdf_Namespace::expand('oa:hasSelector'), $sel);
         $this->graph1->addResource($sel, EasyRdf_Namespace::expand('rdf:type'), EasyRdf_Namespace::expand('oa:FragmentSelector'));
-        $this->graph1->add($sel, EasyRdf_Namespace::expand('rdf:value'), EasyRdf_Literal::create($this->annotation["target"]["id"], null, 'xs:normalizedString'));
-        $this->graph1->add($sel, EasyRdf_Namespace::expand('rdf:value'), EasyRdf_Literal::create($this->annotation["target"]["start"], null, 'xs:normalizedString'));
+        $this->graph1->add($sel, EasyRdf_Namespace::expand('rdf:value'), EasyRdf_Literal::create($this->annotation["target"]["id"], null, 'xs:string'));
+        $this->graph1->add($sel, EasyRdf_Namespace::expand('rdf:value'), EasyRdf_Literal::create($this->annotation["target"]["start"], null, 'xs:string'));
 
         $this->graph1->addLiteral($sel, EasyRdf_Namespace::expand('oa:end'), $this->annotation["target"]["endoffset"]);
         $this->graph1->addLiteral($sel, EasyRdf_Namespace::expand('oa:start'), $this->annotation["target"]["startoffset"]);
@@ -121,7 +121,7 @@ class Sparql_Edit
 
         //NOME
         $this->graph1->add($auth, EasyRdf_Namespace::expand('foaf:name'), EasyRdf_Literal::create($this->annotation["provenance"]["author"]["name"], null, 'xs:string'));
-        $this->graph1->add($auth, EasyRdf_Namespace::expand('schema:email'), EasyRdf_Literal::create($this->annotation["provenance"]["author"]["email"], null, 'xs:normalizedString'));
+        $this->graph1->add($auth, EasyRdf_Namespace::expand('schema:email'), EasyRdf_Literal::create($this->annotation["provenance"]["author"]["email"], null, 'xs:string'));
 
         //$result = $sparql->insert($graph2, 'http://vitali.web.cs.unibo.it/raschietto/graph/ltwbod');
 
@@ -222,10 +222,10 @@ class Sparql_Edit
         $this->graph1->addResource($anno, EasyRdf_Namespace::expand('oa:hasBody'), $statement);
         $this->graph1->addResource($statement, 'rdf:type', EasyRdf_Namespace::expand('rdf:Statement'));
         $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:subject'), $s);
-        $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:spredicate'), $p);
+        $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:predicate'), $p);
          $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
         
-        $this->graph1->add($statement, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($label, null, 'xs:String'));
+        $this->graph1->add($statement, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($label, null, 'xs:string'));
 
         return $this;
     }
