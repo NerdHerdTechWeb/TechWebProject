@@ -226,8 +226,8 @@ class Sparql_Edit
         if ($annotation["type"] != "references") 
 		$this->graph1->add($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
 	else 
-    	$this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);// add/addreousrce
-                $this->graph1->add($statement, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($label, null, 'xs:string'));
+    		$this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);// add/addreousrce
+        $this->graph1->add($statement, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($label, null, 'xs:string'));
 
         return $this;
     }
