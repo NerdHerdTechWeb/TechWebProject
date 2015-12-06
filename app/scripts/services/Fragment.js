@@ -14,10 +14,28 @@
      * @param $compile
      * @returns {{createFragment: createFragment, createLocalXPATH: createLocalXPATH, createRemoteXPATH: createRemoteXPATH, createLocalPathFromRemote: createLocalPathFromRemote, loadAnnotations: loadAnnotations, hilightFragment: hilightFragment}}
      */
-    function fragment($modal, $http, $resource, $compile) {
+    function fragment($modal, $http, $resource, $compile, $log) {
 
         var dlibRootPath = '/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]';
         var statistRoothPath = '/html/body/div[1]/div[2]/div[2]';
+        
+        String.prototype.hashCode = function() {
+            var hash = 0, i, chr, len;
+            if (this.length == 0) return hash;
+            for (i = 0, len = this.length; i < len; i++) {
+                chr   = this.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            return hash;
+        };
+        
+        /**
+         *  Return hashed string
+         */
+        function hash(stringToHash){
+            return String(stringToHash).hashCode();
+        }
 
         /**
          *
@@ -153,8 +171,9 @@
          */
         function hilightFragment (annotations, scope$, compile$){
             var equals = [];
+            var hashedObj = {};
             for(var key in annotations){
-                if(annotations[key].watf != ''){
+                if(annotations[key].watf !== ''){
                     var r = document.createRange();
                     if(annotations[key].start !== ''){
                         var lc = $(document.evaluate(annotations[key].localPath,
@@ -162,34 +181,24 @@
                             null,
                             XPathResult.FIRST_ORDERED_NODE_TYPE, null)
                             .singleNodeValue)[0];
+                            
+                        var hash = this.hash(annotations[key].startoffset+annotations[key].endoffset+annotations[key].start);
 
-                        if(key >= 1){
-                            var kk = key-1;
-                            while(kk >= 0){
-                                if(annotations[key].startoffset == annotations[kk].startoffset){
-                                    if(annotations[key].endoffset == annotations[kk].endoffset)
-                                        if(annotations[key].start == annotations[kk].start){
-                                            equals = {'init':key, 'final':kk};
-                                        }
-                                }
-                                kk--;
-                            }
-                        }
-                        /**
-                         * Render fragment
-                         */
                         render_fragment(lc,
                             annotations[key].startoffset,
                             annotations[key].endoffset,
                             annotations[key].start,
                             annotations[key],
-                            scope$, equals);
+                            scope$, equals, hash);
+                        
                     }
                 }
             }
         }
 
         /**
+         * Renderizza il frammento di testo tramite una cascata
+         * condizionale. Se il frammento non è valido non sarà mostrato a schermo
          * Internal us
          * @param node
          * @param start
@@ -199,7 +208,7 @@
          * @param scope$
          * @returns {Range|TextRange}
          */
-        function render_fragment(node, start, end, xpath, annotation, scope$, equals) {
+        function render_fragment(node, start, end, xpath, annotation, scope$, equals, hash) {
             var range = document.createRange();
             if(!node) return;
             //if(start >400) return;
@@ -235,6 +244,8 @@
                             node = node.nextSibling;
                     }else{
                         node = node.nextSibling.firstChild;
+                        /* non permette sovrapposizioni tra span - chiusere html sbagliate */
+                        if(node === null) return
                     }
                 }
             }
@@ -245,9 +256,9 @@
                 if (node.nextSibling != null && node.nextSibling.nodeType == 8)
                     node = node.nextSibling;
                 if (node.nextSibling == null) {
-                    render_fragment(node.parentNode.nextSibling, 0, (end - node.length), xpath, annotation, scope$, equals);
+                    render_fragment(node.parentNode.nextSibling, 0, (end - node.length), xpath, annotation, scope$, equals, hash);
                 } else {
-                    render_fragment(node.nextSibling, 0, (end - node.length), xpath, annotation, scope$, equals);
+                    render_fragment(node.nextSibling, 0, (end - node.length), xpath, annotation, scope$, equals, hash);
                 }
             } else {
                 range.setEnd(node, end);
@@ -265,15 +276,16 @@
             span.setAttribute('data-fragment', annotation.o_label || annotation.o);
             span.setAttribute('data-type', annotationColor);
             span.setAttribute('data-equals', "{'init':"+equals.init+", 'final':"+equals.final+"}");
-            span.setAttribute('ng-click', 'showNotationModal($event)');
+            span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
             span.setAttribute('class', 'annotation ' + annotationColor);
             
             span.setAttribute('tooltip', 'Click or right-click on it to edit');
             span.setAttribute('tooltip-placement', 'top');
             span.setAttribute('tooltip-trigger', 'mouseenter');
             span.setAttribute('id', 'snap_' + Date.now());
+            span.setAttribute('data-hash', 'hash_' + hash);
             
-            span.setAttribute('create-context-menu','');
+            //span.setAttribute('create-context-menu','');
             
             range.surroundContents(span);
             $compile(span)(scope$);
@@ -286,7 +298,8 @@
             createRemoteXPATH: createRemoteXPATH,
             createLocalPathFromRemote: createLocalPathFromRemote,
             loadAnnotations: loadAnnotations,
-            hilightFragment: hilightFragment
+            hilightFragment: hilightFragment,
+            hash: hash
         }
     }
 

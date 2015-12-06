@@ -22,21 +22,7 @@ class Data_Scraping
      * @var string
      */
     static $dlibUri = 'http://www.dlib.org/dlib/november14/11contents.html';
-
-    /**
-     * Rivista statistica URI
-     * Must have
-     * @var string
-     */
-    static $rivistaStatisticaUri = 'http://rivista-statistica.unibo.it/issue/view/467';
-
-    /**
-     * Rivista statistica URI
-     * Nice to have
-     * @var string
-     */
-    static $journalsUnibo = 'http://journals.unibo.it/riviste/';
-
+    
     /**
      * Rivista dlib URI
      * Nice to have
@@ -49,6 +35,27 @@ class Data_Scraping
      * @var string
      */
     static $dLibRootXPATH = '/html/body/form/table[3]/tr/td/table[5]/tr/td/';
+    
+     /**
+     * Rivista statistica URI
+     * Must have
+     * @var string
+     */
+    static $rivistaStatisticaUri = 'http://rivista-statistica.unibo.it/issue/view/467';
+    
+     /**
+     * Rivista statistica URI nice to have
+     * Must have
+     * @var string
+     */
+    static $rivistaStatisticaUriNiceToHave = 'http://rivista-statistica.unibo.it/issue/view/514';
+
+    /**
+     * Rivista statistica URI
+     * Nice to have
+     * @var string
+     */
+    static $journalsUnibo = 'http://journals.unibo.it/riviste/';
 
     /**
      *
@@ -245,33 +252,44 @@ class Data_Scraping
      */
     public static function rivistaStatisticaScraping($isArray = false)
     {
+        $mappings = array(
+            array(
+                'url' => self::$rivistaStatisticaUri
+            ),
+            array(
+                'url' => self::$rivistaStatisticaUriNiceToHave
+            )
+        );
+        
         $papersList = array();
         $doc = new DOMDocument();
 
-        try {
-            $res = file_get_contents(self::$rivistaStatisticaUri);
-        } catch (ClientException $e) {
-            return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
-        }
-
-        $body = $res;
-
-        $doc->loadHTML($body);
-
-        $xpath = new DOMXpath($doc);
-
-        $rows = $xpath->query('//*[@class="tocArticle"]//*[@class="tocTitle"]/a');
-
-        foreach ($rows as $row) {
-            $link = $xpath->query('@href', $row)->item(0)->nodeValue;
-            $label = $xpath->query('text()', $row)->item(0)->nodeValue;
-
-            $newPaper['label'] = trim($label);
-            $newPaper['link'] = $link;
-            $newPaper['imagepath'] = preg_replace('([^\/]+$)', '', $newPaper['link']);
-            $newPaper['from'] = 'rstat';
-
-            $papersList[] = $newPaper;
+        foreach ($mappings as $source) {
+            try {
+                $res = file_get_contents($source['url']);
+            } catch (ClientException $e) {
+                return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
+            }
+    
+            $body = $res;
+    
+            $doc->loadHTML($body);
+    
+            $xpath = new DOMXpath($doc);
+    
+            $rows = $xpath->query('//*[@class="tocArticle"]//*[@class="tocTitle"]/a');
+    
+            foreach ($rows as $row) {
+                $link = $xpath->query('@href', $row)->item(0)->nodeValue;
+                $label = $xpath->query('text()', $row)->item(0)->nodeValue;
+    
+                $newPaper['label'] = trim($label);
+                $newPaper['link'] = $link;
+                $newPaper['imagepath'] = preg_replace('([^\/]+$)', '', $newPaper['link']);
+                $newPaper['from'] = 'rstat';
+    
+                $papersList[] = $newPaper;
+            }
         }
 
         if (!$isArray)

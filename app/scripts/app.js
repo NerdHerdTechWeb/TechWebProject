@@ -142,6 +142,8 @@
                         var xpath = remotePath;
                         var text = rangy.getSelection().toString();
                         
+                        fragment.hash(start+end+xpath);
+                        
                         var span = document.createElement("span");
                         span.setAttribute('data-xpath', xpath);
                         span.setAttribute('data-start', start);
@@ -158,8 +160,10 @@
                         span.setAttribute('tooltip-trigger', 'mouseenter');
                         span.setAttribute('id', 'snap_' + Date.now());
                        
-                        span.setAttribute('ng-click', 'showNotationModal($event)');
+                        span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
                         span.setAttribute('class', 'annotation noType');
+                        
+                        span.setAttribute('data-hash', 'hash_' + hash);
                         
                         span.setAttribute('create-context-menu','');
                         

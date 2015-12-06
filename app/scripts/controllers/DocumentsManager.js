@@ -60,12 +60,13 @@
         /**
          * Show annotation modal(s) 
          */
+        $scope.annotationModalOpened = 0;
         $scope.showNotationModal = function(event){
             /**
              * Increment paginator counter
              */
-            annotationManager.setModalsPaginatorCount();
-
+            //annotationManager.setModalsPaginatorCount();
+            
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: '/app/partials/modals/annotationModal.html',
@@ -77,13 +78,15 @@
                     }
                 }
             });
+            
+            $scope.annotationModalOpened++;
 
             /**
              * Manages modals annotation index/pagination 
              */
-            modalInstance.rendered.then(function(){
+            /*modalInstance.rendered.then(function(){
                 $rootScope.$broadcast('modal-index-switch');
-            });
+            });*/
         }
 
         $scope.getMainDocument = function (link, from, data, event$, graph) {

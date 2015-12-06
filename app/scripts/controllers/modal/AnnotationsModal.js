@@ -11,16 +11,16 @@
 
         var ct = jQuery(fragmentText.currentTarget);
         var dataset = fragmentText.currentTarget.dataset;
+        
+        var collection = jQuery('*[data-hash="'+dataset.hash+'"]');
 
         $scope.user = {};
         $scope.form = {};
+        $scope.fragmentCollection = []
 
         $scope.logInStatus = user.logInStatus();
         $scope.switchLoginView = false;
         
-        /* Last selected document annotation or fragment type */
-        $scope.currentNonLiteralType = '';
-
         $scope.documentProperties = {
             hasAuthor: 'Author',
             hasDOI: 'DOI',
@@ -34,42 +34,43 @@
             hasComment: 'Comment',
             hasRethoric: 'Rethoric'
         };
-
-        $scope.documentAType = {};
-        $scope.documentAType.type = ct.data('type');
-        $scope.documentAType.subject = ct.data('fragment');
-        $scope.documentAType.snapID = ct.attr('id');
-        $scope.documentAType.author = $scope.documentAType.type == 'hasAuthor' ? ct.data('fragment') : '';
-        $scope.documentAType.doi = $scope.documentAType.type == 'hasDOI' ? ct.data('fragment') : '';
-        $scope.documentAType.publicationYear = $scope.documentAType.type == 'hasPublicationYear' ? ct.data('fragment') : '';
-        //$scope.documentAType.references = $scope.documentAType.type == 'references' ? ct.data('fragment') : '';
-        $scope.documentAType.title = $scope.documentAType.type == 'hasTitle' ? ct.data('fragment') : '';
-        $scope.documentAType.url = $scope.documentAType.type == 'URL' ? ct.data('fragment') : '';
-
-        $scope.fragmentAType = {};
-        $scope.fragmentAType.rethoric = {
-            'abstract': 'Abstract',
-            'discussion': 'Discussion',
-            'conclusion': 'Conclusion',
-            'introductions': 'Introductions',
-            'materials': 'Materials',
-            'methods': 'Methods',
-            'results': 'Results'
-        };
-        $scope.fragmentAType.type = ct.data('type');
-        $scope.fragmentAType.snapID = ct.attr('id');
-        $scope.fragmentAType.citation = $scope.fragmentAType.type == 'references' ? ct.data('fragment') : '';
-        $scope.fragmentAType.comment = $scope.fragmentAType.type == 'hasComment' ? ct.data('fragment') : '';
-
-        $scope.annotationTypeLiteral = $scope.documentProperties[$scope.documentAType.type] || 'Author'
-        $scope.annotationFragmentTypeLiteral = $scope.fragmentProperties[$scope.fragmentAType.type] || 'References';
-        //TODO check rethoric type
-        $scope.rethoricTypeLiteral = 'Abstract';
-
-        $scope.dat = $scope.documentAType.type;
-        $scope.fat = $scope.fragmentAType.type;
-        // TODO check rethoric type
-        $scope.rethoricType = 'abstract';
+        
+        angular.forEach(collection, function(value, key) {
+            var ct = jQuery(value);
+            $scope.fragmentCollection.push({
+                documentAType:{
+                    type : ct.data('type'),
+                    subject : ct.data('fragment'),
+                    snapID : ct.attr('id'),
+                    author : ct.data('type') == 'hasAuthor' ? ct.data('fragment') : '',
+                    doi : ct.data('type') == 'hasDOI' ? ct.data('fragment') : '',
+                    publicationYear : ct.data('type') == 'hasPublicationYear' ? ct.data('fragment') : '',
+                    title : ct.data('type') == 'hasTitle' ? ct.data('fragment') : '',
+                    url : ct.data('type') == 'URL' ? ct.data('fragment') : ''
+                },
+                fragmentAType :{
+                    type : ct.data('type'),
+                    snapID : ct.attr('id'),
+                    citation : ct.data('type') == 'references' ? ct.data('fragment') : '',
+                    comment : ct.data('type') == 'hasComment' ? ct.data('fragment') : '',
+                    rethoric:{
+                        'abstract': 'Abstract',
+                        'discussion': 'Discussion',
+                        'conclusion': 'Conclusion',
+                        'introductions': 'Introductions',
+                        'materials': 'Materials',
+                        'methods': 'Methods',
+                        'results': 'Results'
+                    }
+                },
+                dat: '',
+                fat: '',
+                annotationTypeLiteral: $scope.documentProperties[ct.data('type')] || 'Author',
+                annotationFragmentTypeLiteral: $scope.fragmentProperties[ct.data('type')] || 'References',
+                rethoricType: 'abstract',
+                rethoricTypeLiteral: 'Abstract'
+            });
+        });
         
         /**
          *  Helper function
@@ -141,30 +142,33 @@
          * 
          * 
          */
-        $scope.selectDocumentAType = function (type) {
-            $scope.dat = type;
-            $scope.annotationTypeLiteral = $scope.documentProperties[type];
-            $scope.currentNonLiteralType = type;
+        $scope.selectDocumentAType = function (type, index) {
+            
+            $scope.fragmentCollection[index].dat = type;
+            $scope.fragmentCollection[index].annotationTypeLiteral = $scope.documentProperties[type];
+            $scope.fragmentCollection[index].currentNonLiteralType = type;
         }
         
         /**
          * 
          * 
          */
-        $scope.selectFragmentAType = function (type) {
-            $scope.fat = type;
-            $scope.annotationFragmentTypeLiteral = $scope.fragmentProperties[type];
-            $scope.currentNonLiteralType = type;
+        $scope.selectFragmentAType = function (type, index) {
+            
+            $scope.fragmentCollection[index].fat = type;
+            $scope.fragmentCollection[index].annotationFragmentTypeLiteral = $scope.fragmentProperties[type];
+            $scope.fragmentCollection[index].currentNonLiteralType = type;
         }
         
         /**
          * 
          * 
          */
-        $scope.selectFragmentRethoric = function (type) {
-            $scope.rethoricType = type;
-            $scope.rethoricTypeLiteral = $scope.fragmentAType.rethoric[type];
-            $scope.currentNonLiteralType = type;
+        $scope.selectFragmentRethoric = function (type, index) {
+            
+            $scope.fragmentCollection[index].rethoricType = type;
+            $scope.fragmentCollection[index].rethoricTypeLiteral = $scope.fragmentCollection[index].fragmentAType.rethoric[type];
+            $scope.fragmentCollection[index].currentNonLiteralType = type;
         }
         
         /**
@@ -194,6 +198,9 @@
             $scope.logInStatus = user.logInStatus();
         });
 
+        /**
+         * @deprecated
+         */
         annotationManager.setModalIdentifier();
     }
 
