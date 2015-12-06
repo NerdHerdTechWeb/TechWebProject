@@ -74,7 +74,7 @@ $result=$sparql->query('
 
 SELECT (COUNT(*) AS ?count)
 WHERE{
-	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1520>
+	GRAPH <{$defaults['graph']}>
 	{
 		?annotation  rdf:type oa:Annotation ;
 			oa:annotatedAt ?date ;
@@ -91,7 +91,7 @@ WHERE{
 		OPTIONAL { ?o    rdfs:label ?o_label}
 		?annotation oa:hasTarget ?node.
 		?node rdf:type oa:SpecificResource ;
-		    oa:hasSource <http://www.dlib.org/dlib/november14/beel/11beel.html> ;
+		    oa:hasSource <{$defaults['source']}> ;
 		    oa:hasSelector ?selector.
 		?selector rdf:type oa:FragmentSelector ;
 			rdf:value ?start ;
@@ -100,12 +100,11 @@ WHERE{
 	}         
 }
 ');
-         print $result->dump();
+    //     print $result->dump();
 			 
   
 		 
-		 
-		?>
+		
 
 
 
