@@ -68,7 +68,7 @@ class Sparql_Edit
                     "name" => $queryParams['username'],
                     "email" => $queryParams['email'],
                 ),
-                "time" => $date->format('Y-m-d\TH:i'),
+                "time" => $date->format('Y-m-d\TH:i:s'),
             ),
         );
 
