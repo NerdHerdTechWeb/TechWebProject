@@ -35,6 +35,16 @@
             hasRethoric: 'Rethoric'
         };
         
+        $scope.rethoricProperties = {
+            'abstract': 'Abstract',
+            'discussion': 'Discussion',
+            'conclusion': 'Conclusion',
+            'introductions': 'Introductions',
+            'materials': 'Materials',
+            'methods': 'Methods',
+            'results': 'Results'
+        }
+        
         angular.forEach(collection, function(value, key) {
             var ct = jQuery(value);
             $scope.fragmentCollection.push({
@@ -53,18 +63,11 @@
                     snapID : ct.attr('id'),
                     citation : ct.data('type') == 'references' ? ct.data('fragment') : '',
                     comment : ct.data('type') == 'hasComment' ? ct.data('fragment') : '',
-                    rethoric:{
-                        'abstract': 'Abstract',
-                        'discussion': 'Discussion',
-                        'conclusion': 'Conclusion',
-                        'introductions': 'Introductions',
-                        'materials': 'Materials',
-                        'methods': 'Methods',
-                        'results': 'Results'
-                    }
+                    rethoric: 'abstract'
                 },
                 dat: '',
                 fat: '',
+                fatr: '',
                 annotationTypeLiteral: $scope.documentProperties[ct.data('type')] || 'Author',
                 annotationFragmentTypeLiteral: $scope.fragmentProperties[ct.data('type')] || 'References',
                 rethoricType: 'abstract',
@@ -75,11 +78,11 @@
         /**
          *  Helper function
          */
-        function prepareData() {
+        function prepareData(index) {
             var form = {};
             var userData = user.userData();
-            angular.extend(form, $scope.fragmentAType);
-            angular.extend(form, $scope.documentAType);
+            angular.extend(form, $scope.fragmentCollection[index].fragmentAType);
+            angular.extend(form, $scope.fragmentCollection[index].documentAType);
             angular.extend(form, dataset);
             angular.extend(form, {
                 "docSource": documents.getCurrentDocumentSource(),
@@ -94,23 +97,23 @@
         * 
         * 
         */
-        $scope.submit = function () {
+        $scope.submit = function (index) {
             
             //TODO save triple notation
-            var form = prepareData();
+            var form = prepareData(index);
             
             Notification.info('Waiting please');
             
              if(form.type === 'noType'){
-                form.type = $scope.currentNonLiteralType;
-                if($scope.currentNonLiteralType === '')
+                form.type = $scope.fragmentCollection[index].currentNonLiteralType;
+                if($scope.fragmentCollection[index].currentNonLiteralType === '')
                     return Notification.error('Choose an annotation type, please');
             }
             
             annotationManager.update(form).then(function (results) {
                 $modalInstance.close();
                 /* Empty the memory */
-                $scope.currentNonLiteralType = '';
+                $scope.fragmentCollection[index].currentNonLiteralType = '';
             });
         };
         
@@ -118,11 +121,11 @@
          * 
          * 
          */
-        $scope.saveItLater = function() {
+        $scope.saveItLater = function(index) {
             var form = prepareData();
              if(form.type === 'noType'){
-                form.type = $scope.currentNonLiteralType;
-                if($scope.currentNonLiteralType === '')
+                form.type = $scope.fragmentCollection[index].currentNonLiteralType;
+                if($scope.fragmentCollection[index].currentNonLiteralType === '')
                     return Notification.error('Choose an annotation type, please');
             }
             annotationManager.setCreatedAnnotations(form);
@@ -167,7 +170,8 @@
         $scope.selectFragmentRethoric = function (type, index) {
             
             $scope.fragmentCollection[index].rethoricType = type;
-            $scope.fragmentCollection[index].rethoricTypeLiteral = $scope.fragmentCollection[index].fragmentAType.rethoric[type];
+            $scope.fragmentCollection[index].rethoricTypeLiteral = $scope.rethoricProperties[type];
+            $scope.fragmentCollection[index].rethoric = type;
             $scope.fragmentCollection[index].currentNonLiteralType = type;
         }
         

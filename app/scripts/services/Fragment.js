@@ -279,13 +279,13 @@
             span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
             span.setAttribute('class', 'annotation ' + annotationColor);
             
-            span.setAttribute('tooltip', 'Click or right-click on it to edit');
-            span.setAttribute('tooltip-placement', 'top');
-            span.setAttribute('tooltip-trigger', 'mouseenter');
+            //span.setAttribute('tooltip', 'Click or right-click on it to edit');
+            //span.setAttribute('tooltip-placement', 'top');
+            //span.setAttribute('tooltip-trigger', 'mouseenter');
             span.setAttribute('id', 'snap_' + Date.now());
             span.setAttribute('data-hash', 'hash_' + hash);
             
-            //span.setAttribute('create-context-menu','');
+            span.setAttribute('create-context-menu','');
             
             range.surroundContents(span);
             $compile(span)(scope$);

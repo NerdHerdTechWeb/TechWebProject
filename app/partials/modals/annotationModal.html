@@ -103,7 +103,7 @@
                                             data-toggle="dropdown" aria-haspopup="true" 
                                             aria-expanded="false">{{fragment.rethoricTypeLiteral}} <span class="caret"></span></button>
                                             <ul class="dropdown-menu dropdown-menu-left">
-                                                <li ng-repeat="(key, docP) in fragment.fragmentAType.rethoric">
+                                                <li ng-repeat="(key, docP) in rethoricProperties">
                                                     <a ng-click="selectFragmentRethoric(key, fIndex)" data-type="{{key}}" href>{{docP}}</a>
                                                 </li>
                                             </ul>
@@ -157,11 +157,11 @@
                         </div>
                     </div>
                     <div class="modal-footer" ng-if="logInStatus">
-                        <button type="submit" class="btn btn-primary" ng-click="submit('save')">Save</button>
-                        <button type="submit" class="btn btn-info" ng-click="saveItLater()">Save it later</button>
-                        <button type="submit" class="btn btn-info" ng-click="submit('cht')">Change target</button>
+                        <button type="submit" class="btn btn-primary" ng-click="submit(fIndex)">Save</button>
+                        <button type="submit" class="btn btn-info" ng-click="saveItLater(fIndex)">Save it later</button>
+                        <button type="submit" class="btn btn-info" ng-click="submit(fIndex)">Change target</button>
                         <!-- <button type="submit" class="btn btn-primary" ng-click="submit('update')">Update</button> -->
-                        <button type="submit" class="btn btn-danger" ng-click="submit('delete')">Remove</button>
+                        <button type="submit" class="btn btn-danger" ng-click="submit(fIndex)">Remove</button>
                     </div>
                     <div class="modal-footer" ng-if="!logInStatus">
                         <button class="btn btn-info" ng-click="login()">Login</button>
