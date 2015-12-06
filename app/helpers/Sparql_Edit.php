@@ -223,7 +223,7 @@ class Sparql_Edit
         $this->graph1->addResource($statement, 'rdf:type', EasyRdf_Namespace::expand('rdf:Statement'));
         $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:subject'), $s);
         $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:predicate'), $p);
-        if ($annotation["type"] != "references") 
+        if ($this->annotation["type"] != "references") 
 		$this->graph1->add($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
 	else 
     		$this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);// add/addreousrce

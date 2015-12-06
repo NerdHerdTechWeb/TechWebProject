@@ -142,7 +142,7 @@
                         var xpath = remotePath;
                         var text = rangy.getSelection().toString();
                         
-                        fragment.hash(start+end+xpath);
+                        var hash = fragment.hash(start+end+xpath);
                         
                         var span = document.createElement("span");
                         span.setAttribute('data-xpath', xpath);
