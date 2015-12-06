@@ -203,7 +203,7 @@ WHERE{
         ?node rdf:type oa:SpecificResource ;
               oa:hasSource ?source .
   	
-        { FILTER ((?watf = 'hasPublicationYear' && ?o > xsd:date('$date'))  ||
+        { FILTER ((?wtf = 'hasPublicationYear' && str(?o) >= '$date')  ||
 	        (?wtf = 'hasAuthor' && regex(?o_label , '$author')) ||
 	        (?wtf ='hasURL' && regex (str(?o) , LCASE('$url'))) ||
 	        (?wtf ='hasTitle' && regex (LCASE(str(?o)) ,LCASE('$title'))) ||
