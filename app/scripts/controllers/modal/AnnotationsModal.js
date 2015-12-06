@@ -171,7 +171,7 @@
             
             $scope.fragmentCollection[index].rethoricType = type;
             $scope.fragmentCollection[index].rethoricTypeLiteral = $scope.rethoricProperties[type];
-            $scope.fragmentCollection[index].rethoric = type;
+            $scope.fragmentCollection[index].fragmentAType.rethoric = type;
             $scope.fragmentCollection[index].currentNonLiteralType = type;
         }
         
