@@ -63,3 +63,63 @@ WHERE{
 // EasyRdf trasfomra il json in oggetto
 // Ho notato che non siamo in grado di risalire al json
 var_dump($result->dump());
+
+
+//CONTEGGIO numero annotazioni dei grafi
+
+$sparql = new EasyRdf_Sparql_Client('http://tweb2015.cs.unibo.it:8080/data/query?user=ltw1540&pass=Xab7!=UUj');
+//$sparql = new EasyRdf_Sparql_Client('http://localhost:3030/ds/query');
+$result=$sparql->query('
+
+
+SELECT (COUNT(*) AS ?count)
+WHERE{
+	GRAPH <http://vitali.web.cs.unibo.it/raschietto/graph/ltw1520>
+	{
+		?annotation  rdf:type oa:Annotation ;
+			oa:annotatedAt ?date ;
+			oa:annotatedBy ?author .
+		OPTIONAL { ?author foaf:name ?author_fullname }
+		OPTIONAL { ?author schema:email ?author_email}
+		OPTIONAL { ?annotation rdfs:label ?label }
+		OPTIONAL { ?annotation rsch:type ?watf }       
+		OPTIONAL { ?annotation oa:hasBody ?body }
+		OPTIONAL { ?body rdf:subject ?s }
+		OPTIONAL { ?body rdf:predicate ?p }
+		OPTIONAL { ?body rdf:object ?o }
+		OPTIONAL { ?body rdfs:label ?body_l }
+		OPTIONAL { ?o    rdfs:label ?o_label}
+		?annotation oa:hasTarget ?node.
+		?node rdf:type oa:SpecificResource ;
+		    oa:hasSource <http://www.dlib.org/dlib/november14/beel/11beel.html> ;
+		    oa:hasSelector ?selector.
+		?selector rdf:type oa:FragmentSelector ;
+			rdf:value ?start ;
+			oa:start ?startoffset ;
+			oa:end ?endoffset
+	}         
+}
+');
+         print $result->dump();
+			 
+  
+		 
+		 
+		?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
