@@ -32,7 +32,7 @@
         $scope.fragmentProperties = {
             references: 'Reference',
             hasComment: 'Comment',
-            hasRethoric: 'Rethoric'
+            denotesRhetoric: 'Rethoric'
         };
         
         $scope.rethoricProperties = {
@@ -61,17 +61,26 @@
                 fragmentAType :{
                     type : ct.data('type'),
                     snapID : ct.attr('id'),
-                    citation : ct.data('type') == 'references' ? ct.data('fragment') : '',
+                    //citation : ct.data('type') == 'references' ? ct.data('fragment') : '',
+                    citation : '',
                     comment : ct.data('type') == 'hasComment' ? ct.data('fragment') : '',
-                    rethoric: 'abstract'
+                    rethoric: 'abstract',
+                    citationParams: {
+                        documentTitle: '',
+                        doi: '',
+                        publicationDate: '',
+                        authors: '',
+                        url: ''
+                    }
                 },
                 dat: '',
                 fat: '',
                 fatr: '',
                 annotationTypeLiteral: $scope.documentProperties[ct.data('type')] || 'Author',
-                annotationFragmentTypeLiteral: $scope.fragmentProperties[ct.data('type')] || 'References',
+                annotationFragmentTypeLiteral: $scope.fragmentProperties[ct.data('type')] || 'Reference',
                 rethoricType: 'abstract',
-                rethoricTypeLiteral: 'Abstract'
+                rethoricTypeLiteral: 'Abstract',
+                showReferencesFields: ct.data('type') == 'references' ? true : false
             });
         });
         
@@ -122,7 +131,7 @@
          * 
          */
         $scope.saveItLater = function(index) {
-            var form = prepareData();
+            var form = prepareData(index);
              if(form.type === 'noType'){
                 form.type = $scope.fragmentCollection[index].currentNonLiteralType;
                 if($scope.fragmentCollection[index].currentNonLiteralType === '')
@@ -148,6 +157,7 @@
         $scope.selectDocumentAType = function (type, index) {
             
             $scope.fragmentCollection[index].dat = type;
+            $scope.fragmentCollection[index].documentAType.type = type;
             $scope.fragmentCollection[index].annotationTypeLiteral = $scope.documentProperties[type];
             $scope.fragmentCollection[index].currentNonLiteralType = type;
         }
@@ -159,8 +169,14 @@
         $scope.selectFragmentAType = function (type, index) {
             
             $scope.fragmentCollection[index].fat = type;
+            $scope.fragmentCollection[index].fragmentAType.type = type;
             $scope.fragmentCollection[index].annotationFragmentTypeLiteral = $scope.fragmentProperties[type];
             $scope.fragmentCollection[index].currentNonLiteralType = type;
+            
+            if(type === 'references')
+                $scope.fragmentCollection[index].showReferencesFields = true;
+            else
+                $scope.fragmentCollection[index].showReferencesFields = false;
         }
         
         /**

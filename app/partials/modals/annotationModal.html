@@ -98,7 +98,7 @@
                                 <div class="col-md-6">
                                     <span class="help-block">Choose an annotation type to associate on the fragment</span>
                                     <div class="input-group" ng-switch on="fragment.fat">
-                                        <div ng-if="fragment.fat === 'hasRethoric'" class="input-group-btn">
+                                        <div ng-if="fragment.fat === 'denotesRhetoric'" class="input-group-btn">
                                             <button type="button" class="btn btn-default dropdown-toggle" 
                                             data-toggle="dropdown" aria-haspopup="true" 
                                             aria-expanded="false">{{fragment.rethoricTypeLiteral}} <span class="caret"></span></button>
@@ -109,6 +109,7 @@
                                             </ul>
                                         </div>
                                         <input ng-switch-when="hasCitation"
+                                               ng-disabled="showReferencesFields"
                                                ng-model="fragment.fragmentAType.citation"
                                                tooltip="Type in a custom description"
                                                tooltip-placement="top"
@@ -122,19 +123,15 @@
                                                tooltip-trigger="mouseenter"
                                                placeholder="Type in a comment for the fragment"
                                                type="text" class="form-control" aria-label="...">
-                                        <input ng-switch-when="hasRethoric"
+                                        <input ng-switch-when="denotesRhetoric"
                                                ng-model="fragment.fragmentAType.rethoric.selected"
-                                               tooltip="Type in a custom description"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Type in a custom description"
+                                               disabled
+                                               placeholder="Choose a rethoric type on the left"
                                                type="text" class="form-control" aria-label="...">
                                         <input ng-switch-default
+                                               disabled
                                                ng-model="fragment.fragmentAType.citation"
-                                               tooltip="Type in a custom description"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Type in a custom description"
+                                               placeholder="Choose the fragment type"
                                                type="text" class="form-control" aria-label="...">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default dropdown-toggle" 
@@ -151,9 +148,53 @@
                             </div><!-- /.row -->
                         </div>
                     </div>
-                    <div class="row">
+                    
+                    <!-- References -->
+                    <h2 class="text-info" ng-if="fragment.showReferencesFields">Citations params</h2>
+                    <div class="row" ng-if="showReferencesFields">
                         <div class="col-md-12">
-                            <textarea ng-if="type === 'a'" ui-tinymce="tinymceOptions" ng-model="fragmentModel" name="author" class="form-control" rows="3"></textarea>
+                            <label>Document Title</label>
+                            <input type="text" name="title" class="form-control"
+                                ng-model="fragment.fragmentAType.citationParams.documentTitle">
+                        </div>
+                    </div>
+                    <div class="row" ng-if="fragment.showReferencesFields">
+                        <div class="col-md-6">
+                            <label>Publication date</label>
+                            <div class="input-group">
+                                <input type="date" name="publicationDate" class="form-control"
+                                       placeholder="gg-mm-aaaa"
+                                       ng-model="fragment.fragmentAType.citationParams.publicationDate"
+                                       close-text="Close">
+                                <span class="input-group-btn">
+                                    <button type="button"
+                                            class="btn btn-default">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>DOI</label>
+                            <input type="text" name="doi" class="form-control"
+                                placeholder="DOI"
+                                ng-model="fragment.fragmentAType.citationParams.doi">
+                        </div>
+                    </div>
+                    <div class="row" ng-if="fragment.showReferencesFields">
+                        <div class="col-md-12">
+                            <label>Authors</label>
+                            <input type="text" name="authors" class="form-control"
+                                placeholder="Atuhors name separated by comma"
+                                ng-model="fragment.fragmentAType.citationParams.authors">
+                        </div>
+                    </div>
+                    <div class="row" ng-if="fragment.showReferencesFields">
+                        <div class="col-md-12">
+                            <label>URL Reference</label>
+                            <input type="url" name="url" class="form-control"
+                                placeholder="Url of the document"
+                                ng-model="fragment.fragmentAType.citationParams.url">
                         </div>
                     </div>
                     <div class="modal-footer" ng-if="logInStatus">
