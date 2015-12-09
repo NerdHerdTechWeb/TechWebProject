@@ -15,6 +15,17 @@ class Sparql_Edit
 
     public function __construct()
     {
+        
+        $this->labels = array("hasAuthor" => "Author",
+			      "hasPublicationYear" => "Publication Year",
+			      "hasTitle" => "Title",
+			      "hasDOI" => "DOI",			  
+			      "hasURL" => "URL",
+			      "hasComment" => "Comment",
+			      "denothesRhetoric" => "Rethoric",
+			      "references" => "Citation",
+			   );
+        
         $this->predicates = array("hasAuthor" => EasyRdf_Namespace::expand('dcterms:creator'),
             "hasPublicationYear" => EasyRdf_Namespace::expand('fabio:hasPublicationYear'),
             "hasTitle" => EasyRdf_Namespace::expand('dcterms:title'),
@@ -40,7 +51,7 @@ class Sparql_Edit
     public function buildAnnotation($queryParams = array())
     {
 
-        $date = new DateTime('NOW');
+        $date = DateTime::createFromFormat('U.u', microtime(true));
         
 
         $this->annotation = array(
@@ -68,7 +79,7 @@ class Sparql_Edit
                     "name" => $queryParams['username'],
                     "email" => $queryParams['email'],
                 ),
-                "time" => $date->format('Y-m-d\TH:i:s'),
+                "time" => $date->format('Y-m-d\TH:i:s.u'),
             ),
         );
 
@@ -82,17 +93,17 @@ class Sparql_Edit
         $expression = $work . "_ver1";
 
         /**
-         * Create id mail to
+         * Create id mail and label
          */
         $this->annotation["provenance"]["author"]['id'] = "mailto:" . $this->annotation["provenance"]["author"]["email"];
-
+	$this->annotation["label"] = $labels[$annotation["type"]];	
         //EXPRESSION WORK ITEM
 
         $this->graph1->addResource($work, 'rdf:type', EasyRdf_Namespace::expand('fabio:Work'));
         $this->graph1->addResource($work, EasyRdf_Namespace::expand('fabio:hasPortrayal'), $item);
         $this->graph1->addResource($work, EasyRdf_Namespace::expand('frbr:realization'), $expression);
         $this->graph1->addResource($expression, 'rdf:type', EasyRdf_Namespace::expand('fabio:Expression'));
-        $this->graph1->addResource($expression, EasyRdf_Namespace::expand('fabio:hasRepresantation'), $item);
+        $this->graph1->addResource($expression, EasyRdf_Namespace::expand('fabio:hasRepresentation'), $item);
         $this->graph1->addResource($item, 'rdf:type', EasyRdf_Namespace::expand('fabio:item'));
 
 
