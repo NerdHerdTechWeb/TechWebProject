@@ -40,7 +40,7 @@ class Sparql_Edit
     public function buildAnnotation($queryParams = array())
     {
 
-        $date = new DateTime('NOW');
+        $date = DateTime::createFromFormat('U.u', microtime(true));
         
 
         $this->annotation = array(
@@ -68,7 +68,7 @@ class Sparql_Edit
                     "name" => $queryParams['username'],
                     "email" => $queryParams['email'],
                 ),
-                "time" => $date->format('Y-m-d\TH:i:s'),
+                "time" => $date->format('Y-m-d\TH:i:s.u'),
             ),
         );
 
