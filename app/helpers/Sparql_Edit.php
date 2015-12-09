@@ -15,6 +15,17 @@ class Sparql_Edit
 
     public function __construct()
     {
+        
+        $this->labels = array("hasAuthor" => "Author",
+			      "hasPublicationYear" => "Publication Year",
+			      "hasTitle" => "Title",
+			      "hasDOI" => "DOI",			  
+			      "hasURL" => "URL",
+			      "hasComment" => "Comment",
+			      "denothesRhetoric" => "Rethoric",
+			      "references" => "Citation",
+			   );
+        
         $this->predicates = array("hasAuthor" => EasyRdf_Namespace::expand('dcterms:creator'),
             "hasPublicationYear" => EasyRdf_Namespace::expand('fabio:hasPublicationYear'),
             "hasTitle" => EasyRdf_Namespace::expand('dcterms:title'),
@@ -82,10 +93,10 @@ class Sparql_Edit
         $expression = $work . "_ver1";
 
         /**
-         * Create id mail to
+         * Create id mail and label
          */
         $this->annotation["provenance"]["author"]['id'] = "mailto:" . $this->annotation["provenance"]["author"]["email"];
-
+	$this->annotation["label"] = $labels[$annotation["type"]];	
         //EXPRESSION WORK ITEM
 
         $this->graph1->addResource($work, 'rdf:type', EasyRdf_Namespace::expand('fabio:Work'));
