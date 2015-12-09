@@ -103,7 +103,7 @@ class Sparql_Edit
         $this->graph1->addResource($work, EasyRdf_Namespace::expand('fabio:hasPortrayal'), $item);
         $this->graph1->addResource($work, EasyRdf_Namespace::expand('frbr:realization'), $expression);
         $this->graph1->addResource($expression, 'rdf:type', EasyRdf_Namespace::expand('fabio:Expression'));
-        $this->graph1->addResource($expression, EasyRdf_Namespace::expand('fabio:hasRepresantation'), $item);
+        $this->graph1->addResource($expression, EasyRdf_Namespace::expand('fabio:hasRepresentation'), $item);
         $this->graph1->addResource($item, 'rdf:type', EasyRdf_Namespace::expand('fabio:item'));
 
 
