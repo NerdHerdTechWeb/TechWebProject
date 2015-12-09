@@ -176,7 +176,8 @@
                 if(annotations[key].watf !== ''){
                     var r = document.createRange();
                     if(annotations[key].start !== ''){
-                        var lc = $(document.evaluate(annotations[key].localPath,
+                        var xp = String(annotations[key].localPath).replace(/\/$/, "");
+                        var lc = $(document.evaluate(xp,
                             document,
                             null,
                             XPathResult.FIRST_ORDERED_NODE_TYPE, null)

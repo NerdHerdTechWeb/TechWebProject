@@ -60,7 +60,13 @@
             var customType = type.replace('has','').toLowerCase();
             if(!annotationCreated[customType])
                 annotationCreated[customType] = new Array();
-            annotationCreated[customType].push(annotation);
+            if(customType === 'doi' || customType === 'title' || customType === 'publicationyear'){
+                annotationCreated[customType].pop();
+                annotationCreated[customType].push(annotation);
+            }
+            else{
+                annotationCreated[customType].push(annotation); 
+            }
         }
         
         /**

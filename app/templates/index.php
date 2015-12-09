@@ -135,6 +135,7 @@
 
 <!-- UTILS -->
 <script type="text/javascript" src="../app/scripts/utils/utils.js"></script>
+<script type="text/javascript" src="../app/scripts/utils/wgxpath.install.js"></script>
 <script type="text/javascript" src="../../bower_components/tinymce/tinymce.js"></script>
 <script type="text/javascript" src="../../bower_components/rangy/rangy-core.min.js"></script>
 <script type="text/javascript" src="../../bower_components/rangy/rangy-classapplier.min.js"></script>

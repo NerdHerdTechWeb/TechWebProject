@@ -12,7 +12,7 @@
         .module('semanticNotations')
         .controller('UnsavedAnnotationsManagerModal', unsavedAnnotationsManagerModal);
 
-    function unsavedAnnotationsManagerModal($scope, $modalInstance, $log, annotationManager) {
+    function unsavedAnnotationsManagerModal($scope, $rootScope, $modalInstance, $log, annotationManager) {
 
         /* 
         * @deprecated 

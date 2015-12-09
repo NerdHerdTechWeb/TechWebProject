@@ -6,7 +6,7 @@
         .module('semanticNotations')
         .controller('AnnotationsModal', annotationsModal)
 
-    function annotationsModal($scope, $modalInstance, $log, fragmentText,
+    function annotationsModal($scope, $rootScope, $modalInstance, $log, fragmentText,
                               user, annotationManager, Notification, documents) {
 
         var ct = jQuery(fragmentText.currentTarget);
@@ -80,7 +80,9 @@
                 annotationFragmentTypeLiteral: $scope.fragmentProperties[ct.data('type')] || 'Reference',
                 rethoricType: 'abstract',
                 rethoricTypeLiteral: 'Abstract',
-                showReferencesFields: ct.data('type') == 'references' ? true : false
+                showReferencesFields: ct.data('type') == 'references' ? true : false,
+                author: ct.data('author') ? ct.data('author') : user.userData().name,
+                snapID : ct.attr('id')
             });
         });
         
@@ -120,6 +122,7 @@
             }
             
             annotationManager.update(form).then(function (results) {
+                $rootScope.$broadcast('highlightedSaved', $scope.fragmentCollection[index]);
                 $modalInstance.close();
                 /* Empty the memory */
                 $scope.fragmentCollection[index].currentNonLiteralType = '';
@@ -128,6 +131,7 @@
         
         /**
          * 
+         * Store highlighted annotation
          * 
          */
         $scope.saveItLater = function(index) {

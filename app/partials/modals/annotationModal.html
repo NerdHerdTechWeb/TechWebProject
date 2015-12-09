@@ -197,6 +197,9 @@
                                 ng-model="fragment.fragmentAType.citationParams.url">
                         </div>
                     </div>
+                    <small class="info">
+                        <span class="enphasis">Author</span>: {{fragment.author}}
+                    </small>
                     <div class="modal-footer" ng-if="logInStatus">
                         <button type="submit" class="btn btn-primary" ng-click="submit(fIndex)">Save</button>
                         <button type="submit" class="btn btn-info" ng-click="saveItLater(fIndex)">Save it later</button>

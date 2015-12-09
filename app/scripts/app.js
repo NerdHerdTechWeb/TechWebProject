@@ -1,4 +1,7 @@
 
+wgxpath.install();
+
+
 (function ($, window) {
 
     $.fn.contextMenu = function (settings) {
@@ -154,6 +157,7 @@
                         span.setAttribute('data-fragment-in-document', text);
                         span.setAttribute('data-fragment', text);
                         span.setAttribute('data-type', 'noType');
+                        span.setAttribute('data-highlight', 'true');
                         
                         span.setAttribute('tooltip', 'Fragment not saved yet. Click or right-click on it to edit');
                         span.setAttribute('tooltip-placement', 'top');
@@ -182,7 +186,6 @@
                         if (range.canSurroundContents(span)) {
                             range.surroundContents(span);
                             $compile(span)(scope);
-                            //annotationManager.setCreatedAnnotations(annotationsCollection);
                         } else {
                             Notification.warning("Unable to surround range because range partially selects a non-text node. See DOM4 spec for more information.");
                         }
@@ -191,6 +194,14 @@
                 
                 scope.$on('getSelection', function(event, args){
                     surroundRange();
+                });
+                
+                scope.$on('highlightedSaved',function(event, args){
+                    var frag = jQuery('#' + args.snapID);
+                    frag.removeData('highlight');
+                    frag.data('type', args.currentNonLiteralType)
+                    frag.removeAttr('tooltip').removeAttr('tooltip-placement').removeAttr('tooltip-trigger').removeAttr('create-context-menu');
+                    frag.removeClass('noType').addClass(args.currentNonLiteralType);
                 });
             }
         };
@@ -206,7 +217,8 @@
                         var data = selectedMenu.data();
                         switch (data.action) {
                             case 'remove':
-                                annotationManager.removeInlineAnnotation(invokedOn.attr('id'),invokedOn.data('type'), {date:invokedOn.data('date')});
+                                if(!invokedOn.data('highlight'))
+                                    annotationManager.removeInlineAnnotation(invokedOn.attr('id'),invokedOn.data('type'), {date:invokedOn.data('date')});
                                 invokedOn.contents().unwrap();
                                 break;
                             case 'edit':
