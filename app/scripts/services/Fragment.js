@@ -177,7 +177,7 @@
                     var r = document.createRange();
                     if(annotations[key].start !== ''){
                         var xp = String(annotations[key].localPath).replace(/\/$/, "");
-                        var lc = $(document.evaluate(xp,
+                        var lc = jQuery(document.evaluate(xp,
                             document,
                             null,
                             XPathResult.FIRST_ORDERED_NODE_TYPE, null)
@@ -210,86 +210,69 @@
          * @returns {Range|TextRange}
          */
         function render_fragment(node, start, end, xpath, annotation, scope$, equals, hash) {
-            var range = document.createRange();
-            if(!node) return;
-            //if(start >400) return;
-            if(xpath === dlibRootPath ) return;
-            while (node.nodeType != 3)
-                if(node.firstChild) node = node.firstChild;
-                else return;
-            while (node.length < start) {
-                start -= node.length;
-                end -= node.length;
-                if (node.nextSibling !== null && node.nextSibling.nodeType == 8){
-                    node = node.nextSibling;
-                }
-                if (node.nextSibling === null) {
-                    node = node.parentNode.nextSibling;
-                } else if(node.nextSibling.nodeName === 'BR'){
-                    while(node.nextSibling.nodeName === 'BR')
-                        node = node.nextSibling;
-                    if(node.nextSibling)
-                        node = node.nextSibling;
-                }else {
-                    if(!node.length && node.nextSibling.nodeName === 'SPAN'){
-                        var validLength = false;
-                        while(!validLength){
-                            node = node.nextSibling;
-                            if(!node.firstChild){
-                                node = node.nextSibling;
-                            }
-                            if(node.firstChild)
-                                validLength = true;
-                        }
-                        if(node.nextSibling)
-                            node = node.nextSibling;
-                    }else{
-                        node = node.nextSibling.firstChild;
-                        /* non permette sovrapposizioni tra span - chiusere html sbagliate */
-                        if(node === null) return
-                    }
-                }
-            }
-
-            range.setStart(node, start);
-            if (node.length < end) {
-                range.setEnd(node, node.length);
-                if (node.nextSibling != null && node.nextSibling.nodeType == 8)
-                    node = node.nextSibling;
-                if (node.nextSibling == null) {
-                    render_fragment(node.parentNode.nextSibling, 0, (end - node.length), xpath, annotation, scope$, equals, hash);
-                } else {
-                    render_fragment(node.nextSibling, 0, (end - node.length), xpath, annotation, scope$, equals, hash);
-                }
-            } else {
-                range.setEnd(node, end);
-            }
-
+            
+            if(!node)
+                return;
+            
+            var element = node
+            var range = rangy.createRange();
+            var caseSensitive = true;
+            var searchScopeRange = rangy.createRange();
+            var elementText = jQuery(element).text();
+            var pieces = String(elementText).substring(start,end);
+            
+            searchScopeRange.selectNodeContents(element);
+            
+            //var searchResultApplier = rangy.createClassApplier("searchResult");
             var annotationColor = typeof annotation !== 'undefined' ? annotation.wtf : 'genericAnnotation';
-            var span = document.createElement('span');
-            span.setAttribute('data-xpath', xpath);
-            span.setAttribute('data-start', start);
-            span.setAttribute('data-end', end);
-            //span.setAttribute('data-annotation-id', end);
-            span.setAttribute('data-date', annotation.date);
-            span.setAttribute('data-author', annotation.author);
-            span.setAttribute('data-fragment-in-document', range.toString());
-            span.setAttribute('data-fragment', annotation.o_label || annotation.o);
-            span.setAttribute('data-type', annotationColor);
-            span.setAttribute('data-equals', "{'init':"+equals.init+", 'final':"+equals.final+"}");
-            span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
-            span.setAttribute('class', 'annotation ' + annotationColor);
             
-            //span.setAttribute('tooltip', 'Click or right-click on it to edit');
-            //span.setAttribute('tooltip-placement', 'top');
-            //span.setAttribute('tooltip-trigger', 'mouseenter');
-            span.setAttribute('id', 'snap_' + Date.now());
-            span.setAttribute('data-hash', 'hash_' + hash);
+            var annotationColor = rangy.createCssClassApplier(annotationColor);
+            var searchResultApplier = rangy.createClassApplier("searchResult", {
+            	"elementAttributes": {
+            		"data-xpath": xpath,
+            		"data-start": start,
+            		"data-end": end,
+            		"data-date": annotation.date,
+            		'data-author': annotation.author,
+                    'data-fragment-in-document': range.toString(),
+                    'data-fragment': annotation.o_label || annotation.o,
+                    'data-type': annotationColor,
+                    'data-equals': "{'init':"+equals.init+", 'final':"+equals.final+"}",
+                    'ng-click': 'showNotationModal($event); $event.stopPropagation()',
+                    'id': 'snap_' + Date.now(),
+                    'class':  'annotation '+ annotationColor,
+                    'data-hash': 'hash_' + hash,
+                    'create-context-menu': ''
+            	}
+            });
             
-            span.setAttribute('create-context-menu','');
+            var options = {
+            	caseSensitive: caseSensitive,
+            	wholeWordsOnly: true,
+            	withinRange: searchScopeRange,
+            	direction: "forward" // This is redundant because "forward" is the default
+            };
             
-            range.surroundContents(span);
-            $compile(span)(scope$);
+            range.selectNodeContents(element);
+            
+            var searchTerm = pieces;
+            
+            if (searchTerm !== "") {
+            	//searchTerm = new RegExp(searchTerm,"g");
+            	
+            	// Iterate over matches
+            	if(range.findText(searchTerm, {withinRange:options.withinRange,caseSensitive:true})) {
+            	    
+            		// range now encompasses the first text match
+            		searchResultApplier.applyToRange(range);
+            		annotationColor.applyToRange(range)
+            		
+            		// Collapse the range to the position immediately after the match
+            		range.collapse(false);
+            	}
+            }
+            
+            $compile(range)(scope$);
             return range;
         }
 

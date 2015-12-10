@@ -134,6 +134,7 @@ wgxpath.install();
                 
                 function surroundRange() {
                     var range = getFirstRange();
+                    //var serializedSelection = rangy.serializeSelection(range);
                     if (range) {
                         if(rangy.getSelection().toString().length <= 0)
                             return;
