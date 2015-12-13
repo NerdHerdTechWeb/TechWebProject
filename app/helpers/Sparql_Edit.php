@@ -225,7 +225,7 @@ class Sparql_Edit
 
             $s = $expression;
             $this->annotation["body"]["label"]= "Un riferimento del documento è: " . $this->annotation["body"]["object"];
-            $o = $work . "_" . "cited" . "_" . urlencode($this->annotation["body"]["object"]) . "ver_1";
+            $o = $work . "_" . "cited" . "_" . urlencode($this->annotation["body"]["object"]) . "_ver_1";
 
         }
 
