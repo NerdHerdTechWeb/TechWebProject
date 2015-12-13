@@ -250,30 +250,30 @@ class Sparql_Edit
 		$this->graph1->add($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
 	else 
     	{	
-	$graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
+	$this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
 	$cito = $o;
 	$el = NULL;
-	$graph1->addResource($cito, 'a',EasyRdf_Namespace::expand('fabio:Expression'));
-	$graph1->add($cito, EasyRdf_Namespace::expand('rdfs:label'),$annotation["body"]["object"]);
+	$this->graph1->addResource($cito, 'a',EasyRdf_Namespace::expand('fabio:Expression'));
+	$this->graph1->add($cito, EasyRdf_Namespace::expand('rdfs:label'),$annotation["body"]["object"]);
 	
 		 if (!is_null($citparams['Author'])){
-		 		$graph1->add($cito, EasyRdf_Namespace::expand('dcterms:creator'),$citparams['Author']);
+		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('dcterms:creator'),$citparams['Author']);
 				$el = "Autore:".$citparams['Author'];
 		 }
 		 if (!is_null($citparams['Title'])){
-		   		$graph1->add($cito, EasyRdf_Namespace::expand('dcterms:title'),$citparams['Title']);
+		   		$this->graph1->add($cito, EasyRdf_Namespace::expand('dcterms:title'),$citparams['Title']);
     				$el = $el . ", Titolo:".$citparams['Title'];
 		 }
 		 if (!is_null($citparams['PublicationYear'])){
-		 		$graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasPublicationYear'),$citparams['PublicationYear']);
+		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasPublicationYear'),$citparams['PublicationYear']);
 		 		$el = $el . ", Anno di Pubblicazione:".$citparams['PublicationYear'];
 		 }
 		 if (!is_null($citparams['URL'])){
-		 		$graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasURL'),$citparams['URL']);		 
+		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasURL'),$citparams['URL']);		 
 		 		$el = $el . ", URL:".$citparams['URL'];
 		 }
 		 if (!is_null($citparams['DOI'])){
-		 		$graph1->add($cito, EasyRdf_Namespace::expand('prism:doi'),$citparams['DOI']);
+		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('prism:doi'),$citparams['DOI']);
 		 		$el = $el . ", DOI:".$citparams['DOI'];
 		 }
 		if (is_null($el))
