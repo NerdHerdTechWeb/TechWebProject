@@ -22,7 +22,7 @@ class Sparql_Edit
 			      "hasDOI" => "DOI",			  
 			      "hasURL" => "URL",
 			      "hasComment" => "Comment",
-			      "denothesRhetoric" => "Rethoric",
+			      "denotesRhetoric" => "Rethoric",
 			      "references" => "Citation",
 			   );
         
