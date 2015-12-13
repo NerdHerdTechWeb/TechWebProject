@@ -8,7 +8,7 @@
 class Sparql_Edit
 {
 
-    protected $citparams
+    protected $citparams;
     protected $predicates;
     protected $labels;
     protected $retorica;
