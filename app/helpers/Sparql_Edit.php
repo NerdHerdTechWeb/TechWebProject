@@ -162,7 +162,7 @@ class Sparql_Edit
             $this->graph1->addResource($o, EasyRdf_Namespace::expand('rdf:type'), EasyRdf_Namespace::expand('foaf:Person'));
 
             $this->annotation["body"]["o_label"]= $this->annotation["body"]["object"];
-			$this->annotation["body"]["label"]= $this->annotation["body"]["object"]." è un autore del documento";
+	    $this->annotation["body"]["label"]= $this->annotation["body"]["object"]." è un autore del documento";
             
             $autore = trim($this->annotation["body"]["object"]);
 
