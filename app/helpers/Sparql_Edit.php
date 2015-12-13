@@ -259,7 +259,7 @@ class Sparql_Edit
 		 }
 		 if (!is_null($citparams['Title'])){
 		   		$graph1->add($cito, EasyRdf_Namespace::expand('dcterms:title'),$citparams['Title']);
-    			$el = $el . ", Titolo:".$citparams['Title'];
+    				$el = $el . ", Titolo:".$citparams['Title'];
 		 }
 		 if (!is_null($citparams['PublicationYear'])){
 		 		$graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasPublicationYear'),$citparams['PublicationYear']);
