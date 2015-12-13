@@ -9,6 +9,7 @@ class Sparql_Edit
 {
 
     protected $predicates;
+    protected $labels;
     protected $retorica;
     protected $annotation;
     protected $graph1;
