@@ -283,7 +283,7 @@ class Sparql_Edit
 		 		$el = $el . ", DOI:". $citparams['DOI'];
 		 }
 		if (is_null($el))
-				$label = "Questo frammento cita:". $annotation['body']['object'];
+				$label = "Questo frammento cita:". $this->annotation['body']['object'];
 		else
 				$label = $el;		 
 		 
