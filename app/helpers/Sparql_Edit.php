@@ -263,24 +263,24 @@ class Sparql_Edit
 	$this->graph1->add($cito, EasyRdf_Namespace::expand('rdfs:label'),$annotation["body"]["object"]);
 	
 		 if (!is_null($citparams['Author'])){
-		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('dcterms:creator'),$citparams['Author']);
-				$el = "Autore:". $citparams['Author'];
+		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('dcterms:creator'),$this->citparams['Author']);
+				$el = "Autore:". $this->citparams['Author'];
 		 }
 		 if (!is_null($citparams['Title'])){
-		   		$this->graph1->add($cito, EasyRdf_Namespace::expand('dcterms:title'),$citparams['Title']);
-    				$el = $el . ", Titolo:". $citparams['Title'];
+		   		$this->graph1->add($cito, EasyRdf_Namespace::expand('dcterms:title'),$this->citparams['Title']);
+    				$el = $el . ", Titolo:". $this->citparams['Title'];
 		 }
 		 if (!is_null($citparams['PublicationYear'])){
-		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasPublicationYear'),$citparams['PublicationYear']);
-		 		$el = $el . ", Anno di Pubblicazione:". $citparams['PublicationYear'];
+		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasPublicationYear'),$this->citparams['PublicationYear']);
+		 		$el = $el . ", Anno di Pubblicazione:". $this->citparams['PublicationYear'];
 		 }
 		 if (!is_null($citparams['URL'])){
-		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasURL'),$citparams['URL']);		 
+		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasURL'),$this->citparams['URL']);		 
 		 		$el = $el . ", URL:". $citparams['URL'];
 		 }
 		 if (!is_null($citparams['DOI'])){
-		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('prism:doi'),$citparams['DOI']);
-		 		$el = $el . ", DOI:". $citparams['DOI'];
+		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('prism:doi'),$this->citparams['DOI']);
+		 		$el = $el . ", DOI:". $this->citparams['DOI'];
 		 }
 		if (is_null($el))
 				$label = "Questo frammento cita:". $this->annotation['body']['object'];
