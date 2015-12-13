@@ -242,7 +242,7 @@ class Sparql_Edit
         if ($this->annotation["type"] == "references") {
 
             $s = $expression;
-            $this->annotation["body"]["label"]= "Un riferimento del documento è: " . $this->annotation["body"]["object"];
+            //$this->annotation["body"]["label"]= "Un riferimento del documento è: " . $this->annotation["body"]["object"];
             $o = $work . "_" . "cited" . "_" . urlencode($this->annotation["body"]["object"]) . "_ver_1";
 
         }
