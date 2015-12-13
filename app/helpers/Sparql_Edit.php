@@ -186,12 +186,18 @@ class Sparql_Edit
             $o = EasyRdf_Literal::create($this->annotation["body"]["object"], null, 'xsd:date');
         }
 
-        if ($this->annotation["type"] == "hasTitle" || $this->annotation["type"] == "hasDOI") {
+        if ($this->annotation["type"] == "hasTitle") {
 
             $s = $expression;
             $this->annotation["body"]["label"]= "Il titolo del documento è " . $this->annotation["body"]["object"];
             $o = EasyRdf_Literal::create($this->annotation["body"]["object"], null, 'xsd:string');
         }
+        if ($annotation["type"] == "hasDOI"){
+	
+			$s = $expression;
+			$annotation["body"]["label"]= "Il DOI del documento è ".$annotation["body"]["object"];
+			$o = EasyRdf_Literal::create($annotation["body"]["object"],null,'xsd:string');
+	}
         if ($this->annotation["type"] == "hasURL") {
 
             $s = $expression;
