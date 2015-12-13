@@ -283,7 +283,9 @@ class Sparql_Edit
 		 		$el = $el . ", DOI:". $citparams['DOI'];
 		 }
 		if (is_null($el))
-			$label = "Questo frammento cita:". $this->annotation['body']['object'];	 
+				$label = "Questo frammento cita:". $annotation['body']['object'];
+		else
+				$label = $el;		 
 		 
 	}
     	//	$this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);// add/addreousrce
