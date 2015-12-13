@@ -96,7 +96,8 @@ class Sparql_Edit
          * Create id mail and label
          */
         $this->annotation["provenance"]["author"]['id'] = "mailto:" . $this->annotation["provenance"]["author"]["email"];
-	$this->annotation["label"] = $labels[$annotation["type"]];	
+	    //$this->annotation["label"] = $labels[$this->annotation["type"]];	
+	    $this->annotation["label"] = $this->annotation['label'];
         //EXPRESSION WORK ITEM
 
         $this->graph1->addResource($work, 'rdf:type', EasyRdf_Namespace::expand('fabio:Work'));

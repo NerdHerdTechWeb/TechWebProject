@@ -495,11 +495,11 @@ footer {
 }
 
 /* Fragment span colors collection */
-.hasComment {
+.hasComment, .Titolo, .Title {
     background-color: #295aff !important;
 }
 
-.hasAuthor {
+.hasAuthor, .Author, .Autore {
     background-color: #23ff1c !important;
 }
 
@@ -507,23 +507,23 @@ footer {
     background-color: #fe0eff !important;
 }
 
-.hasTitle {
+.hasTitle, .Title, .Titolo {
     background-color: #00efff !important;
 }
 
-.references {
+.references, .citazione, .referenza {
     background-color: #ffb3b3 !important;
 }
 
-.hasDOI {
+.hasDOI, .DOI, .doi {
     background-color: #ff9f95 !important;
 }
 
-.hasURL {
+.hasURL, .url, .URL {
     background-color: #a3b5c7 !important;
 }
 
-.denotesRhetoric {
+.denotesRhetoric, .Rhetoric, .Retorica {
     background-color: #801655 !important;
 }
 

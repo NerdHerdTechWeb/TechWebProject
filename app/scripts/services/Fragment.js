@@ -224,10 +224,12 @@
             searchScopeRange.selectNodeContents(element);
             
             //var searchResultApplier = rangy.createClassApplier("searchResult");
-            var annotationColor = typeof annotation !== 'undefined' ? annotation.wtf : 'genericAnnotation';
+            var aColor = typeof annotation !== 'undefined' ? annotation.wtf : 'genericAnnotation';
+            var aColorFromLabel = typeof annotation !== 'undefined' ? annotation.label : 'genericAnnotation';
+            var annotationColor = aColor;
             
-            var annotationColor = rangy.createCssClassApplier(annotationColor);
-            var searchResultApplier = rangy.createClassApplier("searchResult", {
+            //var annotationColor = rangy.createClassApplier(annotationColor);
+            /*var searchResultApplier = rangy.createClassApplier("searchResult", {
             	"elementAttributes": {
             		"data-xpath": xpath,
             		"data-start": start,
@@ -236,19 +238,42 @@
             		'data-author': annotation.author,
                     'data-fragment-in-document': range.toString(),
                     'data-fragment': annotation.o_label || annotation.o,
-                    'data-type': annotationColor,
+                    'data-type': aColor,
                     'data-equals': "{'init':"+equals.init+", 'final':"+equals.final+"}",
-                    'ng-click': 'showNotationModal($event); $event.stopPropagation()',
+                    'ng-click': 'showNotationModal($event); $event.stopPropagation();',
                     'id': 'snap_' + Date.now(),
-                    'class':  'annotation '+ annotationColor,
+                    'class':  'annotation '+ aColor,
                     'data-hash': 'hash_' + hash,
                     'create-context-menu': ''
             	}
-            });
+            });*/
+            
+            var span = document.createElement('span');
+            span.setAttribute('data-xpath', xpath);
+            span.setAttribute('data-start', start);
+            span.setAttribute('data-end', end);
+            //span.setAttribute('data-annotation-id', end);
+            span.setAttribute('data-date', annotation.date);
+            span.setAttribute('data-author', annotation.author);
+            span.setAttribute('data-fragment-in-document', range.toString());
+            span.setAttribute('data-fragment', annotation.o_label || annotation.o);
+            span.setAttribute('data-type', aColor);
+            span.setAttribute('data-type-label', aColorFromLabel);
+            span.setAttribute('data-equals', "{'init':"+equals.init+", 'final':"+equals.final+"}");
+            span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
+            span.setAttribute('class', 'annotation ' + aColor + ' ' +aColorFromLabel);
+            
+            //span.setAttribute('tooltip', 'Click or right-click on it to edit');
+            //span.setAttribute('tooltip-placement', 'top');
+            //span.setAttribute('tooltip-trigger', 'mouseenter');
+            span.setAttribute('id', 'snap_' + Date.now());
+            span.setAttribute('data-hash', 'hash_' + hash);
+            
+            span.setAttribute('create-context-menu','');
             
             var options = {
             	caseSensitive: caseSensitive,
-            	wholeWordsOnly: true,
+            	wholeWordsOnly: false,
             	withinRange: searchScopeRange,
             	direction: "forward" // This is redundant because "forward" is the default
             };
@@ -258,21 +283,31 @@
             var searchTerm = pieces;
             
             if (searchTerm !== "") {
-            	//searchTerm = new RegExp(searchTerm,"g");
+                searchTerm = String(searchTerm).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+            	searchTerm = new RegExp(searchTerm,"g");
             	
             	// Iterate over matches
-            	if(range.findText(searchTerm, {withinRange:options.withinRange,caseSensitive:true})) {
+            	if(range.findText(searchTerm, options)) {
             	    
             		// range now encompasses the first text match
-            		searchResultApplier.applyToRange(range);
-            		annotationColor.applyToRange(range)
+            		//searchResultApplier.applyToRange(range);
+            		//annotationColor.applyToRange(range)
+                    if (range.canSurroundContents(span)){
+                        //Prevent angular compiling twice
+                        jQuery(range.commonAncestorContainer).find('span').each(function(i,el){
+                            jQuery(this).removeAttr('ng-click');
+                        });
+            		    range.surroundContents(span)
+            		    // Collapse the range to the position immediately after the match
+            		    range.collapse(false);
+                    }
+            		else
+            		    $log.info('Cannot surround content');
             		
-            		// Collapse the range to the position immediately after the match
-            		range.collapse(false);
+            		if(range.commonAncestorContainer)
+                        $compile(span)(scope$);
             	}
             }
-            
-            $compile(range)(scope$);
             return range;
         }
 
