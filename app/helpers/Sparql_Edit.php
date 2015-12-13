@@ -8,21 +8,23 @@
 class Sparql_Edit
 {
 
+    protected $citparams
     protected $predicates;
     protected $labels;
     protected $retorica;
     protected $annotation;
     protected $graph1;
+    ;
 
     public function __construct()
     {
         
-        $citparams = array("Author"=>null,
-			   "PublicationYear"=>null,
-			   "Title"=>null,
-			   "DOI"=>null,
-			   "URL"=>null,
-			   );
+       $this->citparams = array("Author"=>null,
+		  	        "PublicationYear"=>null,
+			        "Title"=>null,
+			        "DOI"=>null,
+			        "URL"=>null,
+			       );
         
         
         
