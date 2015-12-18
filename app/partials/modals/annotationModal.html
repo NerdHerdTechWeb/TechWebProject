@@ -14,6 +14,11 @@
                 Annotations<a href><span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span></a>
             </uib-accordion-heading>
                 <form class="form-horizontal" novalidate>
+                    <!-- Annotation creation data  -->
+                    <ul class="list-group">
+                      <li class="list-group-item" style="border: none !important;"><span class="enphasis active">Author</span>: {{fragment.author}}</li>
+                      <li class="list-group-item" style="border: none !important;"><span class="enphasis active">Creation date</span>: {{fragment.date}}</li>
+                    </ul>
                     <div class="row">
                         <div class="col-md-12">
                             <span class="help-block">Fragment selected</span>
@@ -197,9 +202,6 @@
                                 ng-model="fragment.fragmentAType.citationParams.url">
                         </div>
                     </div>
-                    <small class="info">
-                        <span class="enphasis">Author</span>: {{fragment.author}}
-                    </small>
                     <div class="modal-footer" ng-if="logInStatus">
                         <button type="submit" class="btn btn-primary" ng-click="submit(fIndex)">Save</button>
                         <button type="submit" class="btn btn-info" ng-click="saveItLater(fIndex)">Save it later</button>

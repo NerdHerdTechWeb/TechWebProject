@@ -50,7 +50,7 @@
             $scope.fragmentCollection.push({
                 documentAType:{
                     type : ct.data('type'),
-                    subject : ct.data('fragment'),
+                    subject : ct.text(),
                     snapID : ct.attr('id'),
                     author : ct.data('type') == 'hasAuthor' ? ct.data('fragment') : '',
                     doi : ct.data('type') == 'hasDOI' ? ct.data('fragment') : '',
@@ -73,8 +73,8 @@
                         url: ''
                     }
                 },
-                dat: '',
-                fat: '',
+                dat: ct.data('type'),
+                fat: ct.data('type'),
                 fatr: '',
                 annotationTypeLiteral: $scope.documentProperties[ct.data('type')] || 'Author',
                 annotationFragmentTypeLiteral: $scope.fragmentProperties[ct.data('type')] || 'Reference',
@@ -82,6 +82,7 @@
                 rethoricTypeLiteral: 'Abstract',
                 showReferencesFields: ct.data('type') == 'references' ? true : false,
                 author: ct.data('author') ? ct.data('author') : user.userData().name,
+                date: ct.data('date'),
                 snapID : ct.attr('id')
             });
         });

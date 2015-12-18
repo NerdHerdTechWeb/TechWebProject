@@ -256,7 +256,7 @@
             span.setAttribute('data-date', annotation.date);
             span.setAttribute('data-author', annotation.author);
             span.setAttribute('data-fragment-in-document', range.toString());
-            span.setAttribute('data-fragment', annotation.o_label || annotation.o);
+            span.setAttribute('data-fragment', annotation.body_l || annotation.body);
             span.setAttribute('data-type', aColor);
             span.setAttribute('data-type-label', aColorFromLabel);
             span.setAttribute('data-equals', "{'init':"+equals.init+", 'final':"+equals.final+"}");

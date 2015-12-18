@@ -212,30 +212,39 @@ wgxpath.install();
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
-                jQuery(element).contextMenu({
-                    menuSelector: "#contextMenu",
-                    menuSelected: function (invokedOn, selectedMenu) {
-                        var data = selectedMenu.data();
-                        switch (data.action) {
-                            case 'remove':
-                                if(!invokedOn.data('highlight'))
-                                    annotationManager.removeInlineAnnotation(invokedOn.attr('id'),invokedOn.data('type'), {date:invokedOn.data('date')});
-                                invokedOn.contents().unwrap();
-                                break;
-                            case 'edit':
-                                invokedOn.trigger('click');
-                                break;
-                            case 'close':
-                                //close
-                                break;
-                            
-                            default:
-                                // close
+                var data = element.data('highlight');
+                if(!data){
+                    contextMenuApplyer("#contextMenuNoRemove")
+                }
+                else{
+                    contextMenuApplyer("#contextMenu")
+                }
+                
+                function contextMenuApplyer(menu){
+                    element.contextMenu({
+                        menuSelector: menu,
+                        menuSelected: function (invokedOn, selectedMenu) {
+                            var data = selectedMenu.data();
+                            switch (data.action) {
+                                case 'remove':
+                                    if(!invokedOn.data('highlight'))
+                                        annotationManager.removeInlineAnnotation(invokedOn.attr('id'),invokedOn.data('type'), {date:invokedOn.data('date')});
+                                    invokedOn.contents().unwrap();
+                                    break;
+                                case 'edit':
+                                    invokedOn.trigger('click');
+                                    break;
+                                case 'close':
+                                    //close
+                                    break;
+                                
+                                default:
+                                    // close
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
-            
         }
     }])
 
