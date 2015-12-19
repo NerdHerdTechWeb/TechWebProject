@@ -61,6 +61,7 @@
          * Show annotation modal(s) 
          */
         $scope.annotationModalOpened = 0;
+        
         $scope.showNotationModal = function(event){
             /**
              * Increment paginator counter
@@ -101,6 +102,11 @@
                 }
             );
         }
+        
+        $scope.$on('documentSearch',function(link, from, data, graph){
+            var graph = graph || 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540';
+            $scope.getMainDocument(link, from, data, null, graph);
+        });
 
         $scope.addItem = function (data, results, graph) {
             var resource = results[0];
