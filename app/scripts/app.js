@@ -141,7 +141,7 @@ wgxpath.install();
                         
                         var start = range.endContainer.parentNode.textContent.indexOf(rangy.getSelection().toString())
                         var end = start + (range.endOffset);
-                        var localPath = fragment.createLocalXPATH(range.commonAncestorContainer.parentNode);
+                        var localPath = fragment.createLocalXPATH(range.endContainer.parentNode);
                         var remotePath = fragment.createRemoteXPATH(localPath);
                         var xpath = remotePath;
                         var text = rangy.getSelection().toString();
@@ -202,7 +202,7 @@ wgxpath.install();
                     frag.removeData('highlight');
                     frag.data('type', args.currentNonLiteralType)
                     frag.removeAttr('tooltip').removeAttr('tooltip-placement').removeAttr('tooltip-trigger').removeAttr('create-context-menu');
-                    frag.removeClass('noType').addClass(args.currentNonLiteralType);
+                    frag.removeClass('noType').addClass(args.currentNonLiteralType).attr('data-type',args.currentNonLiteralType);
                 });
             }
         };

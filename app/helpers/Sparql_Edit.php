@@ -17,43 +17,42 @@ class Sparql_Edit
 
     public function __construct()
     {
-        
-       $this->citparams = array("Author"=>null,
-		  	        "PublicationYear"=>null,
-			        "Title"=>null,
-			        "DOI"=>null,
-			        "URL"=>null,
-			       );
-        
-        
-        
+
+        $this->citparams = array("Author" => null,
+                "PublicationYear" => null,
+                "Title" => null,
+                "DOI" => null,
+                "URL" => null,
+        );
+
+
         $this->labels = array("hasAuthor" => "Author",
-			      "hasPublicationYear" => "Publication Year",
-			      "hasTitle" => "Title",
-			      "hasDOI" => "DOI",			  
-			      "hasURL" => "URL",
-			      "hasComment" => "Comment",
-			      "denotesRhetoric" => "Rethoric",
-			      "references" => "Citation",
-			   );
-        
+                "hasPublicationYear" => "Publication Year",
+                "hasTitle" => "Title",
+                "hasDOI" => "DOI",
+                "hasURL" => "URL",
+                "hasComment" => "Comment",
+                "denotesRhetoric" => "Rethoric",
+                "references" => "Citation",
+        );
+
         $this->predicates = array("hasAuthor" => EasyRdf_Namespace::expand('dcterms:creator'),
-            "hasPublicationYear" => EasyRdf_Namespace::expand('fabio:hasPublicationYear'),
-            "hasTitle" => EasyRdf_Namespace::expand('dcterms:title'),
-            "hasDOI" => EasyRdf_Namespace::expand('prism:doi'),
-            "hasURL" => EasyRdf_Namespace::expand('fabio:hasURL'),
-            "hasComment" => EasyRdf_Namespace::expand('schema:comment'),
-            "denotesRhetoric" => EasyRdf_Namespace::expand('sem:denotes'),
-            "references" => EasyRdf_Namespace::expand('cito:cites'),
+                "hasPublicationYear" => EasyRdf_Namespace::expand('fabio:hasPublicationYear'),
+                "hasTitle" => EasyRdf_Namespace::expand('dcterms:title'),
+                "hasDOI" => EasyRdf_Namespace::expand('prism:doi'),
+                "hasURL" => EasyRdf_Namespace::expand('fabio:hasURL'),
+                "hasComment" => EasyRdf_Namespace::expand('schema:comment'),
+                "denotesRhetoric" => EasyRdf_Namespace::expand('sem:denotes'),
+                "references" => EasyRdf_Namespace::expand('cito:cites'),
         );
 
         $this->retorica = array("Abstract" => EasyRdf_Namespace::expand('sro:Abstract'),
-            "Introduction" => EasyRdf_Namespace::expand('deo:Introduction'),
-            "Materials" => EasyRdf_Namespace::expand('deo:Materials'),
-            "Methods" => EasyRdf_Namespace::expand('deo:Methods'),
-            "Results" => EasyRdf_Namespace::expand('deo:Results'),
-            "Discussion" => EasyRdf_Namespace::expand('sro:Discussion'),
-            "Conclusion" => EasyRdf_Namespace::expand('sro:Conclusion'),
+                "Introduction" => EasyRdf_Namespace::expand('deo:Introduction'),
+                "Materials" => EasyRdf_Namespace::expand('deo:Materials'),
+                "Methods" => EasyRdf_Namespace::expand('deo:Methods'),
+                "Results" => EasyRdf_Namespace::expand('deo:Results'),
+                "Discussion" => EasyRdf_Namespace::expand('sro:Discussion'),
+                "Conclusion" => EasyRdf_Namespace::expand('sro:Conclusion'),
         );
 
         $this->graph1 = new EasyRdf_Graph();
@@ -63,35 +62,42 @@ class Sparql_Edit
     {
 
         $date = DateTime::createFromFormat('U.u', microtime(true));
-        
+
 
         $this->annotation = array(
-            "type" => $queryParams['type'],
-            "label" => preg_replace('(has)','',$queryParams['type']),
-            "body" => array(
-                "label" => $queryParams['fragment'],
-                "subject" => null,
-                "predicate" => null,
-                "object" => $queryParams['fragment'],
-                "o_id" => null,
-                "o_label" => $queryParams['fragment'],
-            ),
-            "target" => array(
-                "source" => $queryParams['docSource'],
-                "id" => $queryParams['xpath'],
-                "start" => $queryParams['xpath'],
-                "endoffset" => $queryParams['end'],
-                "startoffset" => $queryParams['start'],
-            ),
-            "provenance" => array(
-                "author" => array(
-                    "id" => null,
-                    #"name" => "Fabio",
-                    "name" => $queryParams['username'],
-                    "email" => $queryParams['email'],
+                "type" => $queryParams['type'],
+                "label" => preg_replace('(has)', '', $queryParams['type']),
+                "body" => array(
+                        "label" => $queryParams['fragment'],
+                        "subject" => null,
+                        "predicate" => null,
+                        "object" => $queryParams['fragment'],
+                        "o_id" => null,
+                        "o_label" => $queryParams['fragment'],
                 ),
-                "time" => $date->format('Y-m-d\TH:i:s.u'),
-            ),
+                "target" => array(
+                        "source" => $queryParams['docSource'],
+                        "id" => $queryParams['xpath'],
+                        "start" => $queryParams['xpath'],
+                        "endoffset" => $queryParams['end'],
+                        "startoffset" => $queryParams['start'],
+                ),
+                "provenance" => array(
+                        "author" => array(
+                                "id" => null,
+                            #"name" => "Fabio",
+                                "name" => $queryParams['username'],
+                                "email" => $queryParams['email'],
+                        ),
+                        "time" => $date->format('Y-m-d\TH:i:s.u'),
+                ),
+        );
+        
+        $this->citparams = array("Author" =>  $queryParams['citationParams']['authors'],
+                "PublicationYear" =>  $queryParams['citationParams']['publicationDate'],
+                "Title" =>  $queryParams['citationParams']['documentTitle'],
+                "DOI" =>  $queryParams['citationParams']['doi'],
+                "URL" =>  $queryParams['citationParams']['url'],
         );
 
         return $this->prepareAnnotation();
@@ -107,8 +113,8 @@ class Sparql_Edit
          * Create id mail and label
          */
         $this->annotation["provenance"]["author"]['id'] = "mailto:" . $this->annotation["provenance"]["author"]["email"];
-	    //$this->annotation["label"] = $labels[$this->annotation["type"]];	
-	    $this->annotation["label"] = $this->annotation['label'];
+        //$this->annotation["label"] = $labels[$this->annotation["type"]];	
+        $this->annotation["label"] = $this->annotation['label'];
         //EXPRESSION WORK ITEM
 
         $this->graph1->addResource($work, 'rdf:type', EasyRdf_Namespace::expand('fabio:Work'));
@@ -161,9 +167,9 @@ class Sparql_Edit
 
             $this->graph1->addResource($o, EasyRdf_Namespace::expand('rdf:type'), EasyRdf_Namespace::expand('foaf:Person'));
 
-            $this->annotation["body"]["o_label"]= $this->annotation["body"]["object"];
-	        $this->annotation["body"]["label"]= $this->annotation["body"]["object"]." è un autore del documento";
-            
+            $this->annotation["body"]["o_label"] = $this->annotation["body"]["object"];
+            $this->annotation["body"]["label"] = $this->annotation["body"]["object"] . " è un autore del documento";
+
             $autore = trim($this->annotation["body"]["object"]);
 
             $firstname = preg_replace('/\W.*/', '', $autore);
@@ -182,26 +188,26 @@ class Sparql_Edit
         if ($this->annotation["type"] == "hasPublicationYear") {
 
             $s = $expression;
-            $this->annotation["body"]["label"]= "La data di pubblicazione è ". $this->annotation["body"]["object"];
+            $this->annotation["body"]["label"] = "La data di pubblicazione è " . $this->annotation["body"]["object"];
             $o = EasyRdf_Literal::create($this->annotation["body"]["object"], null, 'xsd:date');
         }
 
         if ($this->annotation["type"] == "hasTitle") {
 
             $s = $expression;
-            $this->annotation["body"]["label"]= "Il titolo del documento è " . $this->annotation["body"]["object"];
+            $this->annotation["body"]["label"] = "Il titolo del documento è " . $this->annotation["body"]["object"];
             $o = EasyRdf_Literal::create($this->annotation["body"]["object"], null, 'xsd:string');
         }
-        if ($annotation["type"] == "hasDOI"){
-	
-	    $s = $expression;
-	    $this->annotation["body"]["label"]= "Il DOI del documento è ". $this->annotation["body"]["object"];
-	    $o = EasyRdf_Literal::create($this->annotation["body"]["object"],null,'xsd:string');
-	}
+        if ($this->annotation["type"] == "hasDOI") {
+
+            $s = $expression;
+            $this->annotation["body"]["label"] = "Il DOI del documento è " . $this->annotation["body"]["object"];
+            $o = EasyRdf_Literal::create($this->annotation["body"]["object"], null, 'xsd:string');
+        }
         if ($this->annotation["type"] == "hasURL") {
 
             $s = $expression;
-            $this->annotation["body"]["label"]= "Un URL del documento è " . $this->annotation["body"]["object"];
+            $this->annotation["body"]["label"] = "Un URL del documento è " . $this->annotation["body"]["object"];
             $o = EasyRdf_Literal::create($this->annotation["body"]["object"], null, 'xsd:anyURL');
 
         }
@@ -214,7 +220,7 @@ class Sparql_Edit
             $temp = str_replace("[", "", $temp);
             $temp = str_replace("]", "", $temp);
 
-            $this->annotation["body"]["label"]= "Un Commento: ".$this->annotation["body"]["object"];
+            $this->annotation["body"]["label"] = "Un Commento: " . $this->annotation["body"]["object"];
             $s = $this->annotation["target"]["source"] . "#" . $temp . "-" . $this->annotation["target"]["startoffset"] . "-" . $this->annotation["target"]["endoffset"] . "_ver1";
 
 
@@ -229,9 +235,9 @@ class Sparql_Edit
             $s = $this->annotation["target"]["source"] . "#" . $temp . "-" . $this->annotation["target"]["startoffset"] . "-" . $this->annotation["target"]["endoffset"] . "_ver1";
 
             $o = $this->graph1->newBNode();
-            
+
             $this->annotation["body"]["o_label"] = $this->annotation["body"]["object"];
-            $this->annotation["body"]["label"]= "Il frammento denota: ".$this->annotation["body"]["object"];
+            $this->annotation["body"]["label"] = "Il frammento denota: " . $this->annotation["body"]["object"];
 
             $this->graph1->addResource($o, EasyRdf_Namespace::expand('rdf:type'), EasyRdf_Namespace::expand('skos:Concept'));
             $this->graph1->add($o, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($this->annotation["body"]["o_label"], null, 'xsd:string'));
@@ -252,43 +258,42 @@ class Sparql_Edit
         $this->graph1->addResource($statement, 'rdf:type', EasyRdf_Namespace::expand('rdf:Statement'));
         $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:subject'), $s);
         $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:predicate'), $p);
-        if ($this->annotation["type"] != "references") 
-		$this->graph1->add($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
-	else 
-    	{	
-	$this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
-	$cito = $o;
-	$el = NULL;
-	$this->graph1->addResource($cito, 'a',EasyRdf_Namespace::expand('fabio:Expression'));
-	$this->graph1->add($cito, EasyRdf_Namespace::expand('rdfs:label'),$annotation["body"]["object"]);
-	
-		 if (!is_null($citparams['Author'])){
-		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('dcterms:creator'),$this->citparams['Author']);
-				$el = "Autore:". $this->citparams['Author'];
-		 }
-		 if (!is_null($citparams['Title'])){
-		   		$this->graph1->add($cito, EasyRdf_Namespace::expand('dcterms:title'),$this->citparams['Title']);
-    				$el = $el . ", Titolo:". $this->citparams['Title'];
-		 }
-		 if (!is_null($citparams['PublicationYear'])){
-		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasPublicationYear'),$this->citparams['PublicationYear']);
-		 		$el = $el . ", Anno di Pubblicazione:". $this->citparams['PublicationYear'];
-		 }
-		 if (!is_null($citparams['URL'])){
-		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasURL'),$this->citparams['URL']);		 
-		 		$el = $el . ", URL:". $citparams['URL'];
-		 }
-		 if (!is_null($citparams['DOI'])){
-		 		$this->graph1->add($cito, EasyRdf_Namespace::expand('prism:doi'),$this->citparams['DOI']);
-		 		$el = $el . ", DOI:". $this->citparams['DOI'];
-		 }
-		if (is_null($el))
-				$label = "Questo frammento cita:". $this->annotation['body']['object'];
-		else
-				$label = $el;		 
-		 
-	}
-    	//	$this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);// add/addreousrce
+        if ($this->annotation["type"] != "references")
+            $this->graph1->add($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
+        else {
+            $this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);
+            $cito = $o;
+            $el = NULL;
+            $this->graph1->addResource($cito, 'a', EasyRdf_Namespace::expand('fabio:Expression'));
+            $this->graph1->add($cito, EasyRdf_Namespace::expand('rdfs:label'), $this->annotation["body"]["object"]);
+
+            if (!is_null($this->citparams['Author'])) {
+                $this->graph1->add($cito, EasyRdf_Namespace::expand('dcterms:creator'), $this->citparams['Author']);
+                $el = "Autore:" . $this->citparams['Author'];
+            }
+            if (!is_null($this->citparams['Title'])) {
+                $this->graph1->add($cito, EasyRdf_Namespace::expand('dcterms:title'), $this->citparams['Title']);
+                $el = $el . ", Titolo:" . $this->citparams['Title'];
+            }
+            if (!is_null($this->citparams['PublicationYear'])) {
+                $this->graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasPublicationYear'), $this->citparams['PublicationYear']);
+                $el = $el . ", Anno di Pubblicazione:" . $this->citparams['PublicationYear'];
+            }
+            if (!is_null($this->citparams['URL'])) {
+                $this->graph1->add($cito, EasyRdf_Namespace::expand('fabio:hasURL'), $this->citparams['URL']);
+                $el = $el . ", URL:" . $this->citparams['URL'];
+            }
+            if (!is_null($this->citparams['DOI'])) {
+                $this->graph1->add($cito, EasyRdf_Namespace::expand('prism:doi'), $this->citparams['DOI']);
+                $el = $el . ", DOI:" . $this->citparams['DOI'];
+            }
+            if (is_null($el))
+                $label = "Questo frammento cita:" . $this->annotation['body']['object'];
+            else
+                $label = $el;
+
+        }
+        //	$this->graph1->addResource($statement, EasyRdf_Namespace::expand('rdf:object'), $o);// add/addreousrce
         $this->graph1->add($statement, EasyRdf_Namespace::expand('rdfs:label'), EasyRdf_Literal::create($label, null, 'xs:string'));
 
         return $this;

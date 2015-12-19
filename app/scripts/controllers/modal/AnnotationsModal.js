@@ -13,6 +13,7 @@
         var dataset = fragmentText.currentTarget.dataset;
         
         var collection = jQuery('*[data-hash="'+dataset.hash+'"]');
+        var lastSelectedType = '';
 
         $scope.user = {};
         $scope.form = {};
@@ -47,6 +48,7 @@
         
         angular.forEach(collection, function(value, key) {
             var ct = jQuery(value);
+            var split = String(ct.data('fragment')).split(',')
             $scope.fragmentCollection.push({
                 documentAType:{
                     type : ct.data('type'),
@@ -66,11 +68,11 @@
                     comment : ct.data('type') == 'hasComment' ? ct.data('fragment') : '',
                     rethoric: 'abstract',
                     citationParams: {
-                        documentTitle: '',
-                        doi: '',
-                        publicationDate: '',
-                        authors: '',
-                        url: ''
+                        documentTitle: split[1],
+                        doi: split[4],
+                        publicationDate: split[2],
+                        authors: split[0],
+                        url: split[3]
                     }
                 },
                 dat: ct.data('type'),
@@ -101,6 +103,10 @@
                 "email": userData.email,
                 "username": userData.name
             });
+            
+            /* Sete last selectd type */
+            if(lastSelectedType)
+                angular.merge(form,{type:lastSelectedType});
             
             return form;
         }
@@ -161,6 +167,7 @@
          */
         $scope.selectDocumentAType = function (type, index) {
             
+            lastSelectedType = type;
             $scope.fragmentCollection[index].dat = type;
             $scope.fragmentCollection[index].documentAType.type = type;
             $scope.fragmentCollection[index].annotationTypeLiteral = $scope.documentProperties[type];
@@ -173,6 +180,7 @@
          */
         $scope.selectFragmentAType = function (type, index) {
             
+            lastSelectedType = type;
             $scope.fragmentCollection[index].fat = type;
             $scope.fragmentCollection[index].fragmentAType.type = type;
             $scope.fragmentCollection[index].annotationFragmentTypeLiteral = $scope.fragmentProperties[type];
@@ -190,6 +198,7 @@
          */
         $scope.selectFragmentRethoric = function (type, index) {
             
+            lastSelectedType = type;
             $scope.fragmentCollection[index].rethoricType = type;
             $scope.fragmentCollection[index].rethoricTypeLiteral = $scope.rethoricProperties[type];
             $scope.fragmentCollection[index].fragmentAType.rethoric = type;
