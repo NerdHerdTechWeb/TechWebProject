@@ -132,6 +132,23 @@ WHERE{
         $i = 0;
         foreach ($this->results as $row => $val) {
             foreach($val as $k => $v){
+                
+                if(strcasecmp('label',$k) == 0){
+                    if(strcasecmp($v,'Author') == 0 || strcasecmp($v,'Autore') == 0)
+                        $val->wtf = 'hasAuthor';
+                    if(strcasecmp($v,'Title') == 0 || strcasecmp($v,'Titolo') == 0)
+                        $val->wtf = 'hasTitle';
+                    if(strcasecmp($v,'PublicationYear') == 0 || strcasecmp($v,'AnnoPubblicazione') == 0)
+                        $val->wtf = 'hasPublicationYear';
+                    if(strcasecmp($v,'DOI') == 0)
+                        $val->wtf = 'hasDOI';
+                    if(strcasecmp($v,'Citation') == 0 || strcasecmp($v,'Citazione') == 0)
+                        $val->wtf = 'references';
+                    if(strcasecmp($v,'Comment') == 0 || strcasecmp($v,'Commento') == 0)
+                        $val->wtf = 'hasComment';
+                    if(strcasecmp($v,'Rhetoric') == 0 || strcasecmp($v,'Retorica') == 0)
+                        $val->wtf = 'denotesRhetoric';
+                }
 
                 if(strcasecmp('start',$k) == 0){
                     $newText = preg_replace('(tbody1_)','',$v);
