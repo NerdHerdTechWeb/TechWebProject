@@ -84,6 +84,8 @@
                 rethoricTypeLiteral: 'Abstract',
                 showReferencesFields: ct.data('type') == 'references' ? true : false,
                 author: ct.data('author') ? ct.data('author') : user.userData().name,
+                author_fullname: ct.data('author-fullname') ? ct.data('author-fullname') : user.userData().name,
+                author_email: ct.data('author-email') ? ct.data('author-email') : user.userData().email,
                 date: ct.data('date'),
                 snapID : ct.attr('id')
             });

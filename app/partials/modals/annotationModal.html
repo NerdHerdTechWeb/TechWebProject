@@ -16,8 +16,8 @@
                 <form class="form-horizontal" novalidate>
                     <!-- Annotation creation data  -->
                     <ul class="list-group">
-                      <li class="list-group-item" style="border: none !important;"><span class="enphasis active">Author</span>: {{fragment.author}}</li>
-                      <li class="list-group-item" style="border: none !important;"><span class="enphasis active">Creation date</span>: {{fragment.date}}</li>
+                      <li class="list-group-item" style="border: none !important;"><span class="enphasis active">Author</span>: {{fragment.author_email}}</li>
+                      <li class="list-group-item" style="border: none !important;"><span class="enphasis active">Creation date</span>: {{fragment.date | date:'M d, yyyy - HH:mm:ss'}}</li>
                     </ul>
                     <div class="row">
                         <div class="col-md-12">
@@ -62,11 +62,11 @@
                                                type="text" class="form-control" aria-label="...">
                                         <input ng-switch-when="hasPublicationYear"
                                                ng-model="fragment.documentAType.publicationYear"
-                                               tooltip="Typein a valid date ore choose one from wizard"
+                                               tooltip="Typein a custom description"
                                                tooltip-placement="top"
                                                tooltip-trigger="mouseenter"
-                                               placeholder="Typein a valid date ore choose one from wizard"
-                                               type="date" class="form-control" aria-label="...">
+                                               placeholder="Typein a custom description"
+                                               type="text" class="form-control" aria-label="...">
                                         <input ng-switch-when="hasTitle"
                                                ng-model="fragment.documentAType.title"
                                                tooltip="Type in a custom description"
@@ -167,7 +167,7 @@
                         <div class="col-md-6">
                             <label>Publication date</label>
                             <div class="input-group">
-                                <input type="date" name="publicationDate" class="form-control"
+                                <input type="text" name="publicationDate" class="form-control"
                                        placeholder="gg-mm-aaaa"
                                        ng-model="fragment.fragmentAType.citationParams.publicationDate"
                                        close-text="Close">

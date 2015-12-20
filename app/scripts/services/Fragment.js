@@ -255,6 +255,8 @@
             //span.setAttribute('data-annotation-id', end);
             span.setAttribute('data-date', annotation.date);
             span.setAttribute('data-author', annotation.author);
+            span.setAttribute('data-author-fullname', annotation.author_fullname);
+            span.setAttribute('data-author-email', annotation.author_email);
             span.setAttribute('data-fragment-in-document', range.toString());
             span.setAttribute('data-fragment', annotation.body_l || annotation.body);
             span.setAttribute('data-type', aColor);

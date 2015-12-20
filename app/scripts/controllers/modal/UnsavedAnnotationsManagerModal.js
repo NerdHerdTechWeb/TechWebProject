@@ -81,6 +81,8 @@
             rethoricTypeLiteral: 'Abstract',
             showReferencesFields: false,
             author: user.userData().name,
+            author_fullname: user.userData().name,
+            author_email: user.userData().email,
             date: '',
             snapID : ''
         };
@@ -253,6 +255,8 @@
         $scope.edit = function (row, type) {
             $scope.switchModifyView = true;
             
+            var citationsParams = row.citationParams || {};
+            
             $scope.fragmentCollection = {
                 documentAType:{
                     type : row.type,
@@ -271,11 +275,11 @@
                     comment : row.comment || '',
                     rethoric: 'abstract',
                     citationParams: {
-                        documentTitle: row.citationParams.documentTitle || '',
-                        doi: row.citationParams.doi || '',
-                        publicationDate:row.citationParams.publicationDate || '',
-                        authors: row.citationParams.authors || '',
-                        url: row.citationParams.url || ''
+                        documentTitle: citationsParams.documentTitle || '',
+                        doi: citationsParams.doi || '',
+                        publicationDate: citationsParams.publicationDate || '',
+                        authors: citationsParams.authors || '',
+                        url: citationsParams.url || ''
                     }
                 },
                 dat: row.type,
@@ -287,6 +291,8 @@
                 rethoricTypeLiteral: 'Abstract',
                 showReferencesFields: row.type == 'references' ? true : false,
                 author: row.author || '',
+                author_fullname: user.userData().name,
+                author_email: user.userData().email,
                 date: row.date || Date.now(),
                 snapID : row.snapID || ''
             };

@@ -90,7 +90,7 @@
                             <tr ng-repeat="row in rowCollection.date">
                                 <td>{{row.fragment}}</td>
                                 <td>
-                                    <button type="button" ng-click="edit(row.date, 'date')" class="btn btn-sm btn-info">
+                                    <button type="button" ng-click="edit(row, 'date')" class="btn btn-sm btn-info">
                                         <i class="glyphicon glyphicon-edit"></i>
                                     </button>
                                 </td>
@@ -301,11 +301,11 @@
                                        type="text" class="form-control" aria-label="...">
                                 <input ng-switch-when="hasPublicationYear"
                                        ng-model="fragmentCollection.documentAType.publicationYear"
-                                       tooltip="Typein a valid date ore choose one from wizard"
+                                       tooltip="Typein a custom description"
                                        tooltip-placement="top"
                                        tooltip-trigger="mouseenter"
-                                       placeholder="Typein a valid date ore choose one from wizard"
-                                       type="date" class="form-control" aria-label="...">
+                                       placeholder="Typein a custom description"
+                                       type="text" class="form-control" aria-label="...">
                                 <input ng-switch-when="hasTitle"
                                        ng-model="fragmentCollection.documentAType.title"
                                        tooltip="Type in a custom description"
@@ -406,7 +406,7 @@
                 <div class="col-md-6">
                     <label>Publication date</label>
                     <div class="input-group">
-                        <input type="date" name="publicationDate" class="form-control"
+                        <input type="text" name="publicationDate" class="form-control"
                                placeholder="gg-mm-aaaa"
                                ng-model="fragmentCollection.fragmentAType.citationParams.publicationDate"
                                close-text="Close">

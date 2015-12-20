@@ -155,6 +155,8 @@ wgxpath.install();
                         span.setAttribute('data-annotation-id', end);
                         span.setAttribute('data-date', $filter('date')(Date.now(), 'yyyy-MM-dd'));
                         span.setAttribute('data-author', user.userData().email);
+                        span.setAttribute('data-author-fullname', user.userData().name);
+                        span.setAttribute('data-author-email', user.userData().email);
                         span.setAttribute('data-fragment-in-document', text);
                         span.setAttribute('data-fragment', text);
                         span.setAttribute('data-type', 'noType');
