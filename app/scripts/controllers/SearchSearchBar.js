@@ -9,14 +9,18 @@
     function searchSearchBar(annotationManager, $scope, $rootScope, $window, $log) {
 
         $scope.search = '';
+        $rootScope.documentScraped = false;
         
         $scope.doSearch = function(val){
-            
-            $rootScope.$broadcast('getDocumentFromSearchField', $scope.search);
-            
+            if(val)
+                $rootScope.$broadcast('getDocumentFromSearchField', $scope.search);
+        }
+        
+        $scope.$on('noAnnotationsFounded',function(event, val){
             annotationManager.scraping(val).then(function(results){
                 $log.info(results);
-            });
-        }
+                $rootScope.documentScraped = true;
+            }); 
+        });
     }
 })();

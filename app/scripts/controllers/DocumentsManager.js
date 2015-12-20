@@ -173,6 +173,10 @@
                     img.addClass('img-replaced');
                 });
                 var rLe = results.length;
+                if(rLe <= 0){
+                    /* SearchBar controller */
+                    $rootScope.$broadcast('noAnnotationsFounded', $scope.documentData.link);
+                }
                 for(var key in results){
                     if(key < rLe)
                         results[key].localPath = fragment.createLocalPathFromRemote(results[key].start, from);
