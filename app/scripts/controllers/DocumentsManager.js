@@ -25,6 +25,11 @@
         $scope.skCircle = jQuery('.sk-circle');
         $scope.fragmentText = '';
         
+        var documentDataLink = '';
+        var documentDataImagePath = '';
+        var documentDataGraph = '';
+        var documentDataFrom = ''; 
+        
         $scope.status = {
             isFirstOpen: true,
             isFirstDisabled: false
@@ -103,9 +108,29 @@
             );
         }
         
-        $scope.$on('documentSearch',function(link, from, data, graph){
+        $scope.$on('getDocumentFromSearchField',function(event, link){
             var graph = graph || 'http://vitali.web.cs.unibo.it/raschietto/graph/ltw1540';
-            $scope.getMainDocument(link, from, data, null, graph);
+            var regex = /journals|dlib|rivista-statistica/g;
+            var m = String(link).match(regex);
+            var from = 'dlib';
+            if(m)
+                from = m[0];
+                
+            var spl = String(link).split('/');
+            spl.splice(-1,1);
+            var imagepath = spl.join('/') + '/';
+            
+            documentDataFrom = from === 'rivista-statistica' ? 'rstat' : from;
+            documentDataImagePath = imagepath;
+            documentDataLink = link;
+            documentDataGraph = graph;
+            var data = {
+                from: documentDataFrom,
+                imagepath: imagepath,
+                label: '',
+                link: link
+            }
+            $scope.getMainDocument(link, documentDataFrom, data, null, graph);
         });
 
         $scope.addItem = function (data, results, graph) {
@@ -124,7 +149,10 @@
         }
 
         $scope.$watch('documentsLoaded',function(){
-            typeof $scope.documentData !== 'undefined' ? $scope.loadAnnotations($scope.documentData.link, $scope.graph, $scope.documentData.from) : '';
+            typeof $scope.documentData !== 'undefined' ? $scope.loadAnnotations(
+                $scope.documentData.link || documentDataLink, 
+                $scope.graph || documentDataGraph,
+                $scope.documentData.from || documentDataFrom) : '';
             $rootScope.$broadcast('loadMeta',$scope.documentData);
         });
         
