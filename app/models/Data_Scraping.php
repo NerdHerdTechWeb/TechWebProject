@@ -365,6 +365,8 @@ class Data_Scraping
             $newPaper['date']['xpath'] = $xpath->query("//p[1]", $r)->item(0)->getNodePath();
             $newPaper['date']['start'] = $xpath->query("//p[1]/text()", $r)->item(0)->length - 4;
             $newPaper['date']['end'] = $xpath->query("//p[1]/text()", $r)->item(0)->length;
+            $newPaper['date']['type'] = 'hasPublicationYear';
+            $newPaper['date']['fragment'] = $newPaper['date']['date'];
 
             $final['date'][] = $newPaper['date'];
 
@@ -372,6 +374,8 @@ class Data_Scraping
             $newPaper['title']['xpath'] = $xpath->query("//h3[2]", $r)->item(0)->getNodePath();
             $newPaper['title']['start'] = "0";
             $newPaper['title']['end'] = $xpath->query("//h3[2]/text()", $r)->item(0)->length;
+            $newPaper['title']['type'] = 'hasTitle';
+            $newPaper['title']['fragment'] = $newPaper['title']['title'];
 
             $final['title'][] = $newPaper['title'];
 
@@ -404,6 +408,8 @@ class Data_Scraping
                     $base['author']['xpath'] = $xpath->query("//p[2]", $r)->item(0)->getNodePath();
                     $base['author']['start'] = stripos($oldPaper, $newPaper['author'][$key]);
                     $base['author']['end'] = $base['author']['start'] + strlen($newPaper['author'][$key]);
+                    $base['author']['type'] = 'hasAuthor';
+                    $base['author']['fragment'] = $newPaper['author'][$key];
 
                     $final['author'][] = $base['author'];
                 } else {
@@ -411,6 +417,8 @@ class Data_Scraping
                     $basedoi['doi']['xpath'] = $xpath->query("//p[2]", $r)->item(0)->getNodePath();
                     $basedoi['doi']['start'] = stripos($oldPaper, $newPaper['author'][$key]);
                     $basedoi['doi']['end'] = $basedoi['doi']['start'] + strlen($newPaper['author'][$key]);
+                    $basedoi['doi']['type'] = 'hasDOI';
+                    $basedoi['doi']['fragment'] = $basedoi['doi']['doi'];
 
                     $final['doi'][] = $basedoi['doi'];
                 }
@@ -423,6 +431,8 @@ class Data_Scraping
                 $newPaper['references']['xpath'] = $xpath->query("//p/a[@name]", $r)->item($key)->parentNode->getNodePath();
                 $newPaper['references']['start'] = "0";
                 $newPaper['references']['end'] = strlen($newPaper['references']['reference']);
+                $newPaper['references']['type'] = 'references';
+                $newPaper['references']['fragment'] = $newPaper['references']['reference'];
 
                 $final['references'][] = $newPaper['references'];
             }
@@ -461,6 +471,8 @@ class Data_Scraping
             $newPaper['title']['xpath'] = $xpath->query("//*[@id='articleTitle']", $r)->item(0)->getNodePath();
             $newPaper['title']['start'] = "0";
             $newPaper['title']['end'] = strlen($xpath->query("//*[@id='articleTitle']", $r)->item(0)->nodeValue);
+            $newPaper['title']['type'] = 'hasTitle';
+            $newPaper['title']['fragment'] = $newPaper['title']['title'];
 
             $finale['title'][] = $newPaper['title'];
 
@@ -481,6 +493,8 @@ class Data_Scraping
                 $basea['author']['xpath'] = $xpath->query("//*[@id='authorString']", $r)->item(0)->getNodePath();
                 $basea['author']['start'] = stripos($oldPaper, $newPaper['author'][$key]);
                 $basea['author']['end'] = $basea['author']['start'] + strlen($newPaper['author'][$key]);
+                $basea['author']['type'] = 'hasAuthor';
+                $basea['author']['fragment'] = $basea['author']['author'];
 
                 $finale['author'][] = $basea['author'];
             }
@@ -496,6 +510,8 @@ class Data_Scraping
                 $baser['references']['xpath'] = $xpath->query("//*[@id='articleCitations']//p", $r)->item($key)->getNodePath();
                 $baser['references']['start'] = "0";
                 $baser['references']['end'] = strlen($baser['references']['reference']);
+                $baser['references']['type'] = 'references';
+                $baser['references']['fragment'] = $baser['references']['reference'];
 
                 $finale['references'][] = $baser['references'];
             }
@@ -504,6 +520,8 @@ class Data_Scraping
             $newPaper['doi']['xpath'] = $xpath->query("//*[@id='pub-id::doi']", $r)->item(0)->getNodePath();
             $newPaper['doi']['start'] = "0";
             $newPaper['doi']['end'] = strlen($xpath->query("//*[@id='pub-id::doi']", $r)->item(0)->nodeValue);
+            $newPaper['doi']['type'] = 'hasDOI';
+            $newPaper['doi']['fragment'] = $newPaper['doi']['doi'];
 
             $finale['doi'][] = $newPaper['doi'];
         }

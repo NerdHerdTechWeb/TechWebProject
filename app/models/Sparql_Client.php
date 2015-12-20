@@ -73,8 +73,8 @@ WHERE{
 		?annotation  rdf:type oa:Annotation ;
 			oa:annotatedAt ?date ;
 			oa:annotatedBy ?author .
-		OPTIONAL { ?author foaf:name <{$defaults['author_fullname']}> }
-		OPTIONAL { ?author schema:email <{$defaults['author_email']}>}
+		OPTIONAL { ?author foaf:name ?author_fullname }
+		OPTIONAL { ?author schema:email ?author_email }
 		OPTIONAL { ?annotation rdfs:label ?label }
 		OPTIONAL { ?annotation rsch:type ?wtf }
 		OPTIONAL { ?annotation oa:hasBody ?body }

@@ -16,6 +16,13 @@
                 $rootScope.$broadcast('getDocumentFromSearchField', $scope.search);
         }
         
+        $scope.doScraping = function(val){
+            annotationManager.scraping(val).then(function(results){
+                $log.info(results);
+                $rootScope.documentScraped = true;
+            }); 
+        }
+        
         $scope.$on('noAnnotationsFounded',function(event, val){
             annotationManager.scraping(val).then(function(results){
                 $log.info(results);

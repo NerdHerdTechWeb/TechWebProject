@@ -195,17 +195,23 @@
                         </div>
                     </div>
                     <div class="row" ng-if="fragment.showReferencesFields">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label>URL Reference</label>
                             <input type="url" name="url" class="form-control"
                                 placeholder="Url of the document"
                                 ng-model="fragment.fragmentAType.citationParams.url">
                         </div>
+                        <div class="col-md-6">
+                            <label>Title</label>
+                            <input type="text" name="documentTitle" class="form-control"
+                                   placeholder="Title of the document"
+                                   ng-model="fragmentCollection.fragmentAType.citationParams.documentTitle">
+                        </div>
                     </div>
                     <div class="modal-footer" ng-if="logInStatus">
-                        <button type="submit" class="btn btn-primary" ng-click="submit(fIndex)">Save</button>
-                        <button type="submit" class="btn btn-info" ng-click="saveItLater(fIndex)">Save it later</button>
-                        <button type="submit" class="btn btn-info" ng-click="submit(fIndex)">Change target</button>
+                        <button type="submit" class="btn btn-primary" ng-click="submit(fIndex)">Modify</button>
+                        <button type="submit" class="btn btn-info" ng-click="saveItLater(fIndex)">Save it for later</button>
+                        <!-- <button type="submit" class="btn btn-info" ng-click="submit(fIndex)">Change target</button> -->
                         <!-- <button type="submit" class="btn btn-primary" ng-click="submit('update')">Update</button> -->
                         <!-- <button type="submit" class="btn btn-danger" ng-click="submit(fIndex)">Remove</button> -->
                     </div>

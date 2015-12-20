@@ -202,7 +202,7 @@ wgxpath.install();
                     frag.removeData('highlight');
                     frag.data('type', args.currentNonLiteralType)
                     frag.removeAttr('tooltip').removeAttr('tooltip-placement').removeAttr('tooltip-trigger').removeAttr('create-context-menu');
-                    frag.removeClass('noType').addClass(args.currentNonLiteralType).attr('data-type',args.currentNonLiteralType);
+                    frag.removeClass('noType').addClass(args.currentNonLiteralType).attr('data-type', args.currentNonLiteralType);
                 });
             }
         };

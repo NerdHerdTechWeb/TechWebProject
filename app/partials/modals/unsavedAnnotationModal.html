@@ -1,259 +1,455 @@
-<div ng-if="!switchLoginView">
+<div class="modal-body" ng-if="!switchModifyView">
     <div class="modal-header">
         <button class="btn btn-warning pull-right" ng-click="cancel()">Close</button>
         <h3 class="modal-title">Annotator editor</h3>
-        <small ng-if="!logInStatus" style="color: red;">If you want edit this annotations you must logged in</small>
     </div>
+    <form class="form-horizontal" novalidate>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <uib-tabset justified="true">
+                    <uib-tab>
+                        <uib-tab-heading>
+                            Author <span class="badge">{{(rowCollection.author).length}}</span>
+                        </uib-tab-heading>
+                        <table st-table="rowCollection" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Author</th>
+                                <th>Modify</th>
+                                <th>Save</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="row in rowCollection.author">
+                                <td>{{row.fragment}}</td>
+                                <td>
+                                    <button type="button" ng-click="edit(row, 'author')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="save(row, 'author')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-save"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="removeRow(row, 'author')" class="btn btn-sm btn-danger">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading>
+                            Comment <span class="badge">{{(rowCollection.comment).length}}</span>
+                        </uib-tab-heading>
+                        <table st-table="rowCollection" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Comment</th>
+                                <th>Modify</th>
+                                <th>Save</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="row in rowCollection.comment">
+                                <td>{{row.fragment}}</td>
+                                <td>
+                                    <button type="button" ng-click="edit(row, 'comment')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="save(row, 'comment')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-save"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="removeRow(row, 'comment')" class="btn btn-sm btn-danger">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading>
+                            Publication year <span class="badge">{{(rowCollection.date).length}}</span>
+                        </uib-tab-heading>
+                        <table st-table="rowCollection" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Modify</th>
+                                <th>Save</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="row in rowCollection.date">
+                                <td>{{row.fragment}}</td>
+                                <td>
+                                    <button type="button" ng-click="edit(row.date, 'date')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="save(row.date, 'date')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-save"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="removeRow(row.date, 'date')" class="btn btn-sm btn-danger">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading>
+                            References <span class="badge">{{(rowCollection.references).length}}</span>
+                        </uib-tab-heading>
+                        <table st-table="rowCollection" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>References</th>
+                                <th>Modify</th>
+                                <th>Save</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="row in rowCollection.references">
+                                <td>{{row.fragment}}</td>
+                                <td>
+                                    <button type="button" ng-click="edit(row, 'reference')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="save(row, 'reference')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-save"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="removeRow(row, 'reference')" class="btn btn-sm btn-danger">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading>
+                            Title <span class="badge">{{(rowCollection.title).length}}</span>
+                        </uib-tab-heading>
+                        <table st-table="rowCollection" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Modify</th>
+                                <th>Save</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="row in rowCollection.title">
+                                <td>{{row.fragment}}</td>
+                                <td>
+                                    <button type="button" ng-click="edit(row, 'title')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="save(row.title, 'title')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-save"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="removeRow(row.title, 'title')" class="btn btn-sm btn-danger">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading>
+                            URL <span class="badge">{{(rowCollection.url).length}}</span>
+                        </uib-tab-heading>
+                        <table st-table="rowCollection" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>URL</th>
+                                <th>Modify</th>
+                                <th>Save</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="row in rowCollection.url">
+                                <td>{{row.fragment}}</td>
+                                <td>
+                                    <button type="button" ng-click="edit(row, 'url')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="save(row, 'url')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-save"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="removeRow(row, 'url')" class="btn btn-sm btn-danger">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading>
+                            DOI <span class="badge">{{(rowCollection.doi).lenght}}</span>
+                        </uib-tab-heading>
+                        <table st-table="rowCollection" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>DOI</th>
+                                <th>Modify</th>
+                                <th>Save</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="row in rowCollection.doi">
+                                <td>{{row.fragment}}</td>
+                                <td>
+                                    <button type="button" ng-click="edit(row, 'doi')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="save(row.doi, 'doi')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-save"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="removeRow(row.doi, 'doi')" class="btn btn-sm btn-danger">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" ng-click="saveAll(rowCollection)">Save all</button>
+            <button type="submit" class="btn btn-danger" ng-click="removeAll(rowCollection)">Remove all</button>
+        </div>
+    </form>
+</div>
+<!-- default view - list -->
 
+
+<div ng-if="switchModifyView">
     <div class="modal-body">
+        <div class="modal-header">
+            <button class="btn btn-warning pull-right" ng-click="switchToListView()">Return</button>
+            <h3 class="modal-title">Annotator editor</h3>
+        </div>
         <form class="form-horizontal" novalidate>
             <div class="row">
-
-            </div>
-            <div class="row">
                 <div class="col-md-12">
-                    <uib-tabset justified="true">
-                        <uib-tab>
-                            <uib-tab-heading>
-                                Author <span class="badge">{{(rowCollection.author).length}}</span>
-                            </uib-tab-heading>
-                            <table st-table="rowCollection" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Author</th>
-                                    <th>Modify</th>
-                                    <th>Save</th>
-                                    <th>Delete</th>
-                                </tr>
-                                </thead>
-                                <tr ng-repeat="row in rowCollection.author">
-                                    <td>{{row.fragment}}</td>
-                                    <td>
-                                        <button type="button" ng-click="edit(row, 'author')" class="btn btn-sm btn-info"> 
-                                            <i class="glyphicon glyphicon-edit"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="save(row, 'author')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-save"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="removeRow(row, 'author')" class="btn btn-sm btn-danger">
-                                            <i class="glyphicon glyphicon-remove-circle"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </uib-tab>
-                        <uib-tab>
-                            <uib-tab-heading>
-                                Comment <span class="badge">{{(rowCollection.comment).length}}</span>
-                            </uib-tab-heading>
-                            <table st-table="rowCollection" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Comment</th>
-                                    <th>Modify</th>
-                                    <th>Save</th>
-                                    <th>Delete</th>
-                                </tr>
-                                </thead>
-                                <tr ng-repeat="row in rowCollection.comment">
-                                    <td>{{row.fragment}}</td>
-                                    <td>
-                                        <button type="button" ng-click="edit(row, 'comment')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-edit"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="save(row, 'comment')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-save"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="removeRow(row, 'comment')" class="btn btn-sm btn-danger">
-                                            <i class="glyphicon glyphicon-remove-circle"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </uib-tab>
-                        <uib-tab>
-                            <uib-tab-heading>
-                                Publication year <span class="badge">{{(rowCollection.date).length}}</span>
-                            </uib-tab-heading>
-                            <table st-table="rowCollection" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Modify</th>
-                                    <th>Save</th>
-                                    <th>Delete</th>
-                                </tr>
-                                </thead>
-                                <tr ng-repeat="row in rowCollection.date">
-                                    <td>{{row.fragment}}</td>
-                                    <td>
-                                        <button type="button" ng-click="edit(row.date, 'date')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-edit"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="save(row.date, 'date')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-save"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="removeRow(row.date, 'date')" class="btn btn-sm btn-danger">
-                                            <i class="glyphicon glyphicon-remove-circle"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </uib-tab>
-                        <uib-tab>
-                            <uib-tab-heading>
-                                References <span class="badge">{{(rowCollection.references).length}}</span>
-                            </uib-tab-heading>
-                            <table st-table="rowCollection" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>References</th>
-                                    <th>Modify</th>
-                                    <th>Save</th>
-                                    <th>Delete</th>
-                                </tr>
-                                </thead>
-                                <tr ng-repeat="row in rowCollection.references">
-                                    <td>{{row.fragment}}</td>
-                                    <td>
-                                        <button type="button" ng-click="edit(row, 'reference')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-edit"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="save(row, 'reference')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-save"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="removeRow(row, 'reference')" class="btn btn-sm btn-danger">
-                                            <i class="glyphicon glyphicon-remove-circle"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </uib-tab>
-                        <uib-tab>
-                            <uib-tab-heading>
-                                Title <span class="badge">{{(rowCollection.title).length}}</span>
-                            </uib-tab-heading>
-                            <table st-table="rowCollection" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Modify</th>
-                                    <th>Save</th>
-                                    <th>Delete</th>
-                                </tr>
-                                </thead>
-                                <tr ng-repeat="row in rowCollection.title">
-                                    <td>{{row.fragment}}</td>
-                                    <td>
-                                        <button type="button" ng-click="edit(row.title, 'title')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-edit"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="save(row.title, 'title')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-save"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="removeRow(row.title, 'title')" class="btn btn-sm btn-danger">
-                                            <i class="glyphicon glyphicon-remove-circle"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </uib-tab>
-                        <uib-tab>
-                            <uib-tab-heading>
-                                URL <span class="badge">{{(rowCollection.url).length}}</span>
-                            </uib-tab-heading>
-                            <table st-table="rowCollection" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>URL</th>
-                                    <th>Modify</th>
-                                    <th>Save</th>
-                                    <th>Delete</th>
-                                </tr>
-                                </thead>
-                                <tr ng-repeat="row in rowCollection.url">
-                                    <td>{{row.fragment}}</td>
-                                    <td>
-                                        <button type="button" ng-click="edit(row, 'url')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-edit"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="save(row, 'url')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-save"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="removeRow(row, 'url')" class="btn btn-sm btn-danger">
-                                            <i class="glyphicon glyphicon-remove-circle"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </uib-tab>
-                        <uib-tab>
-                            <uib-tab-heading>
-                                DOI <span class="badge">{{(rowCollection.doi).lenght}}</span>
-                            </uib-tab-heading>
-                            <table st-table="rowCollection" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>DOI</th>
-                                    <th>Modify</th>
-                                    <th>Save</th>
-                                    <th>Delete</th>
-                                </tr>
-                                </thead>
-                                <tr ng-repeat="row in rowCollection.doi">
-                                    <td>{{row.fragment}}</td>
-                                    <td>
-                                        <button type="button" ng-click="edit(row.doi, 'doi')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-edit"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="save(row.doi, 'doi')" class="btn btn-sm btn-info">
-                                            <i class="glyphicon glyphicon-save"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="removeRow(row.doi, 'doi')" class="btn btn-sm btn-danger">
-                                            <i class="glyphicon glyphicon-remove-circle"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </uib-tab>
-                    </uib-tabset>
+                    <span class="help-block">Fragment selected</span>
+                    <textarea class="form-control"
+                              name="subject"
+                              rows="3"
+                              ng-model="fragmentCollection.documentAType.subject"
+                              tooltip="Fragment selected. Readonly"
+                              tooltip-placement="top"
+                              tooltip-trigger="mouseenter"
+                              readonly></textarea>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="help-block">Choose an annotation type to associate on the document</span>
+                            <div class="input-group" ng-switch on="fragmentCollection.dat">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false">{{fragmentCollection.annotationTypeLiteral}} <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat="(key, docP) in documentProperties">
+                                            <a ng-click="selectDocumentAType(key, fIndex)" data-type="{{key}}" href>{{docP}}</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+                                <input ng-switch-when="hasAuthor"
+                                       ng-model="fragmentCollection.documentAType.author"
+                                       tooltip="Type in a custom description"
+                                       tooltip-placement="top"
+                                       tooltip-trigger="mouseenter"
+                                       placeholder="Type in a valid author name" type="text" class="form-control" aria-label="...">
+                                <input ng-switch-when="hasDOI"
+                                       ng-model="fragmentCollection.documentAType.doi"
+                                       tooltip="Type in a custom description"
+                                       tooltip-placement="top"
+                                       tooltip-trigger="mouseenter"
+                                       placeholder="Type in a custom description"
+                                       type="text" class="form-control" aria-label="...">
+                                <input ng-switch-when="hasPublicationYear"
+                                       ng-model="fragmentCollection.documentAType.publicationYear"
+                                       tooltip="Typein a valid date ore choose one from wizard"
+                                       tooltip-placement="top"
+                                       tooltip-trigger="mouseenter"
+                                       placeholder="Typein a valid date ore choose one from wizard"
+                                       type="date" class="form-control" aria-label="...">
+                                <input ng-switch-when="hasTitle"
+                                       ng-model="fragmentCollection.documentAType.title"
+                                       tooltip="Type in a custom description"
+                                       tooltip-placement="top"
+                                       tooltip-trigger="mouseenter"
+                                       placeholder="Type in a custom description"
+                                       type="text" class="form-control" aria-label="...">
+                                <input ng-switch-when="hasURL"
+                                       ng-model="fragmentCollection.documentAType.url"
+                                       tooltip="Type in a custom description"
+                                       tooltip-placement="top"
+                                       tooltip-trigger="mouseenter"
+                                       placeholder="Type in a custom description"
+                                       type="url" name="url" class="form-control" aria-label="...">
+                                <div ng-show="form.$submitted || form.$touched">
+                                    <span class="text-danger" ng-show="form.url.$error.url">This is not a valid url.</span>
+                                </div>
+                                <input ng-switch-when="references"
+                                       ng-model="fragmentCollection.documentAType.references"
+                                       tooltip="Type in a custom description"
+                                       tooltip-placement="top"
+                                       tooltip-trigger="mouseenter"
+                                       placeholder="Type in a custom description"
+                                       type="text" class="form-control" aria-label="...">
+                                <input ng-switch-default
+                                       ng-model="fragmentCollection.documentAType.author"
+                                       tooltip="Type in a custom description"
+                                       tooltip-placement="top"
+                                       tooltip-trigger="mouseenter"
+                                       placeholder="Type in a custom description" type="text" class="form-control" aria-label="...">
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                        <!-- Fragment annotation -->
+                        <div class="col-md-6">
+                            <span class="help-block">Choose an annotation type to associate on the fragment</span>
+                            <div class="input-group" ng-switch on="fragmentCollection.fat">
+                                <div ng-if="fragmentCollection.fat === 'denotesRhetoric'" class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">{{fragmentCollection.rethoricTypeLiteral}} <span class="caret"></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-left">
+                                        <li ng-repeat="(key, docP) in rethoricProperties">
+                                            <a ng-click="selectFragmentRethoric(key, fIndex)" data-type="{{key}}" href>{{docP}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <input ng-switch-when="hasCitation"
+                                       ng-disabled="showReferencesFields"
+                                       ng-model="fragmentCollection.fragmentAType.citation"
+                                       tooltip="Type in a custom description"
+                                       tooltip-placement="top"
+                                       tooltip-trigger="mouseenter"
+                                       placeholder="Type in a custom description"
+                                       type="text" class="form-control" aria-label="...">
+                                <input ng-switch-when="hasComment"
+                                       ng-model="fragmentCollection.fragmentAType.comment"
+                                       tooltip="Type in a comment for the fragment"
+                                       tooltip-placement="top"
+                                       tooltip-trigger="mouseenter"
+                                       placeholder="Type in a comment for the fragment"
+                                       type="text" class="form-control" aria-label="...">
+                                <input ng-switch-when="denotesRhetoric"
+                                       ng-model="fragmentCollection.fragmentAType.rethoric.selected"
+                                       disabled
+                                       placeholder="Choose a rethoric type on the left"
+                                       type="text" class="form-control" aria-label="...">
+                                <input ng-switch-default
+                                       disabled
+                                       ng-model="fragmentCollection.fragmentAType.citation"
+                                       placeholder="Choose the fragment type"
+                                       type="text" class="form-control" aria-label="...">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">{{fragmentCollection.annotationFragmentTypeLiteral}} <span class="caret"></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li ng-repeat="(key, docP) in fragmentProperties">
+                                            <a ng-click="selectFragmentAType(key, fIndex)" data-type="{{key}}" href>{{docP}}</a>
+                                        </li>
+                                    </ul>
+                                </div><!-- /btn-group -->
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </div><!-- /.row -->
+                </div>
+            </div>
+
+            <!-- References -->
+            <h2 class="text-info" ng-if="fragmentCollection.showReferencesFields">Citations params</h2>
+            <div class="row" ng-if="showReferencesFields">
+                <div class="col-md-12">
+                    <label>Document Title</label>
+                    <input type="text" name="title" class="form-control"
+                           ng-model="fragmentCollection.fragmentAType.citationParams.documentTitle">
+                </div>
+            </div>
+            <div class="row" ng-if="fragmentCollection.showReferencesFields">
+                <div class="col-md-6">
+                    <label>Publication date</label>
+                    <div class="input-group">
+                        <input type="date" name="publicationDate" class="form-control"
+                               placeholder="gg-mm-aaaa"
+                               ng-model="fragmentCollection.fragmentAType.citationParams.publicationDate"
+                               close-text="Close">
+                        <span class="input-group-btn">
+                            <button type="button"
+                                    class="btn btn-default">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label>DOI</label>
+                    <input type="text" name="doi" class="form-control"
+                           placeholder="DOI"
+                           ng-model="fragmentCollection.fragmentAType.citationParams.doi">
+                </div>
+            </div>
+            <div class="row" ng-if="fragmentCollection.showReferencesFields">
+                <div class="col-md-12">
+                    <label>Authors</label>
+                    <input type="text" name="authors" class="form-control"
+                           placeholder="Atuhors name separated by comma"
+                           ng-model="fragmentCollection.fragmentAType.citationParams.authors">
+                </div>
+            </div>
+            <div class="row" ng-if="fragmentCollection.showReferencesFields">
+                <div class="col-md-6">
+                    <label>URL Reference</label>
+                    <input type="url" name="url" class="form-control"
+                           placeholder="Url of the document"
+                           ng-model="fragmentCollection.fragmentAType.citationParams.url">
+                </div>
+                <div class="col-md-6">
+                    <label>Title</label>
+                    <input type="text" name="documentTitle" class="form-control"
+                           placeholder="Title of the document"
+                           ng-model="fragmentCollection.fragmentAType.citationParams.documentTitle">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" ng-click="saveAll(rowCollection)">Save all</button>
-                <button type="submit" class="btn btn-danger" ng-click="removeAll(rowCollection)">Remove all</button>
+                <button type="submit" class="btn btn-primary" ng-click="submit(fIndex)">Modify</button>
             </div>
         </form>
     </div>
-</div>
-<div ng-if="switchLoginView">
-    <div ng-include src="'/app/partials/modals/userLoginModal.html'"></div>
 </div>

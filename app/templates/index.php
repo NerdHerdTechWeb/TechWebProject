@@ -49,6 +49,13 @@
                     <input type="text" class="form-control" placeholder="Search" ng-model="search">
                 </div>
                 <button type="submit" class="btn btn-default" ng-click="doSearch(search)"><span class="glyphicon glyphicon-search"></span></button>
+                
+                <button type="button" class="btn btn-default navbar-btn"
+                        tooltip="Force auto scraping"
+                        tooltip-placement="bottom"
+                        tooltip-trigger="mouseenter"
+                        ng-click="doScraping(search)"
+                    ><span class="glyphicon glyphicon-import"></span></button>
                 <button type="button" class="btn btn-default navbar-btn"
                         tooltip="Advanced document search"
                         tooltip-placement="bottom"
