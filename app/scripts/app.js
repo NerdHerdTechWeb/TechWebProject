@@ -122,7 +122,7 @@ wgxpath.install();
         .directive('showMenu', showMenu)
         .directive('showFilters', showFilters)
         .directive('filtersSelection', filtersSelection)
-        .directive('createTextFragment', ['$compile', '$rootScope', '$log', '$filter', 'Notification', 'fragment', 'user', 'annotationManager', function ($compile, $rootScope, $log, $filter, Notification, fragment, user, annotationManager) {
+        .directive('createTextFragment', ['$compile', '$rootScope', '$log', '$filter', 'Notification', 'fragment', 'user', 'annotationManager', 'documents', function ($compile, $rootScope, $log, $filter, Notification, fragment, user, annotationManager, documents){
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
@@ -159,6 +159,7 @@ wgxpath.install();
                         span.setAttribute('data-author-email', user.userData().email);
                         span.setAttribute('data-fragment-in-document', text);
                         span.setAttribute('data-fragment', text);
+                        span.setAttribute('data-source', documents.getCurrentDocumentSource());
                         span.setAttribute('data-type', 'noType');
                         span.setAttribute('data-highlight', 'true');
                         

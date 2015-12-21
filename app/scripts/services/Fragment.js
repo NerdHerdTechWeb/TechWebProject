@@ -14,7 +14,7 @@
      * @param $compile
      * @returns {{createFragment: createFragment, createLocalXPATH: createLocalXPATH, createRemoteXPATH: createRemoteXPATH, createLocalPathFromRemote: createLocalPathFromRemote, loadAnnotations: loadAnnotations, hilightFragment: hilightFragment}}
      */
-    function fragment($modal, $http, $resource, $compile, $log) {
+    function fragment($modal, $http, $resource, $compile, $log, documents) {
 
         var dlibRootPath = '/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]';
         var statistRoothPath = '/html/body/div[1]/div[2]/div[2]';
@@ -259,6 +259,7 @@
             span.setAttribute('data-author-email', annotation.author_email);
             span.setAttribute('data-fragment-in-document', range.toString());
             span.setAttribute('data-fragment', annotation.body_l || annotation.body);
+            span.setAttribute('data-source', documents.getCurrentDocumentSource())
             span.setAttribute('data-type', aColor);
             span.setAttribute('data-type-label', aColorFromLabel);
             span.setAttribute('data-equals', "{'init':"+equals.init+", 'final':"+equals.final+"}");
@@ -299,7 +300,7 @@
                         jQuery(range.commonAncestorContainer).find('span').each(function(i,el){
                             jQuery(this).removeAttr('ng-click');
                         });
-            		    range.surroundContents(span)
+            		    range.surroundContents(span);
             		    // Collapse the range to the position immediately after the match
             		    range.collapse(false);
                     }
