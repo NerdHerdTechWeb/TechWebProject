@@ -286,11 +286,13 @@
             var searchTerm = pieces;
             
             if (searchTerm !== "") {
-                searchTerm = String(searchTerm).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                searchTerm = String(searchTerm).trim();
+                var s = searchTerm;
+                searchTerm = String(searchTerm).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
             	searchTerm = new RegExp(searchTerm,"g");
             	
             	// Iterate over matches
-            	if(range.findText(searchTerm, options)) {
+            	if(s !== '' && range.findText(s, {withinRange: searchScopeRange})) {
             	    
             		// range now encompasses the first text match
             		//searchResultApplier.applyToRange(range);

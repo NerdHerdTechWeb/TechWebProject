@@ -127,7 +127,6 @@ WHERE{
      */
     public function getAnnotationsJson()
     {
-        header('Content-type: application/json');
         $rows = array();
         $i = 0;
         foreach ($this->results as $row => $val) {
