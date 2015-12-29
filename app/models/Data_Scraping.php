@@ -508,20 +508,16 @@ class Data_Scraping
 
             foreach ($xpath->query("//*[@id='articleCitations']//p", $r) as $key => $val) {
 
-                $newPaper['references'][] = $xpath->query("//*[@id='articleCitations']//p", $r)->item($key)->nodeValue;
-            }
-
-            foreach ($newPaper['references'] as $key => $reference) {
-
                 $baser['references']['reference'] = $xpath->query("//*[@id='articleCitations']//p", $r)->item($key)->nodeValue;
                 $baser['references']['xpath'] = $xpath->query("//*[@id='articleCitations']//p", $r)->item($key)->getNodePath();
                 $baser['references']['start'] = "0";
                 $baser['references']['end'] = strlen($baser['references']['reference']);
                 $baser['references']['type'] = 'references';
                 $baser['references']['fragment'] = $baser['references']['reference'];
-                $basea['references']['source'] = $document;
+                $baser['references']['source'] = $document;
 
                 $finale['references'][] = $baser['references'];
+
             }
 
             $newPaper['doi']['doi'] = $xpath->query("//*[@id='pub-id::doi']", $r)->item(0)->nodeValue;
