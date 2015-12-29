@@ -33,6 +33,22 @@ $twigView->parserExtensions = array(
     new \Slim\Views\TwigExtension(),
 );
 
+function hostMatch ($params){
+    $url = empty($params['url']) ? $params['source'] : $params['url'];
+    $urlScheme = parse_url($url);
+    $domain = $urlScheme['host'];
+    $match = 'generic';
+
+    if(preg_match('(dlib.)',$domain)){
+        $match = 'dlib';
+    }
+    if(preg_match('(rivista-statistica.)',$domain)){
+        $match = 'rstat';
+    }
+
+    return $match;
+}
+
 /**
  * General routing not grouped
  */
@@ -72,7 +88,7 @@ $app->group('/api', function () use ($app) {
             $app->response->headers->set('Content-Type', 'application/json');
             $params = $app->request()->params();
             $client = new Sparql_Client();
-            $json = $client->getAnnotationsByDocument($params)->getAnnotationsJson();
+            $json = $client->getAnnotationsByDocument($params)->getAnnotationsJson(hostMatch($params));
             echo $json;
         })->via('GET', 'POST');
         $app->map('/get.html', function () use ($app){
@@ -181,16 +197,7 @@ $app->group('/api', function () use ($app) {
             $params = $app->request()->params();
             $client = new Data_Scraping();
 
-            $urlScheme = parse_url($params['url']);
-            $domain = $urlScheme['host'];
-            $match = 'generic';
-
-            if(preg_match('(dlib.)',$domain)){
-                $match = 'dlib';
-            }
-            if(preg_match('(rivista-statistica.)',$domain)){
-                $match = 'rstat';
-            }
+            $match = hostMatch($params);
 
             $app->response->headers->set('Content-Type', 'application/json');
 

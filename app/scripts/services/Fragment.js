@@ -112,13 +112,21 @@
          * @param remoteRootXPATH
          * @returns {string}
          */
-        function createRemoteXPATH(localPath, remoteRootXPATH) {
+        function createRemoteXPATH(localPath) {
             var str = localPath;
-            //TODO check if dLib or not
-            var splitting = str.split('/');
-            var needle = splitting.splice(5);
-            var joined = needle.join('/');
-            var remote = String(xpath_conf.dLib + joined).toLocaleLowerCase();
+            var curretnDocSource = documents.getCurrentDocumentSource();
+            var rstat = new RegExp('rivista-statistica','g');
+            var dlib = new RegExp('dlib','g');
+            var remote = '';
+            if(curretnDocSource.match(rstat)){
+                remote = localPath;
+            }else if(curretnDocSource.match(dlib)){
+                var splitting = str.split('/');
+                var needle = splitting.splice(5);
+                var joined = needle.join('/');
+                remote = String(xpath_conf.dLib + joined).toLocaleLowerCase();
+            }
+
             return remote;
         }
 
@@ -141,9 +149,7 @@
                 local = xpath_conf.dLibLocal + joined;
             }
             if(from === 'rstat'){
-                needle = splitting.splice(7);
-                joined = needle.join('/');
-                local = xpath_conf.rivistaStatLocal + joined;
+                local = remotePath;
             }
             return local;
         }

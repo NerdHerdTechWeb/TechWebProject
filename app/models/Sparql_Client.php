@@ -1,14 +1,14 @@
 <?php
 
 /**
- * 
+ *
  * Easy Rdf Wrapper
- * 
+ *
  * Updates documents
  * Gets documents List
  * Gets annotations per document
  * Creates document
- * 
+ *
  */
 class Sparql_Client
 {
@@ -18,15 +18,15 @@ class Sparql_Client
     protected $sClientModify;
 
     public $results = false;
-    
+
     /**
      * Set name space
      */
     public function __construct()
     {
-        EasyRdf_Namespace::set('prism', 'http://prismstandard.org/namespaces/basic/2.0/');  
-        EasyRdf_Namespace::set('schema', 'http://schema.org/'); 
-        EasyRdf_Namespace::set('oa', 'http://www.w3.org/ns/oa#');  
+        EasyRdf_Namespace::set('prism', 'http://prismstandard.org/namespaces/basic/2.0/');
+        EasyRdf_Namespace::set('schema', 'http://schema.org/');
+        EasyRdf_Namespace::set('oa', 'http://www.w3.org/ns/oa#');
         EasyRdf_Namespace::set('xsd', 'http://www.w3.org/2001/XMLSchema#');
         EasyRdf_Namespace::set('dlib', 'http://www.dlib.org/dlib/november14/');
         EasyRdf_Namespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
@@ -37,13 +37,13 @@ class Sparql_Client
         EasyRdf_Namespace::set('sem', 'http://www.ontologydesignpatterns.org/cp/owl/semiotics.owl#');
         EasyRdf_Namespace::set('xs', 'http://www.w3.org/2001/XMLSchema#');
         EasyRdf_Namespace::set('dc', 'http://purl.org/dc/elements/1.1/');
-        EasyRdf_Namespace::set('fabio','http://purl.org/spar/fabio/');
-        EasyRdf_Namespace::set('frbr','http://purl.org/vocab/frbr/core#');
-        EasyRdf_Namespace::set('skos','http://www.w3.org/2004/02/skos/core#');
-        EasyRdf_Namespace::set('sro','http://salt.semanticauthoring.org/ontologies/sro#');
-        EasyRdf_Namespace::set ('deo','http://purl.org/spar/deo/');	
-        EasyRdf_Namespace::set('cito','http://purl.org/spar/cito/');
-        
+        EasyRdf_Namespace::set('fabio', 'http://purl.org/spar/fabio/');
+        EasyRdf_Namespace::set('frbr', 'http://purl.org/vocab/frbr/core#');
+        EasyRdf_Namespace::set('skos', 'http://www.w3.org/2004/02/skos/core#');
+        EasyRdf_Namespace::set('sro', 'http://salt.semanticauthoring.org/ontologies/sro#');
+        EasyRdf_Namespace::set('deo', 'http://purl.org/spar/deo/');
+        EasyRdf_Namespace::set('cito', 'http://purl.org/spar/cito/');
+
         $this->sClient = new EasyRdf_Sparql_Client($this->sparql_client);
         $this->sClientModify = new EasyRdf_Sparql_Client($this->sparql_client_modify);
     }
@@ -123,43 +123,51 @@ WHERE{
 
     /**
      * Return the previews query in json representation
+     * @param string $source
      * @return string | json
      */
-    public function getAnnotationsJson()
+    public function getAnnotationsJson($source = 'dlib')
     {
         $rows = array();
         $i = 0;
         foreach ($this->results as $row => $val) {
-            foreach($val as $k => $v){
-                
-                if(strcasecmp('label',$k) == 0){
-                    if(strcasecmp($v,'Author') == 0 || strcasecmp($v,'Autore') == 0)
+            foreach ($val as $k => $v) {
+
+                if (strcasecmp('label', $k) == 0) {
+                    if (strcasecmp($v, 'Author') == 0 || strcasecmp($v, 'Autore') == 0)
                         $val->wtf = 'hasAuthor';
-                    if(strcasecmp($v,'Title') == 0 || strcasecmp($v,'Titolo') == 0)
+                    if (strcasecmp($v, 'Title') == 0 || strcasecmp($v, 'Titolo') == 0)
                         $val->wtf = 'hasTitle';
-                    if(strcasecmp($v,'PublicationYear') == 0 || strcasecmp($v,'AnnoPubblicazione') == 0)
+                    if (strcasecmp($v, 'PublicationYear') == 0 || strcasecmp($v, 'AnnoPubblicazione') == 0)
                         $val->wtf = 'hasPublicationYear';
-                    if(strcasecmp($v,'DOI') == 0)
+                    if (strcasecmp($v, 'DOI') == 0)
                         $val->wtf = 'hasDOI';
-                    if(strcasecmp($v,'Citation') == 0 || strcasecmp($v,'Citazione') == 0)
+                    if (strcasecmp($v, 'Citation') == 0 || strcasecmp($v, 'Citazione') == 0)
                         $val->wtf = 'references';
-                    if(strcasecmp($v,'Comment') == 0 || strcasecmp($v,'Commento') == 0)
+                    if (strcasecmp($v, 'Comment') == 0 || strcasecmp($v, 'Commento') == 0)
                         $val->wtf = 'hasComment';
-                    if(strcasecmp($v,'Rhetoric') == 0 || strcasecmp($v,'Retorica') == 0)
+                    if (strcasecmp($v, 'Rhetoric') == 0 || strcasecmp($v, 'Retorica') == 0)
                         $val->wtf = 'denotesRhetoric';
                 }
 
-                if(strcasecmp('start',$k) == 0){
-                    $newText = preg_replace('(tbody1_)','',$v);
-                    $pm = preg_match('/\[\d\]/',$newText);
-                    $areSquareBrackets = empty($pm);
-                    if($areSquareBrackets)
-                        $newText = preg_replace('[\d]','[$0]',$newText);
-                    $xpath = preg_replace('(_)','/',$newText);
-                    $v = $xpath;
-                    $isBody = preg_match('(body)',$xpath);
-                    if($isBody === 0)
-                        $v = '/html/body/'.$v;
+                if (strcasecmp('start', $k) == 0) {
+                    /** DILIB **/
+                    if (strcasecmp('dlib', $source) == 0) {
+                        $newText = preg_replace('(tbody1_)', '', $v);
+                        $pm = preg_match('/\[\d\]/', $newText);
+                        $areSquareBrackets = empty($pm);
+                        if ($areSquareBrackets)
+                            $newText = preg_replace('[\d]', '[$0]', $newText);
+                        $xpath = preg_replace('(_)', '/', $newText);
+                        $v = $xpath;
+                        $isBody = preg_match('(body)', $xpath);
+                        if ($isBody === 0)
+                            $v = '/html/body/' . $v;
+                    } else if (strcasecmp('rstat', $source) == 0) {
+                        //TODO
+                    }else{
+                        //TODO
+                    }
                 }
                 $rows[$i][$k] = (string)$v;
             }
@@ -178,20 +186,20 @@ WHERE{
         $rows = array();
         $i = 0;
         foreach ($this->results as $row => $val) {
-            foreach($val as $k => $v){
+            foreach ($val as $k => $v) {
                 $rows[$i][$k] = (string)$v;
             }
             $i++;
         }
         return $rows;
     }
-    
+
     /**
-     * 
+     *
      * Search documents by filters
      * Fill left sidebar
      * Return a list of documents
-     * 
+     *
      */
     public function documentSearch($params = array())
     {
@@ -200,7 +208,7 @@ WHERE{
         $title = !empty($params['title']) ? $params['title'] : 'false';
         $cities = !empty($params['cities']) ? $params['cities'] : 'false';
         $date = !empty($params['date']) ? $params['date'] : 'false';
-        
+
         $query = "
 SELECT ?source
 WHERE{
@@ -232,25 +240,26 @@ LIMIT 100";
         $this->results = $this->sClient->query($query);
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * Returns documents list as json
      * Returns json object instead that an array of json objects
-     * 
+     *
      */
-    public function getSearchJson(){
+    public function getSearchJson()
+    {
         $rows = array();
         $i = 0;
         foreach ($this->results as $row => $val) {
-            foreach($val as $k => $v){
+            foreach ($val as $k => $v) {
                 $rows[] = (string)$v;
             }
             $i++;
         }
-        if(count($rows) <= 1)
+        if (count($rows) <= 1)
             $res = array(!empty($rows) ? $rows[0] : false);
-        else 
+        else
             $res = array_unique($rows);
 
         //TODO check uri domain (dLib, rStat, anything else)
@@ -269,8 +278,8 @@ LIMIT 100";
         $this->results = $this->sClient->listNamedGraphs();
         return $this;
     }
-    
-     /**
+
+    /**
      * Get all graph from endpoint
      * @return array
      */
