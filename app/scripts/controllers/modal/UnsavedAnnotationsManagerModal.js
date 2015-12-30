@@ -1,9 +1,3 @@
-/**
- * 
- * 
- * 
- */
-
 (function () {
 
     'use strict';
@@ -12,10 +6,20 @@
         .module('semanticNotations')
         .controller('UnsavedAnnotationsManagerModal', unsavedAnnotationsManagerModal);
 
+    /**
+     * Manage not saved annotations or "saved for later" annotation
+     * @param $scope
+     * @param $rootScope
+     * @param $modalInstance
+     * @param $log
+     * @param annotationManager
+     * @param user
+     * @param Notification
+     */
     function unsavedAnnotationsManagerModal($scope, $rootScope, $modalInstance, $log, annotationManager, user, Notification) {
         
         var lastSelectedType = '';
-        
+
         $scope.user = {};
         $scope.form = {};
         $scope.fragmentCollection = []
@@ -230,17 +234,17 @@
         }
         
         $scope.switchModifyView = false;
-        
+
         $scope.rowCollection = annotationManager.getCreatedAnnotations();
-        
-        if(!$rootScope.scraped){
-            $rootScope.scraped = annotationManager.getScrapedContent();
-            angular.merge($scope.rowCollection, $rootScope.scraped);
-        }
-        
-        /* 
-        * @deprecated 
-        */
+
+        $rootScope.scraped = annotationManager.getScrapedContent();
+        angular.merge($scope.rowCollection, $rootScope.scraped);
+
+        /**
+         * @deprecated
+         * @param row
+         * @param type
+         */
         //angular.extend($scope.rowCollection, $scope.createdAnnotation);
 
         $scope.removeRow = function removeRow(row, type) {
@@ -355,8 +359,13 @@
             $scope.rowCollection[$scope.lastModified.type][$scope.lastModified.index].type = lastSelectedType;
         }
 
+        /**
+         * Remove all scraped annotations
+         */
         $scope.removeAll = function () {
-            $scope.rowCollection = null;
+            $scope.rowCollection = [];
+            annotationManager.removeScrapedAnnotations();
+            annotationManager.removeSavedAnnotations();
         }
         
         $scope.switchToListView = function(){
@@ -364,7 +373,7 @@
         }
 
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $modalInstance.dismiss();
         }
     }
 })();

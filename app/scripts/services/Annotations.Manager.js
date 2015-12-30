@@ -53,50 +53,50 @@
 
         /**
          * Setter for created annotations
-         * 
+         *
          */
         function setCreatedAnnotations(annotation) {
             var type = String([annotation.type]);
-            var customType = type.replace('has','').toLowerCase();
-            if(!annotationCreated[customType])
+            var customType = type.replace('has', '').toLowerCase();
+            if (!annotationCreated[customType])
                 annotationCreated[customType] = new Array();
-            if(customType === 'doi' || customType === 'title' || customType === 'publicationyear'){
+            if (customType === 'doi' || customType === 'title' || customType === 'publicationyear') {
                 annotationCreated[customType].pop();
                 annotationCreated[customType].push(annotation);
             }
-            else{
-                annotationCreated[customType].push(annotation); 
+            else {
+                annotationCreated[customType].push(annotation);
             }
         }
-        
+
         /**
          * Getter for created annotations
-         * 
+         *
          */
         function getCreatedAnnotations() {
             return annotationCreated;
         }
-        
+
         /**
-         * 
+         *
          * Removed by ID (snapID) for inline annotation
          * Removed by daterTime on to sparql
-         * 
+         *
          */
         function removeInlineAnnotation(snapID, type, daeTime) {
             var origType = type || false;
-            if(origType){
-                var customType = String(origType).replace('has','').toLowerCase();
-                angular.forEach(annotationCreated[customType], function(value, key, context){
-                     if(angular.equals(value.snapID,snapID))
+            if (origType) {
+                var customType = String(origType).replace('has', '').toLowerCase();
+                angular.forEach(annotationCreated[customType], function (value, key, context) {
+                    if (angular.equals(value.snapID, snapID))
                         delete annotationCreated[customType][key];
                 });
-                
+
                 //TODO delete from sparql by date
                 this.destroy(daeTime);
             }
         }
-        
+
         /**
          * Create annotation on sparql
          * @param params
@@ -147,9 +147,9 @@
                 Notification.error('You are not logged in');
                 return;
             }
-           
+
             Notification.info('Removing annotation...');
-            
+
             return Annotation.destroy(jQuery.param(params)).$promise.then(function (results) {
                 Notification.success('Annotation removed correctly');
                 lastAnnotationsUpdated = results;
@@ -174,14 +174,14 @@
                 $log.error(error);
             });
         }
-        
+
         /**
          * Document auto scraping
          */
         function scraping(params) {
-            if(params === '')
+            if (params === '')
                 return  Notification.warning('Empty search provided');
-            var d = {'url':params};
+            var d = {'url': params};
             return Annotation.scraping(jQuery.param(d)).$promise.then(function (results) {
                 Notification.success('Sraping completed');
                 scrapingStorage = results.toJSON();
@@ -192,12 +192,30 @@
                 $log.error(error);
             });
         }
-        
+
         /**
          * getter
          */
-        function getScrapedContent(){
-            return  scrapingStorage;
+        function getScrapedContent() {
+            return scrapingStorage;
+        }
+
+        /**
+         * Remove all scraped annotations
+         */
+        function removeScrapedAnnotations() {
+            scrapingStorage = {};
+        }
+
+        function removeSavedAnnotations() {
+            annotationCreated = {};
+        }
+
+        /**
+         * Remove a specific annotation from the collection
+         */
+        function removeScrapedAnnotation() {
+
         }
 
         /**
@@ -244,9 +262,9 @@
          * for facilitate the recognition
          */
         function setModalIdentifier() {
-            jQuery('div[class="modal"]').each(function(i,el){
-               jQuery(el).data('pagination-index',i);
-               jQuery(el).css('z-index',0);
+            jQuery('div[class="modal"]').each(function (i, el) {
+                jQuery(el).data('pagination-index', i);
+                jQuery(el).css('z-index', 0);
             });
         }
 
@@ -264,7 +282,10 @@
             getScrapedContent: getScrapedContent,
             setCreatedAnnotations: setCreatedAnnotations,
             getCreatedAnnotations: getCreatedAnnotations,
-            removeInlineAnnotation: removeInlineAnnotation
+            removeInlineAnnotation: removeInlineAnnotation,
+            removeScrapedAnnotations: removeScrapedAnnotations,
+            removeSavedAnnotations: removeSavedAnnotations,
+            removeScrapedAnnotation: removeScrapedAnnotation
         }
     }
 
