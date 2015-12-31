@@ -17,7 +17,7 @@
      * @param Notification
      */
     function unsavedAnnotationsManagerModal($scope, $rootScope, $modalInstance, $log, annotationManager, user, Notification) {
-        
+
         var lastSelectedType = '';
 
         $scope.user = {};
@@ -26,7 +26,7 @@
 
         $scope.logInStatus = user.logInStatus();
         $scope.switchLoginView = false;
-        
+
         $scope.documentProperties = {
             hasAuthor: 'Author',
             hasDOI: 'DOI',
@@ -40,7 +40,7 @@
             hasComment: 'Comment',
             denotesRhetoric: 'Rethoric'
         };
-        
+
         $scope.rethoricProperties = {
             'abstract': 'Abstract',
             'discussion': 'Discussion',
@@ -50,23 +50,23 @@
             'methods': 'Methods',
             'results': 'Results'
         }
-        
+
         $scope.fragmentCollection = {
-            documentAType:{
-                type : 'noType',
-                subject : '',
-                snapID : '',
-                author : '',
-                doi : '',
-                publicationYear : '',
-                title : '',
-                url : ''
+            documentAType: {
+                type: 'noType',
+                subject: '',
+                snapID: '',
+                author: '',
+                doi: '',
+                publicationYear: '',
+                title: '',
+                url: ''
             },
-            fragmentAType :{
-                type : 'noType',
-                snapID : '',
-                citation : '',
-                comment : '',
+            fragmentAType: {
+                type: 'noType',
+                snapID: '',
+                citation: '',
+                comment: '',
                 rethoric: 'abstract',
                 citationParams: {
                     documentTitle: '',
@@ -91,30 +91,30 @@
             snapID: '',
             source: ''
         };
-        
+
         /**
          *  Helper function
          */
         function prepareData(row, type) {
-            
+
             var citationsParams = row.citationParams || {};
-            
+
             $scope.fragmentCollection = {
-                documentAType:{
-                    type : row.type,
-                    subject : row.subject || row.fragment,
-                    snapID : row.snapID || '',
-                    author : row.author || user.userData().email,
-                    doi : row.doi || '',
-                    publicationYear : row.publicationYear || '',
-                    title : row.title || '',
-                    url : ''
+                documentAType: {
+                    type: row.type,
+                    subject: row.subject || row.fragment,
+                    snapID: row.snapID || '',
+                    author: row.author || user.userData().email,
+                    doi: row.doi || '',
+                    publicationYear: row.publicationYear || '',
+                    title: row.title || '',
+                    url: ''
                 },
-                fragmentAType :{
-                    type : row.type,
-                    snapID : row.snapID || '',
-                    citation : row.citation || '',
-                    comment : row.comment || '',
+                fragmentAType: {
+                    type: row.type,
+                    snapID: row.snapID || '',
+                    citation: row.citation || '',
+                    comment: row.comment || '',
                     rethoric: 'abstract',
                     citationParams: {
                         documentTitle: citationsParams.documentTitle || '',
@@ -136,10 +136,10 @@
                 author_fullname: user.userData().name,
                 author_email: user.userData().email,
                 date: row.date || Date.now(),
-                snapID : row.snapID || '',
+                snapID: row.snapID || '',
                 source: row.source
             };
-            
+
             var form = {};
             var userData = user.userData();
             angular.extend(form, $scope.fragmentCollection.fragmentAType);
@@ -151,38 +151,39 @@
                 "username": userData.name,
                 "type": row.type
             });
-            
-            if(form.type === 'reference'){
+
+            if (form.type === 'reference') {
                 form.type = 'references';
             }
-            
+
             /* Sete last selectd type */
-            if(lastSelectedType)
-                angular.merge(form,{type:lastSelectedType});
-            
+            if (lastSelectedType)
+                angular.merge(form, {type: lastSelectedType});
+
             return form;
         }
 
         /**
-        * 
-        * 
-        */
+         *
+         * @param row
+         * @param type
+         * @returns {*}
+         */
         $scope.submit = function (row, type) {
-            
+
             //TODO save triple notation
             var form = prepareData(row, type);
-            
+
             Notification.info('Waiting please');
-            
-             if(form.type === 'noType'){
+
+            if (form.type === 'noType') {
                 form.type = $scope.fragmentCollection.currentNonLiteralType;
-                if($scope.fragmentCollection.currentNonLiteralType === '')
+                if ($scope.fragmentCollection.currentNonLiteralType === '')
                     return Notification.error('Choose an annotation type, please');
             }
-            
+
             annotationManager.update(form).then(function (results) {
                 $rootScope.$broadcast('highlightedSaved', $scope.fragmentCollection);
-                //$modalInstance.close();
                 /* Empty the memory */
                 $scope.fragmentCollection.currentNonLiteralType = '';
                 $scope.removeRow(row, type)
@@ -190,49 +191,50 @@
         };
 
         /**
-         * 
-         * 
+         *
+         * @param type
+         * @param index
          */
         $scope.selectDocumentAType = function (type, index) {
-            
+
             lastSelectedType = type;
             $scope.fragmentCollection.dat = type;
             $scope.fragmentCollection.documentAType.type = type;
             $scope.fragmentCollection.annotationTypeLiteral = $scope.documentProperties[type];
             $scope.fragmentCollection.currentNonLiteralType = type;
         }
-        
+
         /**
-         * 
-         * 
+         *
+         *
          */
         $scope.selectFragmentAType = function (type, index) {
-            
+
             lastSelectedType = type;
             $scope.fragmentCollection.fat = type;
             $scope.fragmentCollection.fragmentAType.type = type;
             $scope.fragmentCollection.annotationFragmentTypeLiteral = $scope.fragmentProperties[type];
             $scope.fragmentCollection.currentNonLiteralType = type;
-            
-            if(type === 'references')
+
+            if (type === 'references')
                 $scope.fragmentCollection.showReferencesFields = true;
             else
                 $scope.fragmentCollection.showReferencesFields = false;
         }
-        
+
         /**
-         * 
-         * 
+         *
+         *
          */
         $scope.selectFragmentRethoric = function (type, index) {
-            
+
             lastSelectedType = type;
             $scope.fragmentCollection.rethoricType = type;
             $scope.fragmentCollection.rethoricTypeLiteral = $scope.rethoricProperties[type];
             $scope.fragmentCollection.fragmentAType.rethoric = type;
             $scope.fragmentCollection.currentNonLiteralType = type;
         }
-        
+
         $scope.switchModifyView = false;
 
         $scope.rowCollection = annotationManager.getCreatedAnnotations();
@@ -245,7 +247,7 @@
          * @param row
          * @param type
          */
-        //angular.extend($scope.rowCollection, $scope.createdAnnotation);
+            //angular.extend($scope.rowCollection, $scope.createdAnnotation);
 
         $scope.removeRow = function removeRow(row, type) {
 
@@ -285,47 +287,70 @@
                     break;
             }
         }
-        
+
         $scope.save = function (row, type) {
             $scope.submit(row, type);
         }
 
-        $scope.saveAll = function () {
-            //TODO prepare collection
-            //TODO call annotation service
+        $scope.saveAll = function (rowCollection) {
+            Notification.info('Waiting please');
+
+            var collection = {};
+            angular.forEach(rowCollection, function (val, type) {
+                //TODO save triple notation
+                angular.forEach(val, function (v, i) {
+                    var form = prepareData(v, type);
+
+                    if (form.type === 'noType') {
+                        form.type = $scope.fragmentCollection.currentNonLiteralType;
+                        if ($scope.fragmentCollection.currentNonLiteralType === '')
+                            return Notification.error('Choose an annotation type, please');
+                    }
+
+                    collection['aannotation_'+i] = form;
+                });
+            });
+
+            /**
+             * Save the collection
+             */
+            annotationManager.saveCollection(collection).then(function (results) {
+                Notification.info('All the annotations has been saved successfully');
+                $scope.removeAll();
+            });
         }
-        
+
         $scope.edit = function (row, type) {
             $scope.switchModifyView = true;
-            
+
             var citationsParams = row.citationParams || {};
-            
-            if(type === 'reference')
+
+            if (type === 'reference')
                 type = 'references';
-                
+
             lastSelectedType = type;
-            
+
             $scope.lastModified = {
                 'index': $scope.rowCollection[type].indexOf(row),
                 'type': type
             };
-            
+
             $scope.fragmentCollection = {
-                documentAType:{
-                    type : row.type,
-                    subject : row.subject || row.fragment,
-                    snapID : row.snapID || '',
-                    author : row.author || user.userData().email,
-                    doi : row.doi || '',
-                    publicationYear : row.publicationYear || '',
-                    title : row.title || '',
-                    url : ''
+                documentAType: {
+                    type: row.type,
+                    subject: row.subject || row.fragment,
+                    snapID: row.snapID || '',
+                    author: row.author || user.userData().email,
+                    doi: row.doi || '',
+                    publicationYear: row.publicationYear || '',
+                    title: row.title || '',
+                    url: ''
                 },
-                fragmentAType :{
-                    type : row.type,
-                    snapID : row.snapID || '',
-                    citation : row.citation || '',
-                    comment : row.comment || '',
+                fragmentAType: {
+                    type: row.type,
+                    snapID: row.snapID || '',
+                    citation: row.citation || '',
+                    comment: row.comment || '',
                     rethoric: 'abstract',
                     citationParams: {
                         documentTitle: citationsParams.documentTitle || '',
@@ -347,13 +372,13 @@
                 author_fullname: user.userData().name,
                 author_email: user.userData().email,
                 date: row.date || Date.now(),
-                snapID : row.snapID || '',
+                snapID: row.snapID || '',
                 source: row.source
             };
-            
+
         }
-        
-        $scope.modify = function(fIndex){
+
+        $scope.modify = function (fIndex) {
             var current = $scope.rowCollection[$scope.lastModified.type][$scope.lastModified.index];
             angular.extend($scope.rowCollection[$scope.lastModified.type][$scope.lastModified.index], $scope.fragmentCollection);
             $scope.rowCollection[$scope.lastModified.type][$scope.lastModified.index].type = lastSelectedType;
@@ -367,8 +392,8 @@
             annotationManager.removeScrapedAnnotations();
             annotationManager.removeSavedAnnotations();
         }
-        
-        $scope.switchToListView = function(){
+
+        $scope.switchToListView = function () {
             $scope.switchModifyView = false;
         }
 

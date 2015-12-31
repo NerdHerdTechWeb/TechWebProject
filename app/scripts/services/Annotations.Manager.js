@@ -33,6 +33,11 @@
                     url: '//' + $window.location.host + '/api/annotations/create',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 },
+                saveCollection: {
+                    method: 'POST',
+                    url: '//' + $window.location.host + '/api/annotations/create-from-collection',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                },
                 destroy: {
                     method: 'POST',
                     url: '//' + $window.location.host + '/api/annotations/destroy',
@@ -140,6 +145,27 @@
         }
 
         /**
+         * Save annotations collection onto sparql service
+         * @param params
+         * @returns {*}
+         */
+        function saveCollection(params) {
+            if (!user.logInStatus()) {
+                Notification.error('You are not logged in');
+                return;
+            }
+            return Annotation.saveCollection(jQuery.param(params)).$promise.then(function (results) {
+                Notification.success('Annotations updated correctly');
+                lastAnnotationsUpdated = results;
+                return results;
+            }, function (error) {
+                // Check for errors
+                Notification.error('Something goes wrong!');
+                $log.error(error);
+            });
+        }
+
+        /**
          * Delete existing annotation by date
          */
         function destroy(params) {
@@ -212,13 +238,6 @@
         }
 
         /**
-         * Remove a specific annotation from the collection
-         */
-        function removeScrapedAnnotation() {
-
-        }
-
-        /**
          * Returns last modified annotation
          * Returns json with annotations params
          * @returns {{}}
@@ -271,6 +290,7 @@
         return {
             create: create,
             update: update,
+            saveCollection: saveCollection,
             destroy: destroy,
             search: search,
             scraping: scraping,
@@ -284,8 +304,7 @@
             getCreatedAnnotations: getCreatedAnnotations,
             removeInlineAnnotation: removeInlineAnnotation,
             removeScrapedAnnotations: removeScrapedAnnotations,
-            removeSavedAnnotations: removeSavedAnnotations,
-            removeScrapedAnnotation: removeScrapedAnnotation
+            removeSavedAnnotations: removeSavedAnnotations
         }
     }
 

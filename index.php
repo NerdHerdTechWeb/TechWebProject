@@ -105,6 +105,13 @@ $app->group('/api', function () use ($app) {
             $response = $client->updateDocumentAnnotation($params);
             echo $response;
         })->via('GET', 'POST');
+        $app->map('/create-from-collection', function () use ($app){
+            $app->response->headers->set('Content-Type', 'text/html charset=utf-8');
+            $client = new Sparql_Client();
+            $params = $app->request()->params();
+            $response = $client->updateDocumentAnnotationCollection($params);
+            echo $response;
+        })->via('GET', 'POST');
     });
 
     /**

@@ -111,6 +111,19 @@ WHERE{
     }
 
     /**
+     * @param $queryParams array
+     * @return string
+     */
+    public function updateDocumentAnnotationCollection($queryParams)
+    {
+        $res = '';
+        foreach($queryParams as $key => $params){
+            $res = $this->updateDocumentAnnotation($params);
+        }
+        return $res;
+    }
+
+    /**
      *
      */
     public function addDocumentAnnotation($queryParams)
@@ -164,7 +177,7 @@ WHERE{
                         if ($isBody === 0)
                             $v = '/html/body/' . $v;
                     } else if (strcasecmp('rstat', $source) == 0) {
-                        //TODO
+                        $root = 'id("navTabsContainer")/DIV[1]/DIV[1]/DIV[1]/DIV[1]/table/div/';
                     }else{
                         //TODO
                     }

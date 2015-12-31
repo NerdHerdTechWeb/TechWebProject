@@ -149,7 +149,10 @@
                 local = xpath_conf.dLibLocal + joined;
             }
             if(from === 'rstat'){
-                local = remotePath;
+                needle = splitting.splice(7);
+                joined = needle.join('/');
+                local = xpath_conf.rivistaStatLocal + joined;
+                //local = remotePath;
             }
             return local;
         }
