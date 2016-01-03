@@ -253,17 +253,11 @@ wgxpath.install();
 
     semanticNotations.config(['$routeProvider',
         function ($routeProvider) {
-            $routeProvider.
-                when('/help', {
-                    templateUrl: init_conf.partialsView + 'help.html'
-                }).
-                when('/about', {
-                    templateUrl: init_conf.partialsView + 'about.html'
-                }).
-                when('/annotator', {
+            $routeProvider
+                .when('/annotator', {
                     templateUrl: init_conf.partialsView + 'annotator.html'
-                }).
-                otherwise({
+                })
+                .otherwise({
                     redirectTo: '/annotator',
                     templateUrl: init_conf.partialsView + 'annotator.html'
                 });

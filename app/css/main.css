@@ -293,7 +293,7 @@ body {
     display: block;
     width: 100%;
     text-align: center;
-    background: url('http://placehold.it/1900x500') no-repeat center center scroll;
+    background: #337ab7 url('/app/images/HeaderRaschietto.png') repeat-x;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;

@@ -1,3 +1,6 @@
+<div ng-if="documentsLoaded.length == 0">
+    <div ng-include src="'/app/partials/about.html'"></div>
+</div>
 
 <div class="container-fluid">
 
@@ -12,7 +15,8 @@
         <uib-accordion close-others="oneAtATime">
             <uib-accordion-group is-open="status.open">
                 <uib-accordion-heading>
-                    Filters <a href><span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span></a>
+                    Filters <a href><span class="pull-right glyphicon"
+                                          ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span></a>
                 </uib-accordion-heading>
                 <!--Sidebar content-->
                 <div ng-controller="WidgetFilters">
@@ -86,7 +90,8 @@
 
             <uib-accordion-group is-open="status.isFirstOpen">
                 <uib-accordion-heading>
-                    Documents <a href><span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></span></a>
+                    Documents <a href><span class="pull-right glyphicon"
+                                            ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></span></a>
                 </uib-accordion-heading>
                 <!--Sidebar content-->
                 <div class="list-group">
@@ -101,13 +106,15 @@
 
             <uib-accordion-group is-open="status.metaOpen">
                 <uib-accordion-heading>
-                    All available graph <a href><span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.metaOpen, 'glyphicon-chevron-right': !status.metaOpen}"></span></a>
+                    All available graph <a href><span class="pull-right glyphicon"
+                                                      ng-class="{'glyphicon-chevron-down': status.metaOpen, 'glyphicon-chevron-right': !status.metaOpen}"></span></a>
                 </uib-accordion-heading>
                 <!--Sidebar content-->
                 <ul class="list-group" ng-controller="WidgetMeta">
                     <li class="list-group-item" ng-repeat="g in graph">
                         <!-- <span class="badge">{{g.group | uppercase}}</span> -->
-                        <a href ng-click="getDocument(documentData.link, documentData.from, documentData, $event, g.graph)">
+                        <a href
+                           ng-click="getDocument(documentData.link, documentData.from, documentData, $event, g.graph)">
                             {{g.group | uppercase}}
                         </a>
                     </li>
@@ -116,16 +123,12 @@
         </uib-accordion>
     </div>
 
-    <div id="site-canvas">
+    <div id="site-canvas" ng-if="documentsLoaded.length > 0">
         <div class="row">
             <div id="navTabsContainer"
                  class="col-md-11 col-md-offset-1 col-xs-11 col-xs-offset-1 col-lg-11 col-lg-offset-1" create-local-path
                  create-local-path-from-remote>
                 <!--Body content-->
-
-                <div ng-if="documentsLoaded.length == 0" id="noDocLoaded">Please choose one document from left menu to
-                    start edit your annotations
-                </div>
 
                 <tabset>
                     <tab ng-repeat="documentLoaded in documentsLoaded"
@@ -139,28 +142,29 @@
                             </a>
                         </tab-heading>
                         <div class="table-responsive" ng-mouseup="showSelectedText($event)">
-                            <table bind-html-compile="documentLoaded.content" create-fragment-span create-text-fragment class="table"></table>
+                            <table bind-html-compile="documentLoaded.content" create-fragment-span create-text-fragment
+                                   class="table"></table>
                         </div>
                     </tab>
                 </tabset>
             </div>
         </div>
-        
+
         <!-- template -->
-        <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none" >
+        <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
             <li><a tabindex="-1" data-action="edit" href>Edit</a></li>
             <li><a tabindex="-1" data-action="remove" class="alert alert-warning" href>Remove</a></li>
             <li><a tabindex="-1" data-action="removeAll" class="alert alert-danger" href>Remove All</a></li>
             <li><a tabindex="-1" data-action="close" href>Close</a></li>
         </ul>
-        
+
         <!-- template -->
-        <ul id="contextMenuNoRemove" class="dropdown-menu" role="menu" style="display:none" >
+        <ul id="contextMenuNoRemove" class="dropdown-menu" role="menu" style="display:none">
             <li><a tabindex="-1" data-action="edit" href>Edit</a></li>
             <!-- <li><a tabindex="-1" data-action="remove" class="alert alert-warning" href>Remove</a></li>
             <li><a tabindex="-1" data-action="removeAll" class="alert alert-danger" href>Remove All</a></li> -->
             <li><a tabindex="-1" data-action="close" href>Close</a></li>
         </ul>
-        
+
     </div>
 </div>

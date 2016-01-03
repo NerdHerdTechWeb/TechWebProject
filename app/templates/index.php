@@ -83,7 +83,7 @@
             </form>
             <ul class="nav navbar-nav navbar-right textShadow">
                 <li><a href="#/annotator">Annotator</a></li>
-                <li><a href="#/about">About</a></li>
+                <!-- <li><a href="#/about">About</a></li> -->
                 <!-- <li><toggle-switch ng-model="annotator.status" knob-label="Editor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f"><toggle-switch></li> -->
             </ul>
         </div>
