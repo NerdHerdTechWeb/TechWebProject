@@ -118,6 +118,16 @@ wgxpath.install();
             'frapontillo.bootstrap-switch',
             'ng-context-menu'
         ])
+        .directive('dateCopy',['$filter',function($filter){
+            return{
+                restrict: 'A',
+                link: function(scope, element, attrs){
+                    var date = $filter('date')(Date.now(), 'yyyy');
+                    var copy = 'NerdHerd &copy; <a href="//ltw1540.web.cs.unibo.it">LTW1540</a> ' + date;
+                    element.html(copy);
+                }
+            }
+        }])
         .directive('lateralMenu', LateralMenu)
         .directive('showMenu', showMenu)
         .directive('showFilters', showFilters)
