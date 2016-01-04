@@ -18,22 +18,22 @@
 
         var dlibRootPath = '/html/body/form/table[3]/tr/td/table[5]/tr/td/table[1]/tr/td[2]';
         var statistRoothPath = '/html/body/div[1]/div[2]/div[2]';
-        
-        String.prototype.hashCode = function() {
+
+        String.prototype.hashCode = function () {
             var hash = 0, i, chr, len;
             if (this.length == 0) return hash;
             for (i = 0, len = this.length; i < len; i++) {
-                chr   = this.charCodeAt(i);
-                hash  = ((hash << 5) - hash) + chr;
+                chr = this.charCodeAt(i);
+                hash = ((hash << 5) - hash) + chr;
                 hash |= 0; // Convert to 32bit integer
             }
             return hash;
         };
-        
+
         /**
          *  Return hashed string
          */
-        function hash(stringToHash){
+        function hash(stringToHash) {
             return String(stringToHash).hashCode();
         }
 
@@ -115,12 +115,12 @@
         function createRemoteXPATH(localPath) {
             var str = localPath;
             var curretnDocSource = documents.getCurrentDocumentSource();
-            var rstat = new RegExp('rivista-statistica','g');
-            var dlib = new RegExp('dlib','g');
+            var rstat = new RegExp('rivista-statistica', 'g');
+            var dlib = new RegExp('dlib', 'g');
             var remote = '';
-            if(curretnDocSource.match(rstat)){
+            if (curretnDocSource.match(rstat)) {
                 remote = localPath;
-            }else if(curretnDocSource.match(dlib)){
+            } else if (curretnDocSource.match(dlib)) {
                 var splitting = str.split('/');
                 var needle = splitting.splice(5);
                 var joined = needle.join('/');
@@ -136,23 +136,27 @@
          * @param localRootPath
          * @returns {string}
          */
-        function createLocalPathFromRemote (remotePath, from){
+        function createLocalPathFromRemote(remotePath, from) {
             var str = remotePath;
             //TODO check if dLib or not
             var splitting = str.split('/');
             var needle,
                 joined,
                 local;
-            if(from === 'dlib'){
+            if (from === 'dlib') {
                 needle = splitting.splice(10);
                 joined = needle.join('/');
                 local = xpath_conf.dLibLocal + joined;
             }
-            if(from === 'rstat'){
-                needle = splitting.splice(7);
-                joined = needle.join('/');
-                local = xpath_conf.rivistaStatLocal + joined;
-                //local = remotePath;
+            if (from === 'rstat') {
+                needle = splitting;
+                if (splitting.length >= 7) {
+                    needle = splitting.splice(7);
+                    joined = needle.join('/');
+                    local = xpath_conf.rivistaStatLocal + joined;
+                } else {
+                    local = needle.join('/');
+                }
             }
             return local;
         }
@@ -162,11 +166,11 @@
          * @param params
          * @returns {*}
          */
-        function loadAnnotations (params){
-            var Annotations = $resource('//'+window.location.host+'/api/annotations/get.json',{source:params.source,graph:params.graph});
-            return Annotations.query().$promise.then(function(results) {
+        function loadAnnotations(params) {
+            var Annotations = $resource('//' + window.location.host + '/api/annotations/get.json', {source: params.source, graph: params.graph});
+            return Annotations.query().$promise.then(function (results) {
                 return results;
-            }, function(error) {
+            }, function (error) {
                 // Check for errors
                 console.log(error);
             });
@@ -178,21 +182,21 @@
          * @param scope$
          * @param compile$
          */
-        function hilightFragment (annotations, scope$, compile$){
+        function hilightFragment(annotations, scope$, compile$) {
             var equals = [];
             var hashedObj = {};
-            for(var key in annotations){
-                if(annotations[key].watf !== ''){
+            for (var key in annotations) {
+                if (annotations[key].watf !== '') {
                     var r = document.createRange();
-                    if(annotations[key].start !== ''){
+                    if (annotations[key].start !== '') {
                         var xp = String(annotations[key].localPath).replace(/\/$/, "");
                         var lc = jQuery(document.evaluate(xp,
-                            document,
-                            null,
-                            XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+                                document,
+                                null,
+                                XPathResult.FIRST_ORDERED_NODE_TYPE, null)
                             .singleNodeValue)[0];
-                            
-                        var hash = this.hash(annotations[key].startoffset+annotations[key].endoffset+annotations[key].start);
+
+                        var hash = this.hash(annotations[key].startoffset + annotations[key].endoffset + annotations[key].start);
 
                         render_fragment(lc,
                             annotations[key].startoffset,
@@ -200,7 +204,7 @@
                             annotations[key].start,
                             annotations[key],
                             scope$, equals, hash);
-                        
+
                     }
                 }
             }
@@ -219,44 +223,44 @@
          * @returns {Range|TextRange}
          */
         function render_fragment(node, start, end, xpath, annotation, scope$, equals, hash) {
-            
-            if(!node)
+
+            if (!node)
                 return;
-            
+
             var element = node
             var range = rangy.createRange();
             var caseSensitive = true;
             var searchScopeRange = rangy.createRange();
             var elementText = jQuery(element).text();
-            var pieces = String(elementText).substring(start,end);
-            
+            var pieces = String(elementText).substring(start, end);
+
             searchScopeRange.selectNodeContents(element);
-            
+
             //var searchResultApplier = rangy.createClassApplier("searchResult");
             var aColor = typeof annotation !== 'undefined' ? annotation.wtf : 'genericAnnotation';
             var aColorFromLabel = typeof annotation !== 'undefined' ? annotation.label : 'genericAnnotation';
             var annotationColor = aColor;
-            
+
             //var annotationColor = rangy.createClassApplier(annotationColor);
             /*var searchResultApplier = rangy.createClassApplier("searchResult", {
-            	"elementAttributes": {
-            		"data-xpath": xpath,
-            		"data-start": start,
-            		"data-end": end,
-            		"data-date": annotation.date,
-            		'data-author': annotation.author,
-                    'data-fragment-in-document': range.toString(),
-                    'data-fragment': annotation.o_label || annotation.o,
-                    'data-type': aColor,
-                    'data-equals': "{'init':"+equals.init+", 'final':"+equals.final+"}",
-                    'ng-click': 'showNotationModal($event); $event.stopPropagation();',
-                    'id': 'snap_' + Date.now(),
-                    'class':  'annotation '+ aColor,
-                    'data-hash': 'hash_' + hash,
-                    'create-context-menu': ''
-            	}
-            });*/
-            
+             "elementAttributes": {
+             "data-xpath": xpath,
+             "data-start": start,
+             "data-end": end,
+             "data-date": annotation.date,
+             'data-author': annotation.author,
+             'data-fragment-in-document': range.toString(),
+             'data-fragment': annotation.o_label || annotation.o,
+             'data-type': aColor,
+             'data-equals': "{'init':"+equals.init+", 'final':"+equals.final+"}",
+             'ng-click': 'showNotationModal($event); $event.stopPropagation();',
+             'id': 'snap_' + Date.now(),
+             'class':  'annotation '+ aColor,
+             'data-hash': 'hash_' + hash,
+             'create-context-menu': ''
+             }
+             });*/
+
             var span = document.createElement('span');
             span.setAttribute('data-xpath', xpath);
             span.setAttribute('data-start', start);
@@ -271,56 +275,56 @@
             span.setAttribute('data-source', documents.getCurrentDocumentSource())
             span.setAttribute('data-type', aColor);
             span.setAttribute('data-type-label', aColorFromLabel);
-            span.setAttribute('data-equals', "{'init':"+equals.init+", 'final':"+equals.final+"}");
+            span.setAttribute('data-equals', "{'init':" + equals.init + ", 'final':" + equals.final + "}");
             span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
-            span.setAttribute('class', 'annotation ' + aColor + ' ' +aColorFromLabel);
-            
+            span.setAttribute('class', 'annotation ' + aColor + ' ' + aColorFromLabel);
+
             //span.setAttribute('tooltip', 'Click or right-click on it to edit');
             //span.setAttribute('tooltip-placement', 'top');
             //span.setAttribute('tooltip-trigger', 'mouseenter');
             span.setAttribute('id', 'snap_' + Date.now());
             span.setAttribute('data-hash', 'hash_' + hash);
-            
-            span.setAttribute('create-context-menu','');
-            
+
+            span.setAttribute('create-context-menu', '');
+
             var options = {
-            	caseSensitive: caseSensitive,
-            	wholeWordsOnly: false,
-            	withinRange: searchScopeRange,
-            	direction: "forward" // This is redundant because "forward" is the default
+                caseSensitive: caseSensitive,
+                wholeWordsOnly: false,
+                withinRange: searchScopeRange,
+                direction: "forward" // This is redundant because "forward" is the default
             };
-            
+
             range.selectNodeContents(element);
-            
+
             var searchTerm = pieces;
-            
+
             if (searchTerm !== "") {
                 searchTerm = String(searchTerm).trim();
                 var s = searchTerm;
                 searchTerm = String(searchTerm).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-            	searchTerm = new RegExp(searchTerm,"g");
-            	
-            	// Iterate over matches
-            	if(s !== '' && range.findText(s, {withinRange: searchScopeRange})) {
-            	    
-            		// range now encompasses the first text match
-            		//searchResultApplier.applyToRange(range);
-            		//annotationColor.applyToRange(range)
-                    if (range.canSurroundContents(span)){
+                searchTerm = new RegExp(searchTerm, "g");
+
+                // Iterate over matches
+                if (s !== '' && range.findText(s, {withinRange: searchScopeRange})) {
+
+                    // range now encompasses the first text match
+                    //searchResultApplier.applyToRange(range);
+                    //annotationColor.applyToRange(range)
+                    if (range.canSurroundContents(span)) {
                         //Prevent angular compiling twice
-                        jQuery(range.commonAncestorContainer).find('span').each(function(i,el){
+                        jQuery(range.commonAncestorContainer).find('span').each(function (i, el) {
                             jQuery(this).removeAttr('ng-click');
                         });
-            		    range.surroundContents(span);
-            		    // Collapse the range to the position immediately after the match
-            		    range.collapse(false);
+                        range.surroundContents(span);
+                        // Collapse the range to the position immediately after the match
+                        range.collapse(false);
                     }
-            		else
-            		    $log.info('Cannot surround content');
-            		
-            		if(range.commonAncestorContainer)
+                    else
+                        $log.info('Cannot surround content');
+
+                    if (range.commonAncestorContainer)
                         $compile(span)(scope$);
-            	}
+                }
             }
             return range;
         }
