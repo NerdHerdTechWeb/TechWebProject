@@ -305,7 +305,7 @@
                 searchTerm = new RegExp(searchTerm, "g");
 
                 // Iterate over matches
-                if (s !== '' && range.findText(s, {withinRange: searchScopeRange})) {
+                if (s !== '' && range.findText(s, {withinRange: searchScopeRange, wholeWordsOnly: false})) {
 
                     // range now encompasses the first text match
                     //searchResultApplier.applyToRange(range);
@@ -319,8 +319,9 @@
                         // Collapse the range to the position immediately after the match
                         range.collapse(false);
                     }
-                    else
+                    else{
                         $log.info('Cannot surround content');
+                    }
 
                     if (range.commonAncestorContainer)
                         $compile(span)(scope$);
