@@ -15,7 +15,7 @@
     <hr class="featurette-divider">
 
     <!-- First Featurette -->
-    <div class="featurette" id="about">
+    <div class="featurette">
         <img class="featurette-image img-responsive pull-right" src="/app/images/menu.png">
 
         <h2 class="featurette-heading">Il menu di sinistra
@@ -36,34 +36,150 @@
     <hr class="featurette-divider">
 
     <!-- Second Featurette -->
-    <div class="featurette" id="services">
-        <img class="featurette-image img-circle img-responsive pull-left" src="http://placehold.it/500x500">
+    <div class="featurette">
 
-        <h2 class="featurette-heading">The Second Heading
-            <span class="text-muted">Is Pretty Cool Too.</span>
+        <h2 class="featurette-heading">Ricerca base
+            <span class="text-muted">Campo di ricerca e lente</span>
         </h2>
 
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod
-            semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
-            commodo.</p>
+        <p class="lead">La ricerca base avviene per titolo. Inserendo il titolo del documento all'interno dell'apposito
+            campo
+            <img class="featurette-image img-responsive" src="/app/images/searchField.png">
+            sarà possibile caricare il documento in pagina. Per avviare la ricerca è sufficiente premere invio o
+            cliccare
+            sul pulsante lente
+            <button type="button" class="btn btn-default navbar-btn"><span
+                    class="glyphicon glyphicon-search"></span></button>
+        </p>
     </div>
 
     <hr class="featurette-divider">
 
     <!-- Third Featurette -->
-    <div class="featurette" id="contact">
-        <img class="featurette-image img-circle img-responsive pull-right" src="http://placehold.it/500x500">
+    <div class="featurette">
+        <img class="featurette-image img-responsive pull-right" src="/app/images/advancedSearch.png">
 
-        <h2 class="featurette-heading">The Third Heading
-            <span class="text-muted">Will Seal the Deal.</span>
+        <h2 class="featurette-heading">Ricerca avanzata
+            <span class="text-muted">Autore, data di pubblicazione, URL, titolo, citazioni.</span>
         </h2>
 
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod
-            semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
-            commodo.</p>
+        <p class="lead">Cliccando sul pulsante
+            <button type="button" class="btn btn-default"><span
+                    class="glyphicon glyphicon-list"></span></button>
+            comparirà il form di ricerca avanzata.
+            I documenti possono essere ricercati tramite uno o tutti i parametri presenti all'interno del
+            form. </br></br>Per avviare la ricerca è sufficiente cliccare sul pulsante
+            <button class="btn btn-primary">Search</button>
+            </br></br>Per annullare (chiudere il form) basta cliccare sul pulsante
+            <button class="btn btn-warning">Cancel</button>
+            <br><br>I risultati della ricerca saranno visibili nella lista dei documenti nel menu di sinistra. Nel caso
+            non sia
+            presente alcun documento con i parametri scelti, lo stato della lista rimmarrà inalterato.
+        </p>
     </div>
 
     <hr class="featurette-divider">
+
+    <!-- Fourth Featurette -->
+    <div class="featurette">
+
+        <h2 class="featurette-heading">Scraping
+            <span class="text-muted">Forzato e automatico</span>
+        </h2>
+
+        <p class="lead">Cliccando sul pulsante
+            <button type="button" class="btn btn-default"><span
+                    class="glyphicon glyphicon-import"></span></button>
+            sarà ueseguito uno scraping sull'originale del documento visualizzato
+            nell'applicazione.
+            </br></br>Lo sraping è automatico se un documento caricato non ha annotazioni salvate
+            </br></br>Le annotazioni automatiche o forzate saranno presenti solo durante la sessione dell'utente.
+            Esse potranno essere salvate o modificate tramite un form dedicato
+            <img class="featurette-image img-responsive pull-right" src="/app/images/unsavedAnnotations.png">
+            visibile tramite click sul pulsante
+            <button type="button" class="btn btn-default"><span
+                    class="glyphicon glyphicon-inbox"></span></button>
+
+            <br><br>Il form e il pulsante
+            <button type="button" class="btn btn-default"><span
+                    class="glyphicon glyphicon-inbox"></span></button>
+            saranno visibili solo agli utenti che avranno effettuato il login
+            <button type="button" class="btn btn-primary"><span
+                    class="glyphicon glyphicon-log-in"></span></button>
+        </p>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <!-- Fiveth Featurette -->
+    <div class="featurette">
+
+        <h2 class="featurette-heading">Annotazioni
+            <span class="text-muted">Scraping, locali</span>
+        </h2>
+
+        <p class="lead">Le annotazioni automatiche o forzate saranno presenti solo durante la sessione dell'utente.
+            Esse potranno essere salvate o modificate tramite un form dedicato
+            <img class="featurette-image img-responsive pull-right" src="/app/images/unsavedAnnotations.png">
+            visibile tramite click sul pulsante
+            <button type="button" class="btn btn-default"><span
+                    class="glyphicon glyphicon-inbox"></span></button>
+            <br>Le annotazioni create dall'utente (no scraping) saranno visibili in pagina tramite placeholder gialli.
+            L'utente può decidere di "salvare per dopo" un'annotazione e gestirla tramite lo stesso form dello scraping.
+
+            <br>Gli elementi presenti nel form delle annotazioni in attesa di salvataggio, potranno essere salvati in
+            un'unica soluzione tramite
+            <button type="button" class="btn btn-primary">Save all</button>
+            <br>Potranno essere rimossi in un'unica soluzione tramite
+            <button type="button" class="btn btn-danger">Remove all</button>
+            <br>Potranno essere modificati, salvati o cancellati singolarmente con
+            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span></button>
+            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span></button>
+            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span></button>
+
+            <br><br>Il form e il pulsante
+            <button type="button" class="btn btn-default"><span
+                    class="glyphicon glyphicon-inbox"></span></button>
+            saranno visibili solo agli utenti che avranno effettuato il login
+            <button type="button" class="btn btn-primary"><span
+                    class="glyphicon glyphicon-log-in"></span></button>
+        </p>
+    </div>
+
+    <!-- Sixth Featurette -->
+    <div class="featurette">
+
+        <h2 class="featurette-heading">Annotazioni
+            <span class="text-muted">Sul documento</span>
+        </h2>
+
+        <p class="lead">Le annotazioni automatiche o forzate saranno presenti solo durante la sessione dell'utente.
+            Esse potranno essere salvate o modificate tramite un form dedicato
+            <img class="featurette-image img-responsive pull-right" src="/app/images/unsavedAnnotations.png">
+            visibile tramite click sul pulsante
+            <button type="button" class="btn btn-default"><span
+                    class="glyphicon glyphicon-inbox"></span></button>
+            <br>Le annotazioni create dall'utente (no scraping) saranno visibili in pagina tramite placeholder gialli.
+            L'utente può decidere di "salvare per dopo" un'annotazione e gestirla tramite lo stesso form dello scraping.
+
+            <br>Gli elementi presenti nel form delle annotazioni in attesa di salvataggio, potranno essere salvati in
+            un'unica soluzione tramite
+            <button type="button" class="btn btn-primary">Save all</button>
+            <br>Potranno essere rimossi in un'unica soluzione tramite
+            <button type="button" class="btn btn-danger">Remove all</button>
+            <br>Potranno essere modificati, salvati o cancellati singolarmente con
+            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span></button>
+            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span></button>
+            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span></button>
+
+            <br><br>Il form e il pulsante
+            <button type="button" class="btn btn-default"><span
+                    class="glyphicon glyphicon-inbox"></span></button>
+            saranno visibili solo agli utenti che avranno effettuato il login
+            <button type="button" class="btn btn-primary"><span
+                    class="glyphicon glyphicon-log-in"></span></button>
+        </p>
+    </div>
 
     <!-- Footer -->
     <footer>
