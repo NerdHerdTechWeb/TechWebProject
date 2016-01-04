@@ -9,7 +9,7 @@ wgxpath.install();
         return this.each(function () {
 
             // Open context menu
-            $(this).on("contextmenu", function (e) {
+            $(this).on("mouseover", function (e) {
                 // return native menu if pressing control
                 if (e.ctrlKey) return;
                 

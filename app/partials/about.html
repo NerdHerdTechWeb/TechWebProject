@@ -135,7 +135,8 @@
             <br>Potranno essere modificati, salvati o cancellati singolarmente con
             <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span></button>
             <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span></button>
-            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span></button>
+            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span>
+            </button>
 
             <br><br>Il form e il pulsante
             <button type="button" class="btn btn-default"><span
@@ -155,26 +156,29 @@
             <span class="text-muted">Sul documento</span>
         </h2>
 
-        <p class="lead">Le annotazioni automatiche o forzate saranno presenti solo durante la sessione dell'utente.
-            Esse potranno essere salvate o modificate tramite un form dedicato
+        <img class="featurette-image img-responsive pull-right" src="/app/images/placeholder.png">
+
+        <p class="lead">Le annotazioni create dall'utente (no scraping) saranno visibili in pagina tramite placeholder
+            gialli.
+            <br>L'utente può decidere se rimuovere l'annotazione placeholder oppure modificare o salvare tramite le
+            azioni
+            disponibili sul menu contestuale.
+
+            <br><br>Le annotazioni già presenti sul documento potranno essere gestite tramite un form
+            <img class="featurette-image img-responsive pull-left" src="/app/images/annomodal.png">che apparirà al
+            click sull'annotazione oppure tramite l'azione edit del menu contestuale.
+
+            <br><br>Tramite il pulsante
+            <button type="button" class="btn btn-primary">Modify</button>
+            è possibile salvare l'annotazione modificata oppure salvarne una copia (annotazione multipla).
+
+            <br><br>Tramite il pulsante
+            <button type="button" class="btn btn-info">Save it for later</button>
+            è possibile salvare in locale l'annotazione per poi modifcarla, salvarla o cancellarla in un secondo
+            momento. Le annotazioni non salvate saranno gestite tramite un form dedicato (lo stesso dello scraping).
             <img class="featurette-image img-responsive pull-right" src="/app/images/unsavedAnnotations.png">
-            visibile tramite click sul pulsante
-            <button type="button" class="btn btn-default"><span
-                    class="glyphicon glyphicon-inbox"></span></button>
-            <br>Le annotazioni create dall'utente (no scraping) saranno visibili in pagina tramite placeholder gialli.
-            L'utente può decidere di "salvare per dopo" un'annotazione e gestirla tramite lo stesso form dello scraping.
 
-            <br>Gli elementi presenti nel form delle annotazioni in attesa di salvataggio, potranno essere salvati in
-            un'unica soluzione tramite
-            <button type="button" class="btn btn-primary">Save all</button>
-            <br>Potranno essere rimossi in un'unica soluzione tramite
-            <button type="button" class="btn btn-danger">Remove all</button>
-            <br>Potranno essere modificati, salvati o cancellati singolarmente con
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span></button>
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span></button>
-            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span></button>
-
-            <br><br>Il form e il pulsante
+            <br style="clear: right;"><br>Il form e il pulsante
             <button type="button" class="btn btn-default"><span
                     class="glyphicon glyphicon-inbox"></span></button>
             saranno visibili solo agli utenti che avranno effettuato il login
