@@ -150,7 +150,7 @@ wgxpath.install();
                             return;
                         
                         var start = range.endContainer.parentNode.textContent.indexOf(rangy.getSelection().toString())
-                        var end = start + (range.endOffset);
+                        var end = start + rangy.getSelection().toString().length;
                         var localPath = fragment.createLocalXPATH(range.endContainer.parentNode);
                         var remotePath = fragment.createRemoteXPATH(localPath);
                         var xpath = remotePath;
