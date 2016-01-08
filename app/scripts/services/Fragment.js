@@ -211,6 +211,47 @@
         }
 
         /**
+         *
+         * @param xpath
+         * @param start
+         * @param end
+         * @param annotation
+         * @param aColor
+         * @param aColorFromLabel
+         * @param equals
+         * @returns {HTMLElement}
+         */
+        function createSurroundElement(xpath, start, end, annotation, aColor, aColorFromLabel, equals, range, hash){
+            var span = document.createElement('span');
+            span.setAttribute('data-xpath', xpath);
+            span.setAttribute('data-start', start);
+            span.setAttribute('data-end', end);
+            //span.setAttribute('data-annotation-id', end);
+            span.setAttribute('data-date', annotation.date);
+            span.setAttribute('data-author', annotation.author);
+            span.setAttribute('data-author-fullname', annotation.author_fullname);
+            span.setAttribute('data-author-email', annotation.author_email);
+            span.setAttribute('data-fragment-in-document', range.toString());
+            span.setAttribute('data-fragment', annotation.body_l || annotation.body);
+            span.setAttribute('data-source', documents.getCurrentDocumentSource())
+            span.setAttribute('data-type', aColor);
+            span.setAttribute('data-type-label', aColorFromLabel);
+            span.setAttribute('data-equals', "{'init':" + equals.init + ", 'final':" + equals.final + "}");
+            span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
+            span.setAttribute('class', 'annotation ' + aColor + ' ' + aColorFromLabel);
+
+            //span.setAttribute('tooltip', 'Click or right-click on it to edit');
+            //span.setAttribute('tooltip-placement', 'top');
+            //span.setAttribute('tooltip-trigger', 'mouseenter');
+            span.setAttribute('id', 'snap_' + Date.now());
+            span.setAttribute('data-hash', 'hash_' + hash);
+
+            span.setAttribute('create-context-menu', '');
+
+            return span;
+        }
+
+        /**
          * Renderizza il frammento di testo tramite una cascata
          * condizionale. Se il frammento non è valido non sarà mostrato a schermo
          * Internal us
@@ -261,31 +302,8 @@
              }
              });*/
 
-            var span = document.createElement('span');
-            span.setAttribute('data-xpath', xpath);
-            span.setAttribute('data-start', start);
-            span.setAttribute('data-end', end);
-            //span.setAttribute('data-annotation-id', end);
-            span.setAttribute('data-date', annotation.date);
-            span.setAttribute('data-author', annotation.author);
-            span.setAttribute('data-author-fullname', annotation.author_fullname);
-            span.setAttribute('data-author-email', annotation.author_email);
-            span.setAttribute('data-fragment-in-document', range.toString());
-            span.setAttribute('data-fragment', annotation.body_l || annotation.body);
-            span.setAttribute('data-source', documents.getCurrentDocumentSource())
-            span.setAttribute('data-type', aColor);
-            span.setAttribute('data-type-label', aColorFromLabel);
-            span.setAttribute('data-equals', "{'init':" + equals.init + ", 'final':" + equals.final + "}");
-            span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
-            span.setAttribute('class', 'annotation ' + aColor + ' ' + aColorFromLabel);
-
-            //span.setAttribute('tooltip', 'Click or right-click on it to edit');
-            //span.setAttribute('tooltip-placement', 'top');
-            //span.setAttribute('tooltip-trigger', 'mouseenter');
-            span.setAttribute('id', 'snap_' + Date.now());
-            span.setAttribute('data-hash', 'hash_' + hash);
-
-            span.setAttribute('create-context-menu', '');
+            var span = createSurroundElement(xpath, start, end, annotation, aColor, aColorFromLabel, equals, range, hash);
+            var _span = false;
 
             var options = {
                 caseSensitive: caseSensitive,
@@ -320,7 +338,20 @@
                         range.collapse(false);
                     }
                     else{
-                        $log.info('Cannot surround content');
+                        var _node = range.getNodes([3]);
+                        if(_node){
+                            angular.forEach(_node,function(ele,key){
+                                if(ele.nodeType === 3){
+                                    var newRange = rangy.createRange();
+                                    _span = createSurroundElement(xpath, start, end, annotation, aColor, aColorFromLabel, equals, range, hash+key);
+                                    newRange.selectNodeContents(ele);
+                                    newRange.surroundContents(_span);
+                                    newRange.collapse(false);
+                                    if(newRange.commonAncestorContainer)
+                                        _span ? $compile(_span)(scope$) : '';
+                                }
+                            });
+                        }
                     }
 
                     if (range.commonAncestorContainer)

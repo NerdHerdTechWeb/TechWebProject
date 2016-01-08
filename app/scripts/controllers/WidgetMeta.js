@@ -51,7 +51,9 @@
                 //var pat = new RegExp(search[0]);
                 //var matching = String(v).match(pat);
                 var matching2 = String(v).match(/\/graph\/([a-zA-Z0-9]+)/);
-                var needle = matching2[1] || null;
+                var needle = null;
+                if(matching2)
+                    needle = matching2[1] || null;
                 //if(matching || matching2){
                 $scope.graph.push({graph:v,group:needle});
                 //}

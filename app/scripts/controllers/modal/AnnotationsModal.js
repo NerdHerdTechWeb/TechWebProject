@@ -52,7 +52,7 @@
             $scope.fragmentCollection.push({
                 documentAType:{
                     type : ct.data('type'),
-                    subject : ct.text(),
+                    subject : ct.data('fragment-in-document'),
                     snapID : ct.attr('id'),
                     author : ct.data('type') == 'hasAuthor' ? ct.data('fragment') : '',
                     doi : ct.data('type') == 'hasDOI' ? ct.data('fragment') : '',
@@ -68,11 +68,11 @@
                     comment : ct.data('type') == 'hasComment' ? ct.data('fragment') : '',
                     rethoric: 'abstract',
                     citationParams: {
-                        documentTitle: split[1],
-                        doi: split[4],
-                        publicationDate: split[2],
-                        authors: split[0],
-                        url: split[3]
+                        documentTitle: '',
+                        doi: '',
+                        publicationDate: '',
+                        authors: '',
+                        url: ''
                     }
                 },
                 dat: ct.data('type'),
