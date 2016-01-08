@@ -136,12 +136,63 @@ wgxpath.install();
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
-                
+
+                /**
+                 *
+                 * @returns {Range|*}
+                 */
                 function getFirstRange() {
                     var sel = rangy.getSelection();
                     return sel.rangeCount ? sel.getRangeAt(0) : null;
                 }
-                
+
+                /**
+                 *
+                 * @param xpath
+                 * @param start
+                 * @param end
+                 * @param annotation
+                 * @param aColor
+                 * @param aColorFromLabel
+                 * @param equals
+                 * @param range
+                 * @param hash
+                 * @returns {HTMLElement}
+                 */
+                function createSurroundElement(xpath, start, end, user, documents, text, hash){
+                    var span = document.createElement("span");
+                    span.setAttribute('data-xpath', xpath);
+                    span.setAttribute('data-start', start);
+                    span.setAttribute('data-end', end);
+                    span.setAttribute('data-annotation-id', end);
+                    span.setAttribute('data-date', $filter('date')(Date.now(), 'yyyy-MM-dd'));
+                    span.setAttribute('data-author', user.userData().email);
+                    span.setAttribute('data-author-fullname', user.userData().name);
+                    span.setAttribute('data-author-email', user.userData().email);
+                    span.setAttribute('data-fragment-in-document', text);
+                    span.setAttribute('data-fragment', text);
+                    span.setAttribute('data-source', documents.getCurrentDocumentSource());
+                    span.setAttribute('data-type', 'noType');
+                    span.setAttribute('data-highlight', 'true');
+
+                    span.setAttribute('tooltip', 'Fragment not saved yet. Click or right-click on it to edit');
+                    span.setAttribute('tooltip-placement', 'top');
+                    span.setAttribute('tooltip-trigger', 'mouseenter');
+                    span.setAttribute('id', 'snap_' + Date.now());
+
+                    span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
+                    span.setAttribute('class', 'annotation noType');
+
+                    span.setAttribute('data-hash', 'hash_' + hash);
+
+                    span.setAttribute('create-context-menu','');
+
+                    return span;
+                }
+
+                /**
+                 *
+                 */
                 function surroundRange() {
                     var range = getFirstRange();
                     //var serializedSelection = rangy.serializeSelection(range);
@@ -157,33 +208,8 @@ wgxpath.install();
                         var text = rangy.getSelection().toString();
                         
                         var hash = fragment.hash(start+end+xpath);
-                        
-                        var span = document.createElement("span");
-                        span.setAttribute('data-xpath', xpath);
-                        span.setAttribute('data-start', start);
-                        span.setAttribute('data-end', end);
-                        span.setAttribute('data-annotation-id', end);
-                        span.setAttribute('data-date', $filter('date')(Date.now(), 'yyyy-MM-dd'));
-                        span.setAttribute('data-author', user.userData().email);
-                        span.setAttribute('data-author-fullname', user.userData().name);
-                        span.setAttribute('data-author-email', user.userData().email);
-                        span.setAttribute('data-fragment-in-document', text);
-                        span.setAttribute('data-fragment', text);
-                        span.setAttribute('data-source', documents.getCurrentDocumentSource());
-                        span.setAttribute('data-type', 'noType');
-                        span.setAttribute('data-highlight', 'true');
-                        
-                        span.setAttribute('tooltip', 'Fragment not saved yet. Click or right-click on it to edit');
-                        span.setAttribute('tooltip-placement', 'top');
-                        span.setAttribute('tooltip-trigger', 'mouseenter');
-                        span.setAttribute('id', 'snap_' + Date.now());
-                       
-                        span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
-                        span.setAttribute('class', 'annotation noType');
-                        
-                        span.setAttribute('data-hash', 'hash_' + hash);
-                        
-                        span.setAttribute('create-context-menu','');
+                        var span = createSurroundElement(xpath, start, end, user, documents, text, hash);
+                        var _span = false;
                         
                         var annotationsCollection = {
                            start: start,
@@ -201,7 +227,21 @@ wgxpath.install();
                             range.surroundContents(span);
                             $compile(span)(scope);
                         } else {
-                            Notification.warning("Unable to surround range because range partially selects a non-text node. See DOM4 spec for more information.");
+                            var _node = range.getNodes([3]);
+                            if(_node){
+                                angular.forEach(_node,function(ele,key){
+                                    if(ele.nodeType === 3){
+                                        var newRange = rangy.createRange();
+                                        _span = createSurroundElement(xpath, start, end, user, documents, text, hash+key);
+                                        newRange.selectNodeContents(ele);
+                                        newRange.surroundContents(_span);
+                                        newRange.collapse(false);
+                                        if(newRange.commonAncestorContainer)
+                                            _span ? $compile(_span)(scope) : '';
+                                    }
+                                });
+                            }
+                            Notification.warning("Warning. Your selection maybe is not accurate. You can proceed anyway.");
                         }
                     }
                 }

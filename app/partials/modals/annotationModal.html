@@ -6,7 +6,7 @@
     </div>
 
     <div class="modal-body fragmentEditor">
-    
+
     <!-- Form repetable -->
     <uib-accordion close-others="oneAtATime">
         <uib-accordion-group ng-repeat="fragment in fragmentCollection" ng-init="fIndex = $index"  is-open="status.open">
@@ -37,9 +37,9 @@
                                     <span class="help-block">Choose an annotation type to associate on the document</span>
                                     <div class="input-group" ng-switch on="fragment.dat">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default dropdown-toggle" 
+                                            <button type="button" class="btn btn-default dropdown-toggle"
                                             data-toggle="dropdown"
-                                            aria-haspopup="true" 
+                                            aria-haspopup="true"
                                             aria-expanded="false">{{fragment.annotationTypeLiteral}} <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
                                                 <li ng-repeat="(key, docP) in documentProperties">
@@ -104,8 +104,8 @@
                                     <span class="help-block">Choose an annotation type to associate on the fragment</span>
                                     <div class="input-group" ng-switch on="fragment.fat">
                                         <div ng-if="fragment.fat === 'denotesRhetoric'" class="input-group-btn">
-                                            <button type="button" class="btn btn-default dropdown-toggle" 
-                                            data-toggle="dropdown" aria-haspopup="true" 
+                                            <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">{{fragment.rethoricTypeLiteral}} <span class="caret"></span></button>
                                             <ul class="dropdown-menu dropdown-menu-left">
                                                 <li ng-repeat="(key, docP) in rethoricProperties">
@@ -139,8 +139,8 @@
                                                placeholder="Choose the fragment type"
                                                type="text" class="form-control" aria-label="...">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default dropdown-toggle" 
-                                            data-toggle="dropdown" aria-haspopup="true" 
+                                            <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">{{fragment.annotationFragmentTypeLiteral}} <span class="caret"></span></button>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li ng-repeat="(key, docP) in fragmentProperties">
@@ -153,8 +153,21 @@
                             </div><!-- /.row -->
                         </div>
                     </div>
-                    
+
                     <!-- References -->
+                    <uib-accordion ng-if="fragment.showReferencesFields" close-others="oneAtATime">
+                        <uib-accordion-group is-open="status.referencesOpen">
+                            <uib-accordion-heading>
+                                References - open to view<a href>
+                                <span class="pull-right glyphicon"
+                                      ng-class="{'glyphicon-chevron-down': status.referencesOpen, 'glyphicon-chevron-right': !status.referencesOpen}">
+                                </span></a>
+                            </uib-accordion-heading>
+                            <blockquote>
+                                <p>{{fragment.fragmentAType.subject}}</p>
+                            </blockquote>
+                        </uib-accordion-group>
+                    </uib-accordion>
                     <h2 class="text-info" ng-if="fragment.showReferencesFields">Citations params</h2>
                     <div class="row" ng-if="showReferencesFields">
                         <div class="col-md-12">
@@ -221,9 +234,9 @@
                 </form>
             </uib-accordion-group>
         </uib-accordion>
-        
+
         <!-- End Form repetable -->
-        
+
     </div>
 </div>
 

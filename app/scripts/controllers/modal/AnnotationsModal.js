@@ -63,6 +63,7 @@
                 fragmentAType :{
                     type : ct.data('type'),
                     snapID : ct.attr('id'),
+                    subject: ct.data('fragment'),
                     //citation : ct.data('type') == 'references' ? ct.data('fragment') : '',
                     citation : '',
                     comment : ct.data('type') == 'hasComment' ? ct.data('fragment') : '',
