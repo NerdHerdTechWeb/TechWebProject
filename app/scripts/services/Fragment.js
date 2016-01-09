@@ -302,7 +302,6 @@
              }
              });*/
 
-            var span = createSurroundElement(xpath, start, end, annotation, aColor, aColorFromLabel, equals, range, hash);
             var _span = false;
 
             var options = {
@@ -324,6 +323,8 @@
 
                 // Iterate over matches
                 if (s !== '' && range.findText(s, {withinRange: searchScopeRange, wholeWordsOnly: false})) {
+
+                    var span = createSurroundElement(xpath, start, end, annotation, aColor, aColorFromLabel, equals, range, hash);
 
                     // range now encompasses the first text match
                     //searchResultApplier.applyToRange(range);
