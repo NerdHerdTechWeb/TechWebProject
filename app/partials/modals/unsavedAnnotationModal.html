@@ -208,7 +208,7 @@
                     </uib-tab>
                     <uib-tab>
                         <uib-tab-heading>
-                            DOI <span class="badge">{{(rowCollection.doi).lenght}}</span>
+                            DOI <span class="badge">{{(rowCollection.doi).length}}</span>
                         </uib-tab-heading>
                         <table st-table="rowCollection" class="table table-striped">
                             <thead>
@@ -227,12 +227,12 @@
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" ng-click="save(row.doi, 'doi')" class="btn btn-sm btn-info">
+                                    <button type="button" ng-click="save(row, 'doi')" class="btn btn-sm btn-info">
                                         <i class="glyphicon glyphicon-save"></i>
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" ng-click="removeRow(row.doi, 'doi')" class="btn btn-sm btn-danger">
+                                    <button type="button" ng-click="removeRow(row, 'doi')" class="btn btn-sm btn-danger">
                                         <i class="glyphicon glyphicon-remove-circle"></i>
                                     </button>
                                 </td>

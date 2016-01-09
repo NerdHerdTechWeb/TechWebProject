@@ -18,7 +18,8 @@ class Sparql_Edit
     public function __construct()
     {
 
-        $this->citparams = array("Author" => null,
+        $this->citparams = array(
+                "Author" => null,
                 "PublicationYear" => null,
                 "Title" => null,
                 "DOI" => null,
@@ -26,7 +27,8 @@ class Sparql_Edit
         );
 
 
-        $this->labels = array("hasAuthor" => "Author",
+        $this->labels = array(
+                "hasAuthor" => "Author",
                 "hasPublicationYear" => "Publication Year",
                 "hasTitle" => "Title",
                 "hasDOI" => "DOI",
@@ -36,7 +38,8 @@ class Sparql_Edit
                 "references" => "Citation",
         );
 
-        $this->predicates = array("hasAuthor" => EasyRdf_Namespace::expand('dcterms:creator'),
+        $this->predicates = array(
+                "hasAuthor" => EasyRdf_Namespace::expand('dcterms:creator'),
                 "hasPublicationYear" => EasyRdf_Namespace::expand('fabio:hasPublicationYear'),
                 "hasTitle" => EasyRdf_Namespace::expand('dcterms:title'),
                 "hasDOI" => EasyRdf_Namespace::expand('prism:doi'),
@@ -46,7 +49,8 @@ class Sparql_Edit
                 "references" => EasyRdf_Namespace::expand('cito:cites'),
         );
 
-        $this->retorica = array("Abstract" => EasyRdf_Namespace::expand('sro:Abstract'),
+        $this->retorica = array(
+                "Abstract" => EasyRdf_Namespace::expand('sro:Abstract'),
                 "Introduction" => EasyRdf_Namespace::expand('deo:Introduction'),
                 "Materials" => EasyRdf_Namespace::expand('deo:Materials'),
                 "Methods" => EasyRdf_Namespace::expand('deo:Methods'),

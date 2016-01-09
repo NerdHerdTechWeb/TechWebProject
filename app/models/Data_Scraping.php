@@ -478,7 +478,7 @@ class Data_Scraping
             $newPaper['title']['end'] = strlen($xpath->query("//*[@id='articleTitle']", $r)->item(0)->nodeValue);
             $newPaper['title']['type'] = 'hasTitle';
             $newPaper['title']['fragment'] = $newPaper['title']['title'];
-            $newPaper['references']['source'] = $document;
+            $newPaper['title']['source'] = $document;
 
             $finale['title'][] = $newPaper['title'];
 

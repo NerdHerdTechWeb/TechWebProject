@@ -157,8 +157,8 @@
             }
 
             /* Sete last selectd type */
-            if (lastSelectedType)
-                angular.merge(form, {type: lastSelectedType});
+            //if (lastSelectedType)
+                //angular.merge(form, {type: lastSelectedType});
 
             return form;
         }
@@ -296,6 +296,7 @@
             Notification.info('Waiting please');
 
             var collection = {};
+            var index = 0;
             angular.forEach(rowCollection, function (val, type) {
                 //TODO save triple notation
                 angular.forEach(val, function (v, i) {
@@ -307,7 +308,8 @@
                             return Notification.error('Choose an annotation type, please');
                     }
 
-                    collection['aannotation_'+i] = form;
+                    collection['annotation_'+index] = form;
+                    index++;
                 });
             });
 
