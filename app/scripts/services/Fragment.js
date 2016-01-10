@@ -90,7 +90,7 @@
          * @returns {string}
          */
         function createLocalXPATH(element) {
-            if (element.id !== '')
+            if (element.id !== '' && !element.dataset.xpath)
                 return 'id("' + element.id + '")';
             if (element === document.body)
                 return element.tagName;

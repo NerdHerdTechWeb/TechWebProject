@@ -6,6 +6,18 @@
         .module('semanticNotations')
         .controller('AnnotationsModal', annotationsModal)
 
+    /**
+     * Manage modal annotation controller
+     * @param $scope
+     * @param $rootScope
+     * @param $modalInstance
+     * @param $log
+     * @param fragmentText
+     * @param user
+     * @param annotationManager
+     * @param Notification
+     * @param documents
+     */
     function annotationsModal($scope, $rootScope, $modalInstance, $log, fragmentText,
                               user, annotationManager, Notification, documents) {
 
@@ -88,12 +100,15 @@
                 author_fullname: ct.data('author-fullname') ? ct.data('author-fullname') : user.userData().name,
                 author_email: ct.data('author-email') ? ct.data('author-email') : user.userData().email,
                 date: ct.data('date'),
-                snapID : ct.attr('id')
+                snapID : ct.attr('id'),
+                selectedType : $scope.documentProperties[ct.data('type')] || $scope.fragmentProperties[ct.data('type')]
             });
         });
-        
+
         /**
-         *  Helper function
+         * Helper function
+         * @param index
+         * @returns {{}}
          */
         function prepareData(index) {
             var form = {};
@@ -115,9 +130,10 @@
         }
 
         /**
-        * 
-        * 
-        */
+         *
+         * @param index
+         * @returns {*}
+         */
         $scope.submit = function (index) {
             
             //TODO save triple notation
@@ -138,11 +154,11 @@
                 $scope.fragmentCollection[index].currentNonLiteralType = '';
             });
         };
-        
+
         /**
-         * 
          * Store highlighted annotation
-         * 
+         * @param index
+         * @returns {*}
          */
         $scope.saveItLater = function(index) {
             var form = prepareData(index);
@@ -156,8 +172,7 @@
         }
 
         /**
-         * 
-         * 
+         *
          */
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
@@ -165,8 +180,9 @@
         };
 
         /**
-         * 
-         * 
+         *
+         * @param type
+         * @param index
          */
         $scope.selectDocumentAType = function (type, index) {
             
@@ -174,12 +190,14 @@
             $scope.fragmentCollection[index].dat = type;
             $scope.fragmentCollection[index].documentAType.type = type;
             $scope.fragmentCollection[index].annotationTypeLiteral = $scope.documentProperties[type];
+            $scope.fragmentCollection[index].selectedType = $scope.documentProperties[type];
             $scope.fragmentCollection[index].currentNonLiteralType = type;
         }
-        
+
         /**
-         * 
-         * 
+         *
+         * @param type
+         * @param index
          */
         $scope.selectFragmentAType = function (type, index) {
             
@@ -187,6 +205,7 @@
             $scope.fragmentCollection[index].fat = type;
             $scope.fragmentCollection[index].fragmentAType.type = type;
             $scope.fragmentCollection[index].annotationFragmentTypeLiteral = $scope.fragmentProperties[type];
+            $scope.fragmentCollection[index].selectedType = $scope.fragmentProperties[type];
             $scope.fragmentCollection[index].currentNonLiteralType = type;
             
             if(type === 'references')
@@ -194,31 +213,32 @@
             else
                 $scope.fragmentCollection[index].showReferencesFields = false;
         }
-        
+
         /**
-         * 
-         * 
+         *
+         * @param type
+         * @param index
          */
         $scope.selectFragmentRethoric = function (type, index) {
             
             lastSelectedType = type;
             $scope.fragmentCollection[index].rethoricType = type;
             $scope.fragmentCollection[index].rethoricTypeLiteral = $scope.rethoricProperties[type];
+            $scope.fragmentCollection[index].selectedType = $scope.rethoricProperties[type];
             $scope.fragmentCollection[index].fragmentAType.rethoric = type;
             $scope.fragmentCollection[index].currentNonLiteralType = type;
         }
-        
+
         /**
-         * 
-         * 
+         *
          */
         $scope.login = function () {
             $scope.switchLoginView = true;
         }
-        
+
         /**
-         * 
-         * 
+         *
+         * @param form
          */
         $scope.doLogin = function (form) {
             var isValidForm = form.$valid;

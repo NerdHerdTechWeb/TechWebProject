@@ -11,7 +11,10 @@
     <uib-accordion close-others="oneAtATime">
         <uib-accordion-group ng-repeat="fragment in fragmentCollection" ng-init="fIndex = $index"  is-open="status.open">
             <uib-accordion-heading>
-                Annotations<a href><span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span></a>
+                Annotations :: {{fragment.selectedType}}
+                <a href>
+                    <span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span>
+                </a>
             </uib-accordion-heading>
                 <form class="form-horizontal" novalidate>
                     <!-- Annotation creation data  -->
