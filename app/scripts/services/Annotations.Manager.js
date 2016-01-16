@@ -58,7 +58,7 @@
 
         /**
          * Setter for created annotations
-         *
+
          */
         function setCreatedAnnotations(annotation) {
             var type = String([annotation.type]);
@@ -233,7 +233,15 @@
             scrapingStorage = {};
         }
 
+        /**
+         * Remove alla "save it for later" annotations
+         */
         function removeSavedAnnotations() {
+            annotationCreated = {};
+        }
+
+        function removeAllLocalAnnotations() {
+            scrapingStorage = {};
             annotationCreated = {};
         }
 
@@ -304,7 +312,8 @@
             getCreatedAnnotations: getCreatedAnnotations,
             removeInlineAnnotation: removeInlineAnnotation,
             removeScrapedAnnotations: removeScrapedAnnotations,
-            removeSavedAnnotations: removeSavedAnnotations
+            removeSavedAnnotations: removeSavedAnnotations,
+            removeAllLocalAnnotations: removeAllLocalAnnotations
         }
     }
 

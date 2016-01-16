@@ -239,6 +239,39 @@
                             </tr>
                         </table>
                     </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading>
+                            Rhetoric <span class="badge">{{(rowCollection.rethoric).length}}</span>
+                        </uib-tab-heading>
+                        <table st-table="rowCollection" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Rhetoric</th>
+                                <th>Modify</th>
+                                <th>Save</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="row in rowCollection.doi">
+                                <td>{{row.fragment}}</td>
+                                <td>
+                                    <button type="button" ng-click="edit(row, 'rethoric')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="save(row, 'rethoric')" class="btn btn-sm btn-info">
+                                        <i class="glyphicon glyphicon-save"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="removeRow(row, 'rethoric')" class="btn btn-sm btn-danger">
+                                        <i class="glyphicon glyphicon-remove-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </uib-tab>
                 </uib-tabset>
             </div>
         </div>

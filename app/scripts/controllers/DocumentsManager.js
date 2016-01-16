@@ -16,8 +16,7 @@
         .directive('createFragmentSpan', CreateFragmentSpan)
         .directive('switchIndex', switchIndex)
 
-    function documentsManager(documents, annotationManager, fragment, $scope, $rootScope,
-                                $timeout, $window, $modal, $compile, $log) {
+    function documentsManager(documents, Notification, annotationManager, fragment, $scope, $rootScope,$modal, $compile, $log) {
 
         // vm is our capture variable
         var vm = this;
@@ -99,11 +98,14 @@
             $scope.skCircle.removeClass('doc-preloader-hide').addClass('doc-preloader-show');
             documents.getDocument(link, from).then(
                 function (results) {
+                    /** Cleaning saved/scraped annotations **/
+                    annotationManager.removeAllLocalAnnotations();
                     vm.documentEntry = results;
                     $scope.addItem(data, results, graph);
                     $scope.skCircle.removeClass('doc-preloader-show').addClass('doc-preloader-hide');
-                }, function (error) { // Check for errors
-                    console.log(error);
+                }, function (error) {
+                    Notification.error('Something goes wrong');
+                    $log.error(error);
                 }
             );
         }

@@ -108,14 +108,14 @@
                     doi: row.doi || '',
                     publicationYear: row.publicationYear || '',
                     title: row.title || '',
-                    url: ''
+                    url: row.URL || ''
                 },
                 fragmentAType: {
                     type: row.type,
                     snapID: row.snapID || '',
                     citation: row.citation || '',
                     comment: row.comment || '',
-                    rethoric: 'abstract',
+                    rethoric: row.rethoric || 'abstract',
                     citationParams: {
                         documentTitle: citationsParams.documentTitle || '',
                         doi: citationsParams.doi || '',
@@ -346,14 +346,14 @@
                     doi: row.doi || '',
                     publicationYear: row.publicationYear || '',
                     title: row.title || '',
-                    url: ''
+                    url: row.URL || ''
                 },
                 fragmentAType: {
                     type: row.type,
                     snapID: row.snapID || '',
                     citation: row.citation || '',
                     comment: row.comment || '',
-                    rethoric: 'abstract',
+                    rethoric: row.rethoric || 'abstract',
                     citationParams: {
                         documentTitle: citationsParams.documentTitle || '',
                         doi: citationsParams.doi || '',
