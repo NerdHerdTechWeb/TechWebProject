@@ -110,6 +110,8 @@
                 function (results) {
                     /** Cleaning saved/scraped annotations **/
                     annotationManager.removeAllLocalAnnotations();
+                    /** Set current document on root scope **/
+                    $rootScope.currentLoadedDocument = link;
                     vm.documentEntry = results;
                     $scope.addItem(data, results, graph);
                     $scope.skCircle.removeClass('doc-preloader-show').addClass('doc-preloader-hide');
