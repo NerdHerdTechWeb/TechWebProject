@@ -175,8 +175,8 @@
                     img.addClass('img-replaced');
                 });
                 var rLe = results.length;
-                if(rLe <= 0){
-                    /* SearchBar controller */
+                /** Make auto scraping only on 1540 **/
+                if(rLe <= 0 && (graph.match(/\/graph\/ltw1540/) || graph === '')){
                     $rootScope.$broadcast('noAnnotationsFounded', $scope.documentData.link);
                 }
                 for(var key in results){
