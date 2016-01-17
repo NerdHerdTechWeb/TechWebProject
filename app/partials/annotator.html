@@ -90,8 +90,12 @@
 
             <uib-accordion-group is-open="status.isFirstOpen">
                 <uib-accordion-heading>
-                    Documents <a href><span class="pull-right glyphicon"
-                                            ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></span></a>
+                    Documents
+                    <button ng-if="(documentEntriesMemory).length > 0" type="button" class="btn btn-default"
+                            tooltip="Reset documents list" tooltip-placement="top" tooltip-trigger="mouseenter"
+                            ng-click="resetDocumentsList()"><span class="glyphicon glyphicon-retweet"></span></button>
+                    <a href><span class="pull-right glyphicon"
+                                  ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></span></a>
                 </uib-accordion-heading>
                 <!--Sidebar content-->
                 <div class="list-group">

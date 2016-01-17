@@ -572,7 +572,11 @@ class Data_Scraping
 
         $body = $res;
 
-        $doc->loadHTML($body);
+        try {
+            $doc->loadHTML($body);
+        } catch (Exception $e) {
+            return json_encode(array('message' => $e->getMessage(), 'class' => 'warning'));
+        }
 
         $xpath = new DOMXpath($doc);
 

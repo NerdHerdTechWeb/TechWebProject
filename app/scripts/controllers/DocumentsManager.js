@@ -23,6 +23,7 @@
         $scope.documentsLoaded = [];
         $scope.skCircle = jQuery('.sk-circle');
         $scope.fragmentText = '';
+        $scope.documentEntriesMemory = [];
         
         var documentDataLink = '';
         var documentDataImagePath = '';
@@ -45,6 +46,7 @@
         );
         
         $scope.$on('documentFiltered', function(event, args){
+            $scope.documentEntriesMemory = $scope.documentEntries;
             $scope.documentEntries = [];
             var tempRes = [];
             for(var k in args){
@@ -59,6 +61,14 @@
             }
             $scope.documentEntries = tempRes;
         });
+
+        /**
+         * Reset documents list
+         */
+        $scope.resetDocumentsList = function(){
+            $scope.documentEntries = $scope.documentEntriesMemory;
+            $scope.documentEntriesMemory = [];
+        }
         
 
         /**
