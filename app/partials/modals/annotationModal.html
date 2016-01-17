@@ -1,246 +1,268 @@
 <div ng-if="!switchLoginView">
-    <div class="modal-header">
-        <button class="btn btn-warning pull-right" ng-click="cancel()">Close</button>
-        <h3 class="modal-title">Annotator editor</h3>
-        <small ng-if="!logInStatus" style="color: red;">If you want edit this annotations you must logged in</small>
+<div class="modal-header">
+    <button class="btn btn-warning pull-right" ng-click="cancel()">Close</button>
+    <h3 class="modal-title">Annotator editor</h3>
+    <small ng-if="!logInStatus" style="color: red;">If you want edit this annotations you must logged in</small>
+</div>
+
+<div class="modal-body fragmentEditor">
+
+<!-- Form repetable -->
+<uib-accordion close-others="oneAtATime">
+<uib-accordion-group ng-repeat="fragment in fragmentCollection" ng-init="fIndex = $index" is-open="status.open">
+<uib-accordion-heading>
+    Annotations :: {{fragment.selectedType}}
+    <a href>
+        <span class="pull-right glyphicon"
+              ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span>
+    </a>
+</uib-accordion-heading>
+<form class="form-horizontal" novalidate>
+<!-- Annotation creation data  -->
+<ul class="list-group">
+    <li class="list-group-item" style="border: none !important;"><span class="enphasis active">Author</span>:
+        {{fragment.author_email}}
+    </li>
+    <li class="list-group-item" style="border: none !important;"><span class="enphasis active">Creation date</span>:
+        {{fragment.date | date:'M d, yyyy - HH:mm:ss'}}
+    </li>
+</ul>
+<div class="row">
+    <div class="col-md-12">
+        <span class="help-block">Fragment selected</span>
+        <textarea class="form-control"
+                  name="subject"
+                  rows="3"
+                  ng-model="fragment.documentAType.subject"
+                  tooltip="Fragment selected. Readonly"
+                  tooltip-placement="top"
+                  tooltip-trigger="mouseenter"
+                  readonly></textarea>
     </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <span class="help-block">Choose an annotation type to associate on the document</span>
 
-    <div class="modal-body fragmentEditor">
-
-    <!-- Form repetable -->
-    <uib-accordion close-others="oneAtATime">
-        <uib-accordion-group ng-repeat="fragment in fragmentCollection" ng-init="fIndex = $index"  is-open="status.open">
-            <uib-accordion-heading>
-                Annotations :: {{fragment.selectedType}}
-                <a href>
-                    <span class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></span>
-                </a>
-            </uib-accordion-heading>
-                <form class="form-horizontal" novalidate>
-                    <!-- Annotation creation data  -->
-                    <ul class="list-group">
-                      <li class="list-group-item" style="border: none !important;"><span class="enphasis active">Author</span>: {{fragment.author_email}}</li>
-                      <li class="list-group-item" style="border: none !important;"><span class="enphasis active">Creation date</span>: {{fragment.date | date:'M d, yyyy - HH:mm:ss'}}</li>
-                    </ul>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="help-block">Fragment selected</span>
-                            <textarea class="form-control"
-                                      name="subject"
-                                      rows="3"
-                                      ng-model="fragment.documentAType.subject"
-                                      tooltip="Fragment selected. Readonly"
-                                      tooltip-placement="top"
-                                      tooltip-trigger="mouseenter"
-                                      readonly></textarea>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <span class="help-block">Choose an annotation type to associate on the document</span>
-                                    <div class="input-group" ng-switch on="fragment.dat">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">{{fragment.annotationTypeLiteral}} <span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
-                                                <li ng-repeat="(key, docP) in documentProperties">
-                                                    <a ng-click="selectDocumentAType(key, fIndex)" data-type="{{key}}" href>{{docP}}</a>
-                                                </li>
-                                            </ul>
-                                        </div><!-- /btn-group -->
-                                        <input ng-switch-when="hasAuthor"
-                                               ng-model="fragment.documentAType.author"
-                                               tooltip="Type in a custom description"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Type in a valid author name" type="text" class="form-control" aria-label="...">
-                                        <input ng-switch-when="hasDOI"
-                                               ng-model="fragment.documentAType.doi"
-                                               tooltip="Type in a custom description"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Type in a custom description"
-                                               type="text" class="form-control" aria-label="...">
-                                        <input ng-switch-when="hasPublicationYear"
-                                               ng-model="fragment.documentAType.publicationYear"
-                                               tooltip="Typein a custom description"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Typein a custom description"
-                                               type="text" class="form-control" aria-label="...">
-                                        <input ng-switch-when="hasTitle"
-                                               ng-model="fragment.documentAType.title"
-                                               tooltip="Type in a custom description"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Type in a custom description"
-                                               type="text" class="form-control" aria-label="...">
-                                        <input ng-switch-when="hasURL"
-                                               ng-model="fragment.documentAType.url"
-                                               tooltip="Type in a custom description"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Type in a custom description"
-                                               type="url" name="url" class="form-control" aria-label="...">
-                                        <div ng-show="form.$submitted || form.$touched">
-                                            <span class="text-danger" ng-show="form.url.$error.url">This is not a valid url.</span>
-                                        </div>
-                                        <input ng-switch-when="references"
-                                               ng-model="fragment.documentAType.references"
-                                               tooltip="Type in a custom description"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Type in a custom description"
-                                               type="text" class="form-control" aria-label="...">
-                                        <input ng-switch-default
-                                               ng-model="fragment.documentAType.author"
-                                               tooltip="Type in a custom description"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Type in a custom description" type="text" class="form-control" aria-label="...">
-                                    </div><!-- /input-group -->
-                                </div><!-- /.col-lg-6 -->
-                                <!-- Fragment annotation -->
-                                <div class="col-md-6">
-                                    <span class="help-block">Choose an annotation type to associate on the fragment</span>
-                                    <div class="input-group" ng-switch on="fragment.fat">
-                                        <div ng-if="fragment.fat === 'denotesRhetoric'" class="input-group-btn">
-                                            <button type="button" class="btn btn-default dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">{{fragment.rethoricTypeLiteral}} <span class="caret"></span></button>
-                                            <ul class="dropdown-menu dropdown-menu-left">
-                                                <li ng-repeat="(key, docP) in rethoricProperties">
-                                                    <a ng-click="selectFragmentRethoric(key, fIndex)" data-type="{{key}}" href>{{docP}}</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <input ng-switch-when="hasCitation"
-                                               ng-disabled="showReferencesFields"
-                                               ng-model="fragment.fragmentAType.citation"
-                                               tooltip="Type in a custom description"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Type in a custom description"
-                                               type="text" class="form-control" aria-label="...">
-                                        <input ng-switch-when="hasComment"
-                                               ng-model="fragment.fragmentAType.comment"
-                                               tooltip="Type in a comment for the fragment"
-                                               tooltip-placement="top"
-                                               tooltip-trigger="mouseenter"
-                                               placeholder="Type in a comment for the fragment"
-                                               type="text" class="form-control" aria-label="...">
-                                        <input ng-switch-when="denotesRhetoric"
-                                               ng-model="fragment.fragmentAType.rethoric.selected"
-                                               disabled
-                                               placeholder="Choose a rethoric type on the left"
-                                               type="text" class="form-control" aria-label="...">
-                                        <input ng-switch-default
-                                               disabled
-                                               ng-model="fragment.fragmentAType.citation"
-                                               placeholder="Choose the fragment type"
-                                               type="text" class="form-control" aria-label="...">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">{{fragment.annotationFragmentTypeLiteral}} <span class="caret"></span></button>
-                                            <ul class="dropdown-menu dropdown-menu-right">
-                                                <li ng-repeat="(key, docP) in fragmentProperties">
-                                                    <a ng-click="selectFragmentAType(key, fIndex)" data-type="{{key}}" href>{{docP}}</a>
-                                                </li>
-                                            </ul>
-                                        </div><!-- /btn-group -->
-                                    </div><!-- /input-group -->
-                                </div><!-- /.col-lg-6 -->
-                            </div><!-- /.row -->
-                        </div>
+                <div class="input-group" ng-switch on="fragment.dat">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">{{fragment.annotationTypeLiteral}} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="(key, docP) in documentProperties">
+                                <a ng-click="selectDocumentAType(key, fIndex)" data-type="{{key}}" href>{{docP}}</a>
+                            </li>
+                        </ul>
                     </div>
+                    <!-- /btn-group -->
+                    <input ng-switch-when="hasAuthor"
+                           ng-model="fragment.documentAType.author"
+                           tooltip="Type in a custom description"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter"
+                           placeholder="Type in a valid author name" type="text" class="form-control" aria-label="...">
+                    <input ng-switch-when="hasDOI"
+                           ng-model="fragment.documentAType.doi"
+                           tooltip="Type in a custom description"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter"
+                           placeholder="Type in a custom description"
+                           type="text" class="form-control" aria-label="...">
+                    <input ng-switch-when="hasPublicationYear"
+                           ng-model="fragment.documentAType.publicationYear"
+                           tooltip="Typein a custom description"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter"
+                           placeholder="Typein a custom description"
+                           type="text" class="form-control" aria-label="...">
+                    <input ng-switch-when="hasTitle"
+                           ng-model="fragment.documentAType.title"
+                           tooltip="Type in a custom description"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter"
+                           placeholder="Type in a custom description"
+                           type="text" class="form-control" aria-label="...">
+                    <input ng-switch-when="hasURL"
+                           ng-model="fragment.documentAType.url"
+                           tooltip="Type in a custom description"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter"
+                           placeholder="Type in a custom description"
+                           type="url" name="url" class="form-control" aria-label="...">
 
-                    <!-- References -->
-                    <uib-accordion ng-if="fragment.showReferencesFields" close-others="oneAtATime">
-                        <uib-accordion-group is-open="status.referencesOpen">
-                            <uib-accordion-heading>
-                                References - open to view<a href>
+                    <div ng-show="form.$submitted || form.$touched">
+                        <span class="text-danger" ng-show="form.url.$error.url">This is not a valid url.</span>
+                    </div>
+                    <input ng-switch-when="references"
+                           ng-model="fragment.documentAType.references"
+                           tooltip="Type in a custom description"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter"
+                           placeholder="Type in a custom description"
+                           type="text" class="form-control" aria-label="...">
+                    <input ng-switch-default
+                           ng-model="fragment.documentAType.author"
+                           tooltip="Type in a custom description"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter"
+                           placeholder="Type in a custom description" type="text" class="form-control" aria-label="...">
+                </div>
+                <!-- /input-group -->
+            </div>
+            <!-- /.col-lg-6 -->
+            <!-- Fragment annotation -->
+            <div class="col-md-6">
+                <span class="help-block">Choose an annotation type to associate on the fragment</span>
+
+                <div class="input-group" ng-switch on="fragment.fat">
+                    <div ng-if="fragment.fat === 'denotesRhetoric'" class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">{{fragment.rethoricTypeLiteral}} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li ng-repeat="(key, docP) in rethoricProperties">
+                                <a ng-click="selectFragmentRethoric(key, fIndex, 'denotesRhetoric')" data-type="{{key}}"
+                                   href>{{docP}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <input ng-switch-when="hasCitation"
+                           ng-disabled="showReferencesFields"
+                           ng-model="fragment.fragmentAType.citation"
+                           tooltip="Type in a custom description"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter"
+                           placeholder="Type in a custom description"
+                           type="text" class="form-control" aria-label="...">
+                    <input ng-switch-when="hasComment"
+                           ng-model="fragment.fragmentAType.comment"
+                           tooltip="Type in a comment for the fragment"
+                           tooltip-placement="top"
+                           tooltip-trigger="mouseenter"
+                           placeholder="Type in a comment for the fragment"
+                           type="text" class="form-control" aria-label="...">
+                    <input ng-switch-when="denotesRhetoric"
+                           ng-model="fragment.fragmentAType.rethoric.selected"
+                           disabled
+                           placeholder="Choose a rethoric type on the left"
+                           type="text" class="form-control" aria-label="...">
+                    <input ng-switch-default
+                           disabled
+                           ng-model="fragment.fragmentAType.citation"
+                           placeholder="Choose the fragment type"
+                           type="text" class="form-control" aria-label="...">
+
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">{{fragment.annotationFragmentTypeLiteral}} <span
+                                class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li ng-repeat="(key, docP) in fragmentProperties">
+                                <a ng-click="selectFragmentAType(key, fIndex)" data-type="{{key}}" href>{{docP}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /btn-group -->
+                </div>
+                <!-- /input-group -->
+            </div>
+            <!-- /.col-lg-6 -->
+        </div>
+        <!-- /.row -->
+    </div>
+</div>
+
+<!-- References -->
+<uib-accordion ng-if="fragment.showReferencesFields" close-others="oneAtATime">
+    <uib-accordion-group is-open="status.referencesOpen">
+        <uib-accordion-heading>
+            References - open to view<a href>
                                 <span class="pull-right glyphicon"
                                       ng-class="{'glyphicon-chevron-down': status.referencesOpen, 'glyphicon-chevron-right': !status.referencesOpen}">
                                 </span></a>
-                            </uib-accordion-heading>
-                            <blockquote>
-                                <p>{{fragment.fragmentAType.subject}}</p>
-                            </blockquote>
-                        </uib-accordion-group>
-                    </uib-accordion>
-                    <h2 class="text-info" ng-if="fragment.showReferencesFields">Citations params</h2>
-                    <div class="row" ng-if="showReferencesFields">
-                        <div class="col-md-12">
-                            <label>Document Title</label>
-                            <input type="text" name="title" class="form-control"
-                                ng-model="fragment.fragmentAType.citationParams.documentTitle">
-                        </div>
-                    </div>
-                    <div class="row" ng-if="fragment.showReferencesFields">
-                        <div class="col-md-6">
-                            <label>Publication date</label>
-                            <div class="input-group">
-                                <input type="text" name="publicationDate" class="form-control"
-                                       placeholder="gg-mm-aaaa"
-                                       ng-model="fragment.fragmentAType.citationParams.publicationDate"
-                                       close-text="Close">
+        </uib-accordion-heading>
+        <blockquote>
+            <p>{{fragment.fragmentAType.subject}}</p>
+        </blockquote>
+    </uib-accordion-group>
+</uib-accordion>
+<h2 class="text-info" ng-if="fragment.showReferencesFields">Citations params</h2>
+
+<div class="row" ng-if="showReferencesFields">
+    <div class="col-md-12">
+        <label>Document Title</label>
+        <input type="text" name="title" class="form-control"
+               ng-model="fragment.fragmentAType.citationParams.documentTitle">
+    </div>
+</div>
+<div class="row" ng-if="fragment.showReferencesFields">
+    <div class="col-md-6">
+        <label>Publication date</label>
+
+        <div class="input-group">
+            <input type="text" name="publicationDate" class="form-control"
+                   placeholder="gg-mm-aaaa"
+                   ng-model="fragment.fragmentAType.citationParams.publicationDate"
+                   close-text="Close">
                                 <span class="input-group-btn">
                                     <button type="button"
                                             class="btn btn-default">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </button>
                                 </span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label>DOI</label>
-                            <input type="text" name="doi" class="form-control"
-                                placeholder="DOI"
-                                ng-model="fragment.fragmentAType.citationParams.doi">
-                        </div>
-                    </div>
-                    <div class="row" ng-if="fragment.showReferencesFields">
-                        <div class="col-md-12">
-                            <label>Authors</label>
-                            <input type="text" name="authors" class="form-control"
-                                placeholder="Atuhors name separated by comma"
-                                ng-model="fragment.fragmentAType.citationParams.authors">
-                        </div>
-                    </div>
-                    <div class="row" ng-if="fragment.showReferencesFields">
-                        <div class="col-md-6">
-                            <label>URL Reference</label>
-                            <input type="url" name="url" class="form-control"
-                                placeholder="Url of the document"
-                                ng-model="fragment.fragmentAType.citationParams.url">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Title</label>
-                            <input type="text" name="documentTitle" class="form-control"
-                                   placeholder="Title of the document"
-                                   ng-model="fragmentCollection.fragmentAType.citationParams.documentTitle">
-                        </div>
-                    </div>
-                    <div class="modal-footer" ng-if="logInStatus">
-                        <button type="submit" class="btn btn-primary" ng-click="submit(fIndex)">Modify</button>
-                        <button type="submit" class="btn btn-info" ng-click="saveItLater(fIndex)">Save it for later</button>
-                        <!-- <button type="submit" class="btn btn-info" ng-click="submit(fIndex)">Change target</button> -->
-                        <!-- <button type="submit" class="btn btn-primary" ng-click="submit('update')">Update</button> -->
-                        <!-- <button type="submit" class="btn btn-danger" ng-click="submit(fIndex)">Remove</button> -->
-                    </div>
-                    <div class="modal-footer" ng-if="!logInStatus">
-                        <button class="btn btn-info" ng-click="login()">Login</button>
-                    </div>
-                </form>
-            </uib-accordion-group>
-        </uib-accordion>
-
-        <!-- End Form repetable -->
-
+        </div>
     </div>
+    <div class="col-md-6">
+        <label>DOI</label>
+        <input type="text" name="doi" class="form-control"
+               placeholder="DOI"
+               ng-model="fragment.fragmentAType.citationParams.doi">
+    </div>
+</div>
+<div class="row" ng-if="fragment.showReferencesFields">
+    <div class="col-md-12">
+        <label>Authors</label>
+        <input type="text" name="authors" class="form-control"
+               placeholder="Atuhors name separated by comma"
+               ng-model="fragment.fragmentAType.citationParams.authors">
+    </div>
+</div>
+<div class="row" ng-if="fragment.showReferencesFields">
+    <div class="col-md-6">
+        <label>URL Reference</label>
+        <input type="url" name="url" class="form-control"
+               placeholder="Url of the document"
+               ng-model="fragment.fragmentAType.citationParams.url">
+    </div>
+    <div class="col-md-6">
+        <label>Title</label>
+        <input type="text" name="documentTitle" class="form-control"
+               placeholder="Title of the document"
+               ng-model="fragmentCollection.fragmentAType.citationParams.documentTitle">
+    </div>
+</div>
+<div class="modal-footer" ng-if="logInStatus">
+    <button type="submit" class="btn btn-primary" ng-click="submit(fIndex)">Modify</button>
+    <button type="submit" class="btn btn-info" ng-click="saveItLater(fIndex)">Save it for later</button>
+    <!-- <button type="submit" class="btn btn-info" ng-click="submit(fIndex)">Change target</button> -->
+    <!-- <button type="submit" class="btn btn-primary" ng-click="submit('update')">Update</button> -->
+    <!-- <button type="submit" class="btn btn-danger" ng-click="submit(fIndex)">Remove</button> -->
+</div>
+<div class="modal-footer" ng-if="!logInStatus">
+    <button class="btn btn-info" ng-click="login()">Login</button>
+</div>
+</form>
+</uib-accordion-group>
+</uib-accordion>
+
+<!-- End Form repetable -->
+
+</div>
 </div>
 
 <div ng-if="switchLoginView">

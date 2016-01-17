@@ -45,7 +45,7 @@
             'abstract': 'Abstract',
             'discussion': 'Discussion',
             'conclusion': 'Conclusion',
-            'introductions': 'Introductions',
+            'introduction': 'Introduction',
             'materials': 'Materials',
             'methods': 'Methods',
             'results': 'Results'
@@ -115,7 +115,7 @@
                     snapID: row.snapID || '',
                     citation: row.citation || '',
                     comment: row.comment || '',
-                    rethoric: row.rethoric || 'abstract',
+                    rethoric: row.denotesRhetoric || 'abstract',
                     citationParams: {
                         documentTitle: citationsParams.documentTitle || '',
                         doi: citationsParams.doi || '',
@@ -226,9 +226,9 @@
          *
          *
          */
-        $scope.selectFragmentRethoric = function (type, index) {
+        $scope.selectFragmentRethoric = function (type, index, help) {
 
-            lastSelectedType = type;
+            lastSelectedType = help || type;
             $scope.fragmentCollection.rethoricType = type;
             $scope.fragmentCollection.rethoricTypeLiteral = $scope.rethoricProperties[type];
             $scope.fragmentCollection.fragmentAType.rethoric = type;
@@ -333,7 +333,7 @@
             lastSelectedType = type;
 
             $scope.lastModified = {
-                'index': $scope.rowCollection[type].indexOf(row),
+                'index': $scope.rowCollection[String(type).toLowerCase()].indexOf(row),
                 'type': type
             };
 
@@ -353,7 +353,7 @@
                     snapID: row.snapID || '',
                     citation: row.citation || '',
                     comment: row.comment || '',
-                    rethoric: row.rethoric || 'abstract',
+                    rethoric: row.denotesRhetoric || 'abstract',
                     citationParams: {
                         documentTitle: citationsParams.documentTitle || '',
                         doi: citationsParams.doi || '',

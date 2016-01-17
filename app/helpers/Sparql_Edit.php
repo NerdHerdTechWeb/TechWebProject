@@ -62,11 +62,18 @@ class Sparql_Edit
         $this->graph1 = new EasyRdf_Graph();
     }
 
+    /**
+     * @param array $queryParams
+     * @return $this
+     */
     public function buildAnnotation($queryParams = array())
     {
 
         $date = new DateTime('NOW');
 
+        $object = $queryParams['fragment'];
+        if(strcasecmp($queryParams['type'],'denotesRhetoric') === 0)
+            $object = ucfirst($queryParams['rethoric']);
 
         $this->annotation = array(
                 "type" => $queryParams['type'],
@@ -75,7 +82,7 @@ class Sparql_Edit
                         "label" => $queryParams['fragment'],
                         "subject" => null,
                         "predicate" => null,
-                        "object" => $queryParams['fragment'],
+                        "object" => $object,
                         "o_id" => null,
                         "o_label" => $queryParams['fragment'],
                 ),
@@ -107,6 +114,9 @@ class Sparql_Edit
         return $this->prepareAnnotation();
     }
 
+    /**
+     * @return $this
+     */
     protected function prepareAnnotation()
     {
         $item = $this->annotation["target"]["source"];
@@ -303,6 +313,9 @@ class Sparql_Edit
         return $this;
     }
 
+    /**
+     * @return EasyRdf_Graph
+     */
     public function getGraph()
     {
         return $this->graph1;

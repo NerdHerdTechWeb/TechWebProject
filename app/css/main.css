@@ -523,8 +523,9 @@ footer {
     background-color: #a3b5c7 !important;
 }
 
-.denotesRhetoric, .Rhetoric, .Retorica {
+.denotesRhetoric, .Rhetoric, .Retorica, .introduction, .materials, .methods, .results, .discussion, .abstract {
     background-color: #801655 !important;
+    color: white;
 }
 
 .noType {

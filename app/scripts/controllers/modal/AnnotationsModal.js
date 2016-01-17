@@ -52,7 +52,7 @@
             'abstract': 'Abstract',
             'discussion': 'Discussion',
             'conclusion': 'Conclusion',
-            'introductions': 'Introductions',
+            'introduction': 'Introduction',
             'materials': 'Materials',
             'methods': 'Methods',
             'results': 'Results'
@@ -219,9 +219,9 @@
          * @param type
          * @param index
          */
-        $scope.selectFragmentRethoric = function (type, index) {
+        $scope.selectFragmentRethoric = function (type, index, help) {
             
-            lastSelectedType = type;
+            lastSelectedType = help || type;
             $scope.fragmentCollection[index].rethoricType = type;
             $scope.fragmentCollection[index].rethoricTypeLiteral = $scope.rethoricProperties[type];
             $scope.fragmentCollection[index].selectedType = $scope.rethoricProperties[type];
