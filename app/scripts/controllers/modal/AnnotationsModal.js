@@ -79,7 +79,7 @@
                     //citation : ct.data('type') == 'references' ? ct.data('fragment') : '',
                     citation : '',
                     comment : ct.data('type') == 'hasComment' ? ct.data('fragment') : '',
-                    rethoric: 'abstract',
+                    rethoric: ct.data('rhetoric-label') || 'abstract',
                     citationParams: {
                         documentTitle: '',
                         doi: '',
@@ -93,8 +93,8 @@
                 fatr: '',
                 annotationTypeLiteral: $scope.documentProperties[ct.data('type')] || 'Author',
                 annotationFragmentTypeLiteral: $scope.fragmentProperties[ct.data('type')] || 'Reference',
-                rethoricType: 'abstract',
-                rethoricTypeLiteral: 'Abstract',
+                rethoricType: String(ct.data('rhetoric-label')).toLowerCase() || 'abstract',
+                rethoricTypeLiteral: ct.data('rhetoric-label') || 'Abstract',
                 showReferencesFields: ct.data('type') == 'references' ? true : false,
                 author: ct.data('author') ? ct.data('author') : user.userData().name,
                 author_fullname: ct.data('author-fullname') ? ct.data('author-fullname') : user.userData().name,
@@ -115,6 +115,14 @@
             var userData = user.userData();
             angular.extend(form, $scope.fragmentCollection[index].fragmentAType);
             angular.extend(form, $scope.fragmentCollection[index].documentAType);
+            angular.merge(form, $scope.fragmentCollection[index].fragmentAType);
+            angular.merge(form, $scope.fragmentCollection[index].documentAType);
+
+            if($scope.fragmentCollection[index].dat === 'denotesRhetoric'){
+                dataset.fragment = $scope.fragmentCollection[index].fragmentAType.subject;
+                dataset.rhetoricLabel = $scope.fragmentCollection[index].fragmentAType.rethoric;
+            }
+
             angular.extend(form, dataset);
             angular.extend(form, {
                 "docSource": documents.getCurrentDocumentSource(),

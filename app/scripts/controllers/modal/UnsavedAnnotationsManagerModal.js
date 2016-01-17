@@ -285,6 +285,12 @@
                         $scope.rowCollection.url.splice(index, 1);
                     }
                     break;
+                case 'denotesRhetoric' :
+                    var index = $scope.rowCollection.denotesrhetoric.indexOf(row);
+                    if (index !== -1) {
+                        $scope.rowCollection.denotesrhetoric.splice(index, 1);
+                    }
+                    break;
             }
         }
 
@@ -367,8 +373,8 @@
                 fatr: '',
                 annotationTypeLiteral: $scope.documentProperties[row.type] || 'Author',
                 annotationFragmentTypeLiteral: $scope.fragmentProperties[row.type] || 'Reference',
-                rethoricType: 'abstract',
-                rethoricTypeLiteral: 'Abstract',
+                rethoricType: String(row.rethoric).toLowerCase() || 'abstract',
+                rethoricTypeLiteral: row.rethoric || 'Abstract',
                 showReferencesFields: row.type == 'references' ? true : false,
                 author: row.author || '',
                 author_fullname: user.userData().name,

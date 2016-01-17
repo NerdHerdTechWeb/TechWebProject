@@ -221,7 +221,7 @@
          * @param equals
          * @returns {HTMLElement}
          */
-        function createSurroundElement(xpath, start, end, annotation, aColor, aColorFromLabel, equals, range, hash){
+        function createSurroundElement(xpath, start, end, annotation, aColor, aColorFromLabel, equals, range, hash, rhetoricLabel){
             var span = document.createElement('span');
             span.setAttribute('data-xpath', xpath);
             span.setAttribute('data-start', start);
@@ -236,6 +236,7 @@
             span.setAttribute('data-source', documents.getCurrentDocumentSource())
             span.setAttribute('data-type', aColor);
             span.setAttribute('data-type-label', aColorFromLabel);
+            span.setAttribute('data-rhetoric-label', rhetoricLabel);
             span.setAttribute('data-equals', "{'init':" + equals.init + ", 'final':" + equals.final + "}");
             span.setAttribute('ng-click', 'showNotationModal($event); $event.stopPropagation()');
             span.setAttribute('class', 'annotation ' + aColor + ' ' + aColorFromLabel);
@@ -280,6 +281,7 @@
             //var searchResultApplier = rangy.createClassApplier("searchResult");
             var aColor = typeof annotation !== 'undefined' ? annotation.wtf : 'genericAnnotation';
             var aColorFromLabel = typeof annotation !== 'undefined' ? annotation.label : 'genericAnnotation';
+            var rhetoricLabel = typeof annotation !== 'undefined' ? annotation.o_label : 'genericAnnotation';
             var annotationColor = aColor;
 
             //var annotationColor = rangy.createClassApplier(annotationColor);
@@ -324,7 +326,7 @@
                 // Iterate over matches
                 if (s !== '' && range.findText(s, {withinRange: searchScopeRange, wholeWordsOnly: false})) {
 
-                    var span = createSurroundElement(xpath, start, end, annotation, aColor, aColorFromLabel, equals, range, hash);
+                    var span = createSurroundElement(xpath, start, end, annotation, aColor, aColorFromLabel, equals, range, hash, rhetoricLabel);
 
                     // range now encompasses the first text match
                     //searchResultApplier.applyToRange(range);
