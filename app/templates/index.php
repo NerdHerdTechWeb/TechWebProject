@@ -44,29 +44,35 @@
                         tooltip="Menu"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
+                        ng-disabled="help"
                     ><span class="glyphicon glyphicon-menu-hamburger"></span></button>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" ng-model="search">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="search" ng-disabled="help">
                 </div>
-                <button type="submit" class="btn btn-default" ng-click="doSearch(search)"><span class="glyphicon glyphicon-search"></span></button>
-                
+                <button type="submit" class="btn btn-default" ng-click="doSearch(search)" ng-disabled="help">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+
                 <button type="button" class="btn btn-default navbar-btn"
                         tooltip="Force auto scraping"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
                         ng-click="doScraping(search)"
+                        ng-disabled="help"
                     ><span class="glyphicon glyphicon-import"></span></button>
                 <button type="button" class="btn btn-default navbar-btn"
                         tooltip="Advanced document search"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
                         ng-click="showModalFilter()"
+                        ng-disabled="help"
                     ><span class="glyphicon glyphicon-list"></span></button>
                 <button ng-if="logStatus === true" type="button" class="btn btn-default navbar-btn"
                         tooltip="Manage unsaved annotation"
                         tooltip-placement="bottom"
                         tooltip-trigger="mouseenter"
                         ng-click="showUnSavedAnnotations()"
+                        ng-disabled="help"
                     ><span class="glyphicon glyphicon-inbox"></span></button>
                 <button ng-if="logStatus === false" type="button" class="btn btn-primary navbar-btn"
                         tooltip="Login if you want edit annotations"
@@ -83,6 +89,7 @@
             </form>
             <ul class="nav navbar-nav navbar-right textShadow">
                 <li><a href="#/annotator">Annotator</a></li>
+                <li><a href ng-click="showHelp()" ng-class="{redFont: help}">Help</a></li>
                 <!-- <li><a href="#/about">About</a></li> -->
                 <!-- <li><toggle-switch ng-model="annotator.status" knob-label="Editor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f"><toggle-switch></li> -->
             </ul>

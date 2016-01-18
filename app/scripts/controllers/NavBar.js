@@ -12,7 +12,7 @@
      * @param $window
      * @param $modal
      */
-    function navBar($scope, $modal, user) {
+    function navBar($scope, $rootScope, $modal, user) {
         $scope.annotator = {"status":false};
 
         $scope.$watch('annotator.status',function(newVal, oldVal){
@@ -22,6 +22,7 @@
         $scope.filters = {};
         $scope.filtersShow = false;
         $scope.logStatus = user.logInStatus();
+        $rootScope.help = false;
 
         $scope.showModalFilter = function (){
             var modalInstance = $modal.open({
@@ -56,6 +57,13 @@
                 scope: $scope,
                 size: 'lg'
             });
+        }
+
+        $scope.showHelp = function(){
+            $rootScope.help = !$rootScope.help;
+            if($rootScope.help)
+                if(angular.element('.show-nav').length > 0)
+                    angular.element('.toggle-nav').triggerHandler('click');
         }
         
         $scope.$watch(function($scope){$scope.logStatus = user.logInStatus();});

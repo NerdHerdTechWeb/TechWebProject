@@ -1,3 +1,11 @@
+.nav.textShadow li a.redFont{
+    color: red !important;
+}
+
+.displayNone{
+    display: none;
+}
+
 /*SPINNER LOADERS*/
 .sk-circle {
     margin: 100px auto;

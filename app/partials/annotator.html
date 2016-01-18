@@ -1,4 +1,5 @@
-<div ng-if="documentsLoaded.length == 0">
+<!-- help is a rootscope var in navbar controller -->
+<div ng-if="documentsLoaded.length == 0 || help">
     <div ng-include src="'/app/partials/about.html'"></div>
 </div>
 
@@ -127,7 +128,8 @@
         </uib-accordion>
     </div>
 
-    <div id="site-canvas" ng-if="documentsLoaded.length > 0">
+    <!-- help is a rootscope var in navbar controller -->
+    <div id="site-canvas" ng-if="documentsLoaded.length > 0" ng-class="{displayNone: help}">
         <div class="row">
             <div id="navTabsContainer"
                  class="col-md-11 col-md-offset-1 col-xs-11 col-xs-offset-1 col-lg-11 col-lg-offset-1" create-local-path
