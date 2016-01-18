@@ -22,14 +22,14 @@
                 <div ng-controller="WidgetFilters">
                     <div class="list-group">
                         <div class="list-group-item">
-                            <input bs-switch ng-model="filters.hasAuthor" type="checkbox"
+                            <input bs-switch ng-model="filters.hasAuthor.default" type="checkbox"
                                    switch-active="{{ isActive }}"
                                    switch-on-text="Authors"
                                    switch-off-text="Authors"
                                    ng-value="'hasAuthors'">
                         </div>
                         <div class="list-group-item">
-                            <input bs-switch ng-model="filters.hasPublicationYear" type="checkbox"
+                            <input bs-switch ng-model="filters.hasPublicationYear.default" type="checkbox"
                                    switch-active="{{ isActive }}"
                                    switch-on-text="Publication year"
                                    switch-off-text="Publication year"
@@ -37,49 +37,49 @@
                         </div>
                         <div class="list-group-item">
                             <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasTitle" type="checkbox"
+                                   bs-switch ng-model="filters.hasTitle.default" type="checkbox"
                                    switch-on-text="Title"
                                    switch-off-text="Title"
                                    ng-value="'hasTitle'">
                         </div>
                         <div class="list-group-item">
                             <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasDOI" type="checkbox"
+                                   bs-switch ng-model="filters.hasDOI.default" type="checkbox"
                                    switch-on-text="DOI"
                                    switch-off-text="DOI"
                                    ng-value="'hasDOI'">
                         </div>
                         <div class="list-group-item">
                             <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasURL" type="checkbox"
+                                   bs-switch ng-model="filters.hasURL.default" type="checkbox"
                                    switch-on-text="URL"
                                    switch-off-text="URL"
                                    ng-value="'hasURL'">
                         </div>
                         <div class="list-group-item">
                             <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasComment" type="checkbox"
+                                   bs-switch ng-model="filters.hasComment.default" type="checkbox"
                                    switch-on-text="Comments"
                                    switch-off-text="Comments"
                                    ng-value="'hasComments'">
                         </div>
                         <div class="list-group-item">
                             <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasRethoric" type="checkbox"
+                                   bs-switch ng-model="filters.hasRethoric.default" type="checkbox"
                                    switch-on-text="Rethorics"
                                    switch-off-text="Rethorics"
                                    ng-value="'hasRethorics'">
                         </div>
                         <div class="list-group-item">
                             <input class="list-group-item"
-                                   bs-switch ng-model="filters.hasCitations" type="checkbox"
+                                   bs-switch ng-model="filters.hasCitations.default" type="checkbox"
                                    switch-on-text="Citations"
                                    switch-off-text="Citations"
                                    ng-value="'hasCitations'">
                         </div>
                         <div class="list-group-item">
                             <input class="list-group-item"
-                                   bs-switch ng-model="filters.references" type="checkbox"
+                                   bs-switch ng-model="filters.references.default" type="checkbox"
                                    switch-on-text="References"
                                    switch-off-text="References"
                                    ng-value="'references'">

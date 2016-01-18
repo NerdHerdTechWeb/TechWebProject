@@ -495,7 +495,7 @@ footer {
 }
 
 /* Fragment span colors collection */
-.hasComment, .Titolo, .Title {
+.hasComment, .Comment, .Commento{
     background-color: #295aff !important;
 }
 

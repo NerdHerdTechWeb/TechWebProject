@@ -9,15 +9,53 @@
     function widgetFilters($scope, $log) {
         $scope.isActive = true;
         $scope.filters = {
-            hasAuthor: true,
-            hasPublicationYear: true,
-            hasTitle: true,
-            hasDOI: true,
-            hasURL: true,
-            hasComment: true,
-            hasRethoric: true,
-            hasCitations: true,
-            references: true
+            hasAuthor:{
+                Author: true,
+                Autore: true,
+                hasAuthor: true,
+                default: true
+            },
+            hasPublicationYear: {
+                PublicationYear: true,
+                hasPublicationYear: true,
+                default: true
+            },
+            hasTitle: {
+                hasTitle: true,
+                Title: true,
+                Titolo: true,
+                default: true
+            },
+            hasDOI: {
+                hasDOI: true,
+                DOI: true,
+                default: true
+            },
+            hasURL: {
+                hasURL: true,
+                URL: true,
+                default: true
+            },
+            hasComment: {
+                hasComment: true,
+                Comment: true,
+                Commento: true,
+                default: true
+            },
+            hasRethoric: {
+                hasRethoric: true,
+                Rhetoric: true,
+                denotesRhetoric: true,
+                default: true
+            },
+            hasCitations: {
+                hasCitations: true,
+                default: true
+            },
+            references: {
+                references: true,
+                default: true
+            }
         };
 
         /**
@@ -25,16 +63,20 @@
          */
         $scope.$watch('filters', function(newVal, oldVal){
             for(var key in newVal){
-                if(newVal[key] === false){
-                    $('span.'+key).each(function(){
-                        $(this).removeClass(key);
-                        $(this).addClass('not_'+key);
-                    })
+                if(newVal[key].default === false){
+                    for(var k in newVal[key]){
+                        $('span.'+k).each(function(){
+                            $(this).removeClass(k);
+                            $(this).addClass('not_'+k);
+                        })
+                    }
                 }else{
-                    $('span.not_'+key).each(function(){
-                        $(this).removeClass('not_'+key);
-                        $(this).addClass(key);
-                    })
+                    for(var k in newVal[key]){
+                        $('span.not_'+k).each(function(){
+                            $(this).removeClass('not_'+k);
+                            $(this).addClass(k);
+                        })
+                    }
                 }
             }
         }, true);
