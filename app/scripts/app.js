@@ -12,7 +12,7 @@ wgxpath.install();
                 // return native menu if pressing control
                 if (e.ctrlKey) return;
 
-                if(!$(this).data('highlight')){
+                if (!$(this).data('highlight')) {
                     settings.menuSelector = "#contextMenuNoRemove";
                 }
 
@@ -203,49 +203,53 @@ wgxpath.install();
                             if (rangy.getSelection().toString().length <= 0)
                                 return;
 
-                            var start = range.endContainer.parentNode.textContent.indexOf(rangy.getSelection().toString())
-                            var end = start + rangy.getSelection().toString().length;
-                            var localPath = fragment.createLocalXPATH(range.endContainer.parentNode);
-                            var remotePath = fragment.createRemoteXPATH(localPath);
-                            var xpath = remotePath;
-                            var text = rangy.getSelection().toString();
+                            if (user.logInStatus()) {
 
-                            var hash = fragment.hash(start + end + xpath);
-                            var span = createSurroundElement(xpath, start, end, user, documents, text, hash);
-                            var _span = false;
+                                var start = range.endContainer.parentNode.textContent.indexOf(rangy.getSelection().toString())
+                                var end = start + rangy.getSelection().toString().length;
+                                var localPath = fragment.createLocalXPATH(range.endContainer.parentNode);
+                                var remotePath = fragment.createRemoteXPATH(localPath);
+                                var xpath = remotePath;
+                                var text = rangy.getSelection().toString();
 
-                            var annotationsCollection = {
-                                start: start,
-                                end: end,
-                                localPath: localPath,
-                                remotePath: remotePath,
-                                xpath: xpath,
-                                text: text,
-                                date: $filter('date')(Date.now(), 'yyyy-MM-dd'),
-                                uathor: user.userData().email,
-                                snap: 'snap_' + Date.now()
-                            }
+                                var hash = fragment.hash(start + end + xpath);
+                                var span = createSurroundElement(xpath, start, end, user, documents, text, hash);
+                                var _span = false;
 
-                            if (range.canSurroundContents(span)) {
-                                range.surroundContents(span);
-                                $compile(span)(scope);
-                            } else {
-                                var _node = range.getNodes([3]);
-                                if (_node) {
-                                    angular.forEach(_node, function (ele, key) {
-                                        if (ele.nodeType === 3) {
-                                            var newRange = rangy.createRange();
-                                            _span = createSurroundElement(xpath, start, end, user, documents, text, hash + key);
-                                            newRange.selectNodeContents(ele);
-                                            newRange.surroundContents(_span);
-                                            newRange.collapse(false);
-                                            if (newRange.commonAncestorContainer)
-                                                _span ? $compile(_span)(scope) : '';
-                                        }
-                                    });
+                                var annotationsCollection = {
+                                    start: start,
+                                    end: end,
+                                    localPath: localPath,
+                                    remotePath: remotePath,
+                                    xpath: xpath,
+                                    text: text,
+                                    date: $filter('date')(Date.now(), 'yyyy-MM-dd'),
+                                    uathor: user.userData().email,
+                                    snap: 'snap_' + Date.now()
                                 }
-                                Notification.warning("Warning. Your selection maybe is not accurate. You can proceed anyway.");
-                            }
+
+                                if (range.canSurroundContents(span)) {
+                                    range.surroundContents(span);
+                                    $compile(span)(scope);
+                                } else {
+                                    var _node = range.getNodes([3]);
+                                    if (_node) {
+                                        angular.forEach(_node, function (ele, key) {
+                                            if (ele.nodeType === 3) {
+                                                var newRange = rangy.createRange();
+                                                _span = createSurroundElement(xpath, start, end, user, documents, text, hash + key);
+                                                newRange.selectNodeContents(ele);
+                                                newRange.surroundContents(_span);
+                                                newRange.collapse(false);
+                                                if (newRange.commonAncestorContainer)
+                                                    _span ? $compile(_span)(scope) : '';
+                                            }
+                                        });
+                                    }
+                                    Notification.warning("Warning. Your selection maybe is not accurate. You can proceed anyway.");
+                                }
+                            } else
+                                Notification.warning('You must logged in before edit the document')
                         }
                     }
 
